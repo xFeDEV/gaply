@@ -1,18 +1,4 @@
 services:
-  # Base de datos PostgreSQL
-  postgres:
-    image: postgres:15
-    container_name: gaply-postgres-1
-    environment:
-      POSTGRES_DB: gaply_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
-
   # Servicio Backend LOCAL con hot-reloading
   backend:
     build:
@@ -26,15 +12,11 @@ services:
       - ./backend/app:/app
       # Montar la llave de Google Cloud (asumiendo que está en ./config)
       - ./config/primeval-falcon-474622-h1-d5121477addc.json:/app/config/gcloud-key.json:ro
+      # Montar el archivo .env
+      - ./.env:/app/.env:ro
+    env_file:
+      - .env
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/gaply_db
-      - GOOGLE_GENAI_USE_VERTEXAI=False
-      - GOOGLE_CLOUD_PROJECT=primeval-falcon-474622-h1
-      - GOOGLE_CLOUD_LOCATION=us-central1
-      - GOOGLE_API_KEY=AIzaSyAB3U741RlwS6riGzQBr2CJwSlXTvoCB9k
+      # Las variables principales vienen del .env, estas son solo para override si es necesario
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/gcloud-key.json
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-    depends_on:
-      - postgres
-
-volumes:
-  postgres_data:

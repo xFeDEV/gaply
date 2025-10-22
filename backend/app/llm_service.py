@@ -63,7 +63,7 @@ def get_gemini_client():
         
         # El cliente se autentica automáticamente usando ADC
         client = genai.Client(
-            http_options=HttpOptions(api_version="v1alpha")
+            http_options=HttpOptions(api_version="v1")
         )
     else:
         # Modo API Key (fallback)
@@ -81,7 +81,7 @@ def get_gemini_client():
         # Crear el cliente con la API key
         client = genai.Client(
             api_key=api_key,
-            http_options=HttpOptions(api_version="v1alpha")
+            http_options=HttpOptions(api_version="v1")
         )
     
     return client
@@ -156,7 +156,7 @@ Usuario: "Necesito un plomero urgente, se me rompió un caño en la cocina"
     # Llamar a Gemini con function calling
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.5-flash",
             contents=user_message,
             config={
                 "system_instruction": system_instruction,
@@ -264,12 +264,13 @@ Reglas:
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.5-flash",
             contents=user_message,
             config={
                 "system_instruction": system_instruction,
                 "response_modalities": ["TEXT"],
                 "temperature": 0.2,
+                "max_output_tokens": 4096,  # Suficiente para análisis completo
             }
         )
     except Exception as e:
@@ -361,74 +362,88 @@ Criterios de scoring (prioridad según urgencia):
 
 Motivos principales: 'experiencia' | 'proximidad' | 'precio' | 'calificacion' | 'disponibilidad'
 
-Formato JSON estricto:
+FORMATO JSON REQUERIDO (debes devolver EXACTAMENTE esta estructura):
 {{
-  "total_candidatos_encontrados": int,
+  "total_candidatos_encontrados": <número total de trabajadores analizados>,
   "trabajadores_recomendados": [
     {{
-      "id_trabajador": int,
-      "nombre_completo": str,
-      "score_relevancia": float,
-      "distancia_km": float,
-      "motivo_top": str,
-      "precio_propuesto": int,
-      "anos_experiencia": int,
-      "calificacion_promedio": float,
-      "explicacion": str,
-      "tiene_arl": bool
+      "id_trabajador": <int>,
+      "nombre_completo": "<string>",
+      "score_relevancia": <float entre 0.0 y 1.0>,
+      "distancia_km": <float>,
+      "motivo_top": "<disponibilidad|experiencia|precio|calificacion|proximidad>",
+      "precio_propuesto": <int en COP>,
+      "anos_experiencia": <int>,
+      "calificacion_promedio": <float entre 0 y 5>,
+      "explicacion": "<razón específica de esta recomendación>",
+      "tiene_arl": <true|false>
     }}
   ],
-  "criterios_busqueda": {{ "urgencia": str, "oficio_id": int }},
-  "explicacion_algoritmo": str,
-  "confianza_recomendaciones": float
+  "criterios_busqueda": {{ "urgencia": "{urgencia}", "oficio_id": {id_oficio} }},
+  "explicacion_algoritmo": "<breve explicación de cómo se priorizaron los candidatos>",
+  "confianza_recomendaciones": <float entre 0.0 y 1.0>
 }}
 
-Reglas:
-- Solo incluir trabajadores que manejen el oficio requerido.
-- Máximo 5 recomendaciones, ordenadas por score descendente.
-- Scores realistas: pocos trabajadores deberían tener >0.9.
-- Explicaciones específicas y accionables (no genéricas).
-- Precios propuestos basados en tarifas del trabajador y complejidad inferida.
+REGLAS CRÍTICAS:
+- DEBES devolver SOLO JSON puro, sin markdown, sin bloques de código, sin texto adicional
+- DEBES incluir TODOS los campos del formato (total_candidatos_encontrados, trabajadores_recomendados, criterios_busqueda, explicacion_algoritmo, confianza_recomendaciones)
+- trabajadores_recomendados debe ser un ARRAY con hasta 5 trabajadores
+- Ordenar por score_relevancia descendente
+- Scores realistas: pocos trabajadores deberían tener >0.9
+- Explicaciones específicas y accionables (no genéricas)
 """
 
-    user_message = f"""Encuentra los mejores trabajadores para esta solicitud:
+    user_message = f"""Analiza todos los trabajadores disponibles y recomienda los TOP 5 más apropiados para esta solicitud:
 
 Oficio requerido: {id_oficio}
 Urgencia: {urgencia}
 Descripción del trabajo: {descripcion_normalizada}
 
-Analiza todos los trabajadores disponibles y recomienda los TOP 5 más apropiados."""
+RESPONDE SOLO CON JSON VÁLIDO según el formato especificado."""
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.5-flash",
             contents=user_message,
             config={
                 "system_instruction": system_instruction,
                 "response_modalities": ["TEXT"],
                 "temperature": 0.3,  # Algo de variabilidad en recomendaciones
+                "max_output_tokens": 8192,  # Aumentar límite para respuestas largas
             }
         )
     except Exception as e:
         raise ValueError(f"Error al llamar a Gemini (recomendador): {str(e)}")
 
     if not response.candidates:
-        raise ValueError("Recomendador: no se recibió respuesta del modelo")
+        raise ValueError(f"Recomendador: no se recibió respuesta del modelo. Response: {response}")
 
     candidate = response.candidates[0]
+    
+    # Verificar si fue bloqueado por seguridad
+    if hasattr(candidate, 'finish_reason') and candidate.finish_reason:
+        if candidate.finish_reason != 'STOP':
+            raise ValueError(f"Recomendador: modelo bloqueado o terminado antes de tiempo. Razón: {candidate.finish_reason}")
+    
     text_parts = [getattr(p, 'text', '') for p in getattr(candidate, 'content', {}).parts or []]
     text = " ".join([t for t in text_parts if t]).strip()
 
     if not text:
-        raise ValueError("Recomendador: la respuesta no contiene texto JSON")
+        raise ValueError(f"Recomendador: la respuesta no contiene texto JSON. Candidate: {candidate}")
 
     # Parsear JSON
     import json
+    import re
+    
+    # Limpiar bloques de código markdown si existen
+    text_clean = re.sub(r'```(?:json)?\s*', '', text)
+    text_clean = text_clean.strip()
+    
     try:
-        parsed = json.loads(text)
+        parsed = json.loads(text_clean)
     except Exception:
-        import re
-        match = re.search(r"\{[\s\S]*\}", text)
+        # Intentar extraer solo el primer objeto JSON completo
+        match = re.search(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', text_clean, re.DOTALL)
         if match:
             try:
                 parsed = json.loads(match.group(0))
@@ -536,7 +551,7 @@ Reglas:
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.5-flash",
             contents=user_message,
             config={
                 "system_instruction": system_instruction,

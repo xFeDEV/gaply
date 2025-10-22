@@ -217,7 +217,7 @@ async def procesar_solicitud_completa_endpoint(
             .join(Oficio, TrabajadorOficio.id_oficio == Oficio.id_oficio)
             .join(Barrio, Trabajador.id_barrio == Barrio.id_barrio)
             .join(Ciudad, Barrio.id_ciudad == Ciudad.id_ciudad)
-            .filter(Trabajador.disponibilidad.in_(["disponible", "parcial"]))
+            .filter(Trabajador.disponibilidad.in_(["disponible", "parcial", "HOY", "INMEDIATA", "PROGRAMADA"]))
         ).all()
         
         if not trabajadores_query:
@@ -226,8 +226,11 @@ async def procesar_solicitud_completa_endpoint(
                 detail="No hay trabajadores disponibles. Carga datos de prueba primero."
             )
         
+        # Limitar a los primeros 30 trabajadores para evitar MAX_TOKENS
+        trabajadores_limitados = trabajadores_query[:30]
+        
         trabajadores_str_list = []
-        for trabajador, trab_oficio, oficio, barrio, ciudad in trabajadores_query:
+        for trabajador, trab_oficio, oficio, barrio, ciudad in trabajadores_limitados:
             trabajadores_str_list.append(
                 f"ID: {trabajador.id_trabajador}, "
                 f"Nombre: {trabajador.nombre_completo}, "
@@ -287,7 +290,7 @@ async def recomendar_trabajadores_endpoint(
             .join(Ciudad, Barrio.id_ciudad == Ciudad.id_ciudad)
             .filter(
                 Oficio.id_oficio == id_oficio,
-                Trabajador.disponibilidad.in_(["disponible", "parcial"])
+                Trabajador.disponibilidad.in_(["disponible", "parcial", "HOY", "INMEDIATA", "PROGRAMADA"])
             )
         ).all()
         
