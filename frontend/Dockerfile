@@ -1,19 +1,17 @@
-# Dockerfile para Next.js con pnpm
+# Dockerfile para Next.js con npm
 
 # Etapa 1: Instalación de dependencias
 FROM node:20-alpine AS deps
-RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
 # Copiar archivos de dependencias
-COPY package.json pnpm-lock.yaml ./
+COPY package.json package-lock.json ./
 
 # Instalar dependencias
-RUN pnpm install --no-frozen-lockfile
+RUN npm ci
 
 # Etapa 2: Build de la aplicación
 FROM node:20-alpine AS builder
-RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
 # Copiar dependencias instaladas
@@ -23,7 +21,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build de Next.js
-RUN pnpm build
+RUN npm run build
 
 # Etapa 3: Producción
 FROM node:20-alpine AS runner

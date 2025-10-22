@@ -128,3 +128,162 @@ class ProcesamientoCompletoOutput(BaseModel):
     mensaje_usuario: str
 
 
+# Schemas para listado de trabajadores
+class OficioInfo(BaseModel):
+    """Información básica de un oficio que domina un trabajador."""
+    id_oficio: int
+    nombre_oficio: str
+    tarifa_hora_promedio: int
+    tarifa_visita: int
+    certificaciones: Optional[str] = None
+
+
+class BarrioInfo(BaseModel):
+    """Información del barrio y ciudad de un trabajador."""
+    id_barrio: int
+    nombre_barrio: str
+    estrato: int
+    ciudad: str
+    departamento: str
+    region: str
+
+
+class TrabajadorListItem(BaseModel):
+    """Información de un trabajador en el listado con todos sus detalles."""
+    model_config = ConfigDict(from_attributes=True)
+    
+    id_trabajador: int
+    nombre_completo: str
+    telefono: str
+    email: Optional[str] = None
+    anos_experiencia: int
+    calificacion_promedio: float
+    disponibilidad: str
+    cobertura_km: int
+    tiene_arl: bool
+    tipo_persona: str
+    
+    # Información de ubicación
+    barrio: BarrioInfo
+    
+    # Oficios que domina
+    oficios: list[OficioInfo] = []
+
+
+class TrabajadorListResponse(BaseModel):
+    """Respuesta del endpoint de listado de trabajadores con metadatos."""
+    total: int
+    trabajadores: list[TrabajadorListItem] = []
+    filtros_aplicados: dict = {}
+
+
+# Schemas para endpoints de filtros coordinados
+class CiudadOption(BaseModel):
+    """Opción de ciudad para select."""
+    id_ciudad: int
+    nombre_ciudad: str
+    departamento: str
+    region: str
+    total_trabajadores: int  # Cantidad de trabajadores disponibles en esta ciudad
+
+
+class CiudadesResponse(BaseModel):
+    """Respuesta del endpoint de ciudades."""
+    total: int
+    ciudades: list[CiudadOption] = []
+
+
+class OficioOption(BaseModel):
+    """Opción de oficio para select."""
+    id_oficio: int
+    nombre_oficio: str
+    categoria_servicio: str
+    descripcion: Optional[str] = None
+    total_trabajadores: int  # Cantidad de trabajadores que ofrecen este oficio
+
+
+class OficiosResponse(BaseModel):
+    """Respuesta del endpoint de oficios."""
+    total: int
+    oficios: list[OficioOption] = []
+
+
+class FiltrosDisponibles(BaseModel):
+    """Opciones disponibles para los filtros según el contexto actual."""
+    ciudades_disponibles: list[CiudadOption] = []
+    oficios_disponibles: list[OficioOption] = []
+    calificacion_min_sugerida: float = 1.0
+    calificacion_max_disponible: float = 5.0
+    disponibilidades: list[str] = []
+    tiene_arl_count: dict = {"con_arl": 0, "sin_arl": 0}
+
+
+# Schemas para perfil de trabajador
+class ServicioRealizado(BaseModel):
+    """Información de un servicio realizado por el trabajador."""
+    id_servicio: int
+    id_solicitud: int
+    fecha_asignacion: str
+    fecha_cierre: Optional[str] = None
+    costo_final_cop: int
+    estado: str
+    descripcion_solicitud: str
+    urgencia: str
+    oficio: str
+    ubicacion: str
+    solicitante_nombre: str
+
+
+class CalificacionRecibida(BaseModel):
+    """Calificación recibida por un servicio."""
+    id_calificacion: int
+    id_servicio: int
+    puntaje: float
+    comentario: Optional[str] = None
+    fecha: str
+    quien_califica: str
+    descripcion_servicio: str
+
+
+class EstadisticasTrabajador(BaseModel):
+    """Estadísticas generales del trabajador."""
+    total_servicios: int
+    servicios_completados: int
+    servicios_en_proceso: int
+    total_calificaciones: int
+    promedio_calificacion: float
+    total_ingresos: int
+
+
+class PerfilTrabajador(BaseModel):
+    """Perfil completo del trabajador con toda su información."""
+    # Datos básicos
+    id_trabajador: int
+    nombre_completo: str
+    identificacion: str
+    tipo_persona: str
+    telefono: str
+    email: Optional[str] = None
+    anos_experiencia: int
+    calificacion_promedio: float
+    disponibilidad: str
+    cobertura_km: int
+    tiene_arl: bool
+    fecha_registro: str
+    
+    # Ubicación
+    barrio: BarrioInfo
+    
+    # Oficios que domina
+    oficios: list[OficioInfo] = []
+    
+    # Estadísticas
+    estadisticas: EstadisticasTrabajador
+    
+    # Servicios realizados
+    servicios_realizados: list[ServicioRealizado] = []
+    
+    # Calificaciones recibidas
+    calificaciones_recibidas: list[CalificacionRecibida] = []
+
+
