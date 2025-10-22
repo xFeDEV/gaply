@@ -1,0 +1,81 @@
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: agente-postgres
+    ports:
+      # Expone el puerto 5432 del VPS al 5432 del contenedor
+      - "5432:5432"
+    volumes:
+      # Usa la carpeta que ya clonaste
+      - postgres-data:/var/lib/postgresql/data/pgdata
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      # Lee las variables del archivo .env
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - agente-net
+    restart: unless-stopped
+
+# --- 2. SERVICIO DE BACKEND (FastAPI) ---
+  backend:
+    build:
+      context: ./backend  # Asume que la carpeta 'backend' está aquí
+      dockerfile: Dockerfile
+    container_name: agente-backend
+    ports:
+      # Exponemos el 8000 (luego lo cerraremos cuando usemos Traefik)
+      - "8000:8000"
+    volumes:
+      # Montamos el código para hot-reload (¡ideal para desarrollo!)
+      - ./backend/app:/app
+      # Montamos la llave de Google Cloud
+      - ./config/primeval-falcon-474622-h1-d5121477addc.json:/app/config/gcloud-key.json:ro
+    # Carga todas las variables del .env
+    env_file:
+      - .env
+    # --- ¡AQUÍ ESTÁ LA MAGIA! ---
+    environment:
+      # Construimos la URL de la DB usando las variables del .env
+      # y el NOMBRE DEL SERVICIO 'postgres-db'
+      - DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-db:5432/${POSTGRES_DB}
+      # Definimos la ruta de la llave
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/gcloud-key.json
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - agente-net
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+
+# --- 3. SERVICIO DE FRONTEND (Next.js) ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: agente-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    networks:
+      - agente-net
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  agente-net:
+    driver: bridge
+    name: agente-net
+
+volumes:
+  postgres-data:
