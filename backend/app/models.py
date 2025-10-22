@@ -104,7 +104,7 @@ class AlertaOutput(BaseModel):
 class ProcesamientoCompletoInput(BaseModel):
     """Entrada para el procesamiento completo A2A: solo el texto del usuario."""
     texto_usuario: str
-    id_barrio_usuario: Optional[int] = None  # Si se conoce la ubicación del usuario
+    id_barrio_usuario: Optional[int] = None  # OPCIONAL: No es necesario, se detecta del texto
 
 
 class ProcesamientoCompletoOutput(BaseModel):
