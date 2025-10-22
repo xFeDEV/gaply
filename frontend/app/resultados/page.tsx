@@ -263,10 +263,6 @@ function ResultsContent() {
                 </div>
               </div>
             </div>
-                </span>
-              </div>
-            </div>
-          </div>
 
           {/* Info del algoritmo */}
           <Card className="mb-6 bg-muted/50">
@@ -394,6 +390,14 @@ function ResultsContent() {
             })}
           </div>
         </div>
+        ) : (
+          <Alert className="mb-8">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>
+              No se pudieron generar recomendaciones de técnicos debido a las alertas detectadas en la solicitud.
+            </AlertDescription>
+          </Alert>
+        )}
 
         {/* Info adicional */}
         <Card className="bg-muted/30">
