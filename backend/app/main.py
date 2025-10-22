@@ -43,7 +43,7 @@ def read_root():
             "crear_solicitud": "POST /solicitudes/crear", 
             "procesar_completo": "POST /solicitudes/procesar-completa",
             "recomendar_trabajadores": "POST /trabajadores/recomendar",
-            x   "listar_trabajadores": "GET /trabajadores",
+            "listar_trabajadores": "GET /trabajadores",
             "perfil_trabajador": "GET /trabajadores/{id}/perfil",
             "listar_ciudades": "GET /ciudades",
             "listar_oficios": "GET /oficios",

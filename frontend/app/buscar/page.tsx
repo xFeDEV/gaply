@@ -10,11 +10,52 @@ import { Search, Zap, Droplet, Hammer, Paintbrush, Sparkles } from "lucide-react
 
 export default function SearchPage() {
   const [problem, setProblem] = useState("")
+  const [isSearching, setIsSearching] = useState(false)
   const router = useRouter()
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (problem.trim()) {
-      router.push(`/resultados?q=${encodeURIComponent(problem)}`)
+      setIsSearching(true)
+      try {
+        // Llamar a nuestra API route que hace proxy al backend
+        const response = await fetch("/api/solicitudes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            texto_usuario: problem,
+            id_barrio_usuario: 0,
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error(`Error del servidor: ${response.status}`)
+        }
+
+        const data = await response.json()
+        
+        // Validar que tenemos datos
+        if (!data || !data.analisis) {
+          throw new Error("Respuesta inválida del servidor")
+        }
+
+        console.log("✅ Datos recibidos:", data)
+        
+        // Guardar los datos en sessionStorage para usarlos en la página de resultados
+        sessionStorage.setItem("searchResults", JSON.stringify(data))
+        
+        // Redirigir a resultados
+        router.push(`/resultados?q=${encodeURIComponent(problem)}`)
+      } catch (error) {
+        console.error("❌ Error al procesar la solicitud:", error)
+        setIsSearching(false)
+        alert(
+          error instanceof Error 
+            ? `Error: ${error.message}` 
+            : "Hubo un error al procesar tu solicitud. Por favor intenta nuevamente."
+        )
+      }
     }
   }
 
@@ -91,13 +132,22 @@ export default function SearchPage() {
               />
               <Button
                 onClick={handleSearch}
-                disabled={!problem.trim()}
+                disabled={!problem.trim() || isSearching}
                 size="lg"
                 className="w-full text-base font-semibold group/btn hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 relative overflow-hidden"
               >
                 <span className="relative z-10 flex items-center justify-center">
-                  <Search className="mr-2 h-5 w-5 group-hover/btn:scale-110 transition-transform" />
-                  Buscar Técnico Ahora
+                  {isSearching ? (
+                    <>
+                      <Sparkles className="mr-2 h-5 w-5 animate-spin" />
+                      Procesando solicitud...
+                    </>
+                  ) : (
+                    <>
+                      <Search className="mr-2 h-5 w-5 group-hover/btn:scale-110 transition-transform" />
+                      Buscar Técnico Ahora
+                    </>
+                  )}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
               </Button>
