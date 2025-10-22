@@ -1,17 +1,22 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 # Importar modelos SQLAlchemy y función get_db desde database
 from database import (
     Oficio, Solicitud, Trabajador, TrabajadorOficio, Barrio, Ciudad, 
-    get_db, Base, engine, Solicitante, TarifaMercado
+    get_db, Base, engine, Solicitante, TarifaMercado,
+    get_db, Base, engine, Solicitante, TarifaMercado, Servicio, Calificacion
 )
 
 # Importar schemas Pydantic desde models
 from models import (
     SolicitudInput, SolicitudOutput, AnalisisInput, AnalisisOutput,
     RecomendacionOutput, AlertaOutput, ProcesamientoCompletoInput, 
-    ProcesamientoCompletoOutput
+    ProcesamientoCompletoOutput, TrabajadorListResponse, TrabajadorListItem,
+    OficioInfo, BarrioInfo, CiudadOption, CiudadesResponse, OficioOption,
+    OficiosResponse, FiltrosDisponibles, PerfilTrabajador, ServicioRealizado,
+    CalificacionRecibida, EstadisticasTrabajador
 )
 
 # Importar el servicio de LLM
@@ -38,6 +43,11 @@ def read_root():
             "crear_solicitud": "POST /solicitudes/crear", 
             "procesar_completo": "POST /solicitudes/procesar-completa",
             "recomendar_trabajadores": "POST /trabajadores/recomendar",
+            x   "listar_trabajadores": "GET /trabajadores",
+            "perfil_trabajador": "GET /trabajadores/{id}/perfil",
+            "listar_ciudades": "GET /ciudades",
+            "listar_oficios": "GET /oficios",
+            "filtros_disponibles": "GET /trabajadores/filtros/disponibles",
             "health": "GET /health"
         }
     }
@@ -422,6 +432,572 @@ async def recomendar_trabajadores_endpoint(
             detail=f"Error al recomendar trabajadores: {str(e)}"
         )
 
+@app.get("/trabajadores", response_model=TrabajadorListResponse)
+async def listar_trabajadores(
+    ciudad_id: int = None,
+    oficio_id: int = None,
+    calificacion_min: float = None,
+    disponibilidad: str = None,
+    tiene_arl: bool = None,
+    db: Session = Depends(get_db)
+):
+    """
+    📋 Endpoint para listar trabajadores con filtros opcionales.
+    
+    Parámetros de query:
+    - ciudad_id: Filtra por ciudad específica
+    - oficio_id: Filtra por oficio específico
+    - calificacion_min: Calificación mínima (1-5)
+    - disponibilidad: Estado de disponibilidad del trabajador
+    - tiene_arl: Filtra si tiene o no ARL
+    
+    Los resultados se ordenan de mayor a menor calificación.
+    """
+    
+    try:
+        # Construir query base con joins necesarios
+        query = (
+            db.query(Trabajador, Barrio, Ciudad)
+            .join(Barrio, Trabajador.id_barrio == Barrio.id_barrio)
+            .join(Ciudad, Barrio.id_ciudad == Ciudad.id_ciudad)
+        )
+        
+        # Aplicar filtros opcionales
+        filtros_aplicados = {}
+        
+        if ciudad_id is not None:
+            query = query.filter(Ciudad.id_ciudad == ciudad_id)
+            filtros_aplicados["ciudad_id"] = ciudad_id
+            
+        if calificacion_min is not None:
+            query = query.filter(Trabajador.calificacion_promedio >= calificacion_min)
+            filtros_aplicados["calificacion_min"] = calificacion_min
+            
+        if disponibilidad is not None:
+            query = query.filter(Trabajador.disponibilidad == disponibilidad)
+            filtros_aplicados["disponibilidad"] = disponibilidad
+            
+        if tiene_arl is not None:
+            query = query.filter(Trabajador.tiene_arl == tiene_arl)
+            filtros_aplicados["tiene_arl"] = tiene_arl
+        
+        # Filtro por oficio requiere join adicional
+        if oficio_id is not None:
+            query = query.join(
+                TrabajadorOficio, 
+                Trabajador.id_trabajador == TrabajadorOficio.id_trabajador
+            ).filter(TrabajadorOficio.id_oficio == oficio_id)
+            filtros_aplicados["oficio_id"] = oficio_id
+        
+        # Ordenar por calificación descendente
+        query = query.order_by(Trabajador.calificacion_promedio.desc())
+        
+        # Ejecutar query
+        resultados = query.all()
+        
+        # Procesar resultados
+        trabajadores_list = []
+        for trabajador, barrio, ciudad in resultados:
+            # Obtener todos los oficios del trabajador
+            oficios_query = (
+                db.query(TrabajadorOficio, Oficio)
+                .join(Oficio, TrabajadorOficio.id_oficio == Oficio.id_oficio)
+                .filter(TrabajadorOficio.id_trabajador == trabajador.id_trabajador)
+                .all()
+            )
+            
+            oficios_list = []
+            for trab_oficio, oficio in oficios_query:
+                oficios_list.append(OficioInfo(
+                    id_oficio=oficio.id_oficio,
+                    nombre_oficio=oficio.nombre_oficio,
+                    tarifa_hora_promedio=trab_oficio.tarifa_hora_promedio,
+                    tarifa_visita=trab_oficio.tarifa_visita,
+                    certificaciones=trab_oficio.certificaciones
+                ))
+            
+            # Crear objeto de barrio
+            barrio_info = BarrioInfo(
+                id_barrio=barrio.id_barrio,
+                nombre_barrio=barrio.nombre_barrio,
+                estrato=barrio.estrato,
+                ciudad=ciudad.nombre_ciudad,
+                departamento=ciudad.departamento,
+                region=ciudad.region
+            )
+            
+            # Crear item de trabajador
+            trabajador_item = TrabajadorListItem(
+                id_trabajador=trabajador.id_trabajador,
+                nombre_completo=trabajador.nombre_completo,
+                telefono=trabajador.telefono,
+                email=trabajador.email,
+                anos_experiencia=trabajador.anos_experiencia,
+                calificacion_promedio=float(trabajador.calificacion_promedio),
+                disponibilidad=trabajador.disponibilidad,
+                cobertura_km=trabajador.cobertura_km,
+                tiene_arl=trabajador.tiene_arl,
+                tipo_persona=trabajador.tipo_persona,
+                barrio=barrio_info,
+                oficios=oficios_list
+            )
+            
+            trabajadores_list.append(trabajador_item)
+        
+        # Retornar respuesta
+        return TrabajadorListResponse(
+            total=len(trabajadores_list),
+            trabajadores=trabajadores_list,
+            filtros_aplicados=filtros_aplicados
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al listar trabajadores: {str(e)}"
+        )
+
+@app.get("/ciudades", response_model=CiudadesResponse)
+async def listar_ciudades(
+    con_trabajadores: bool = True,
+    db: Session = Depends(get_db)
+):
+    """
+    🏙️ Endpoint para listar ciudades disponibles.
+    
+    Parámetros:
+    - con_trabajadores: Si es True, solo devuelve ciudades con trabajadores registrados
+    
+    Útil para poblar el select de ciudades en el frontend.
+    """
+    
+    try:
+        if con_trabajadores:
+            # Ciudades con trabajadores y su conteo
+            ciudades_con_trabajadores = (
+                db.query(Ciudad, func.count(Trabajador.id_trabajador).label('total'))
+                .join(Barrio, Ciudad.id_ciudad == Barrio.id_ciudad)
+                .join(Trabajador, Barrio.id_barrio == Trabajador.id_barrio)
+                .group_by(Ciudad.id_ciudad)
+                .order_by(Ciudad.nombre_ciudad)
+                .all()
+            )
+            
+            ciudades_list = [
+                CiudadOption(
+                    id_ciudad=ciudad.id_ciudad,
+                    nombre_ciudad=ciudad.nombre_ciudad,
+                    departamento=ciudad.departamento,
+                    region=ciudad.region,
+                    total_trabajadores=total
+                )
+                for ciudad, total in ciudades_con_trabajadores
+            ]
+        else:
+            # Todas las ciudades sin filtro
+            ciudades = db.query(Ciudad).order_by(Ciudad.nombre_ciudad).all()
+            ciudades_list = [
+                CiudadOption(
+                    id_ciudad=ciudad.id_ciudad,
+                    nombre_ciudad=ciudad.nombre_ciudad,
+                    departamento=ciudad.departamento,
+                    region=ciudad.region,
+                    total_trabajadores=0
+                )
+                for ciudad in ciudades
+            ]
+        
+        return CiudadesResponse(
+            total=len(ciudades_list),
+            ciudades=ciudades_list
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al listar ciudades: {str(e)}"
+        )
+
+
+@app.get("/oficios", response_model=OficiosResponse)
+async def listar_oficios(
+    ciudad_id: int = None,
+    con_trabajadores: bool = True,
+    db: Session = Depends(get_db)
+):
+    """
+    🔧 Endpoint para listar oficios disponibles.
+    
+    Parámetros:
+    - ciudad_id: Filtra oficios que tienen trabajadores en esta ciudad
+    - con_trabajadores: Si es True, solo devuelve oficios con trabajadores registrados
+    
+    Útil para poblar el select de oficios de forma coordinada con la ciudad seleccionada.
+    """
+    
+    try:
+        if con_trabajadores:
+            # Query base: oficios con trabajadores
+            query = (
+                db.query(
+                    Oficio,
+                    func.count(func.distinct(Trabajador.id_trabajador)).label('total')
+                )
+                .join(TrabajadorOficio, Oficio.id_oficio == TrabajadorOficio.id_oficio)
+                .join(Trabajador, TrabajadorOficio.id_trabajador == Trabajador.id_trabajador)
+            )
+            
+            # Si se especifica ciudad, filtrar por trabajadores en esa ciudad
+            if ciudad_id is not None:
+                query = query.join(Barrio, Trabajador.id_barrio == Barrio.id_barrio).filter(
+                    Barrio.id_ciudad == ciudad_id
+                )
+            
+            query = query.group_by(Oficio.id_oficio).order_by(Oficio.nombre_oficio)
+            
+            resultados = query.all()
+            
+            oficios_list = [
+                OficioOption(
+                    id_oficio=oficio.id_oficio,
+                    nombre_oficio=oficio.nombre_oficio,
+                    categoria_servicio=oficio.categoria_servicio,
+                    descripcion=oficio.descripcion,
+                    total_trabajadores=total
+                )
+                for oficio, total in resultados
+            ]
+        else:
+            # Todos los oficios sin filtro
+            oficios = db.query(Oficio).order_by(Oficio.nombre_oficio).all()
+            oficios_list = [
+                OficioOption(
+                    id_oficio=oficio.id_oficio,
+                    nombre_oficio=oficio.nombre_oficio,
+                    categoria_servicio=oficio.categoria_servicio,
+                    descripcion=oficio.descripcion,
+                    total_trabajadores=0
+                )
+                for oficio in oficios
+            ]
+        
+        return OficiosResponse(
+            total=len(oficios_list),
+            oficios=oficios_list
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al listar oficios: {str(e)}"
+        )
+
+
+@app.get("/trabajadores/filtros/disponibles", response_model=FiltrosDisponibles)
+async def obtener_filtros_disponibles(
+    ciudad_id: int = None,
+    oficio_id: int = None,
+    db: Session = Depends(get_db)
+):
+    """
+    🎛️ Endpoint para obtener opciones disponibles según filtros ya aplicados.
+    
+    Ejemplo de flujo coordinado:
+    1. Usuario selecciona ciudad → backend retorna oficios disponibles en esa ciudad
+    2. Usuario selecciona oficio → backend retorna rango de calificaciones disponible
+    
+    Parámetros:
+    - ciudad_id: Si se especifica, retorna oficios disponibles en esa ciudad
+    - oficio_id: Si se especifica, retorna ciudades donde hay trabajadores de ese oficio
+    """
+    
+    try:
+        # Query base para trabajadores
+        trabajadores_query = db.query(Trabajador)
+        
+        # Aplicar filtros previos
+        if ciudad_id is not None:
+            trabajadores_query = (
+                trabajadores_query
+                .join(Barrio, Trabajador.id_barrio == Barrio.id_barrio)
+                .filter(Barrio.id_ciudad == ciudad_id)
+            )
+        
+        if oficio_id is not None:
+            trabajadores_query = (
+                trabajadores_query
+                .join(TrabajadorOficio, Trabajador.id_trabajador == TrabajadorOficio.id_trabajador)
+                .filter(TrabajadorOficio.id_oficio == oficio_id)
+            )
+        
+        # Obtener ciudades disponibles según filtros
+        if oficio_id is not None:
+            ciudades_disponibles = (
+                db.query(Ciudad, func.count(Trabajador.id_trabajador).label('total'))
+                .join(Barrio, Ciudad.id_ciudad == Barrio.id_ciudad)
+                .join(Trabajador, Barrio.id_barrio == Trabajador.id_barrio)
+                .join(TrabajadorOficio, Trabajador.id_trabajador == TrabajadorOficio.id_trabajador)
+                .filter(TrabajadorOficio.id_oficio == oficio_id)
+                .group_by(Ciudad.id_ciudad)
+                .order_by(Ciudad.nombre_ciudad)
+                .all()
+            )
+        else:
+            ciudades_disponibles = (
+                db.query(Ciudad, func.count(Trabajador.id_trabajador).label('total'))
+                .join(Barrio, Ciudad.id_ciudad == Barrio.id_ciudad)
+                .join(Trabajador, Barrio.id_barrio == Trabajador.id_barrio)
+                .group_by(Ciudad.id_ciudad)
+                .order_by(Ciudad.nombre_ciudad)
+                .all()
+            )
+        
+        ciudades_list = [
+            CiudadOption(
+                id_ciudad=ciudad.id_ciudad,
+                nombre_ciudad=ciudad.nombre_ciudad,
+                departamento=ciudad.departamento,
+                region=ciudad.region,
+                total_trabajadores=total
+            )
+            for ciudad, total in ciudades_disponibles
+        ]
+        
+        # Obtener oficios disponibles según filtros
+        if ciudad_id is not None:
+            oficios_disponibles = (
+                db.query(Oficio, func.count(func.distinct(Trabajador.id_trabajador)).label('total'))
+                .join(TrabajadorOficio, Oficio.id_oficio == TrabajadorOficio.id_oficio)
+                .join(Trabajador, TrabajadorOficio.id_trabajador == Trabajador.id_trabajador)
+                .join(Barrio, Trabajador.id_barrio == Barrio.id_barrio)
+                .filter(Barrio.id_ciudad == ciudad_id)
+                .group_by(Oficio.id_oficio)
+                .order_by(Oficio.nombre_oficio)
+                .all()
+            )
+        else:
+            oficios_disponibles = (
+                db.query(Oficio, func.count(func.distinct(Trabajador.id_trabajador)).label('total'))
+                .join(TrabajadorOficio, Oficio.id_oficio == TrabajadorOficio.id_oficio)
+                .join(Trabajador, TrabajadorOficio.id_trabajador == Trabajador.id_trabajador)
+                .group_by(Oficio.id_oficio)
+                .order_by(Oficio.nombre_oficio)
+                .all()
+            )
+        
+        oficios_list = [
+            OficioOption(
+                id_oficio=oficio.id_oficio,
+                nombre_oficio=oficio.nombre_oficio,
+                categoria_servicio=oficio.categoria_servicio,
+                descripcion=oficio.descripcion,
+                total_trabajadores=total
+            )
+            for oficio, total in oficios_disponibles
+        ]
+        
+        # Obtener rango de calificaciones disponibles
+        stats = trabajadores_query.with_entities(
+            func.max(Trabajador.calificacion_promedio),
+            func.min(Trabajador.calificacion_promedio)
+        ).first()
+        
+        calificacion_max = float(stats[0]) if stats[0] else 5.0
+        calificacion_min = float(stats[1]) if stats[1] else 1.0
+        
+        # Obtener disponibilidades únicas
+        disponibilidades = (
+            trabajadores_query
+            .with_entities(Trabajador.disponibilidad)
+            .distinct()
+            .all()
+        )
+        disponibilidades_list = [d[0] for d in disponibilidades]
+        
+        # Contar trabajadores con/sin ARL
+        con_arl = trabajadores_query.filter(Trabajador.tiene_arl == True).count()
+        sin_arl = trabajadores_query.filter(Trabajador.tiene_arl == False).count()
+        
+        return FiltrosDisponibles(
+            ciudades_disponibles=ciudades_list,
+            oficios_disponibles=oficios_list,
+            calificacion_min_sugerida=calificacion_min,
+            calificacion_max_disponible=calificacion_max,
+            disponibilidades=disponibilidades_list,
+            tiene_arl_count={"con_arl": con_arl, "sin_arl": sin_arl}
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al obtener filtros disponibles: {str(e)}"
+        )
+
+
+@app.get("/trabajadores/{id_trabajador}/perfil", response_model=PerfilTrabajador)
+async def obtener_perfil_trabajador(
+    id_trabajador: int,
+    db: Session = Depends(get_db)
+):
+    """
+    👤 Endpoint para obtener el perfil completo de un trabajador.
+    
+    Retorna:
+    - Datos básicos del trabajador
+    - Ubicación (barrio y ciudad)
+    - Oficios que domina con tarifas
+    - Estadísticas generales (servicios, calificaciones, ingresos)
+    - Historial de servicios realizados
+    - Calificaciones recibidas
+    """
+    
+    try:
+        # 1. Obtener datos básicos del trabajador
+        trabajador_query = (
+            db.query(Trabajador, Barrio, Ciudad)
+            .join(Barrio, Trabajador.id_barrio == Barrio.id_barrio)
+            .join(Ciudad, Barrio.id_ciudad == Ciudad.id_ciudad)
+            .filter(Trabajador.id_trabajador == id_trabajador)
+            .first()
+        )
+        
+        if not trabajador_query:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Trabajador con ID {id_trabajador} no encontrado"
+            )
+        
+        trabajador, barrio, ciudad = trabajador_query
+        
+        # 2. Obtener oficios del trabajador
+        oficios_query = (
+            db.query(TrabajadorOficio, Oficio)
+            .join(Oficio, TrabajadorOficio.id_oficio == Oficio.id_oficio)
+            .filter(TrabajadorOficio.id_trabajador == id_trabajador)
+            .all()
+        )
+        
+        oficios_list = [
+            OficioInfo(
+                id_oficio=oficio.id_oficio,
+                nombre_oficio=oficio.nombre_oficio,
+                tarifa_hora_promedio=trab_oficio.tarifa_hora_promedio,
+                tarifa_visita=trab_oficio.tarifa_visita,
+                certificaciones=trab_oficio.certificaciones
+            )
+            for trab_oficio, oficio in oficios_query
+        ]
+        
+        # 3. Obtener servicios realizados
+        servicios_query = (
+            db.query(Servicio, Solicitud, Oficio, Barrio, Ciudad, Solicitante)
+            .join(Solicitud, Servicio.id_solicitud == Solicitud.id_solicitud)
+            .join(Oficio, Solicitud.id_oficio == Oficio.id_oficio)
+            .join(Barrio, Solicitud.id_barrio_servicio == Barrio.id_barrio)
+            .join(Ciudad, Barrio.id_ciudad == Ciudad.id_ciudad)
+            .join(Solicitante, Solicitud.id_solicitante == Solicitante.id_solicitante)
+            .filter(Servicio.id_trabajador == id_trabajador)
+            .order_by(Servicio.fecha_asignacion.desc())
+            .all()
+        )
+        
+        servicios_list = [
+            ServicioRealizado(
+                id_servicio=servicio.id_servicio,
+                id_solicitud=servicio.id_solicitud,
+                fecha_asignacion=servicio.fecha_asignacion.isoformat(),
+                fecha_cierre=servicio.fecha_cierre.isoformat() if servicio.fecha_cierre else None,
+                costo_final_cop=servicio.costo_final_cop,
+                estado=servicio.estado,
+                descripcion_solicitud=solicitud.descripcion_usuario,
+                urgencia=solicitud.urgencia,
+                oficio=oficio.nombre_oficio,
+                ubicacion=f"{barrio.nombre_barrio}, {ciudad.nombre_ciudad}",
+                solicitante_nombre=solicitante.nombre_completo
+            )
+            for servicio, solicitud, oficio, barrio, ciudad, solicitante in servicios_query
+        ]
+        
+        # 4. Obtener calificaciones recibidas
+        calificaciones_query = (
+            db.query(Calificacion, Servicio, Solicitud, Oficio)
+            .join(Servicio, Calificacion.id_servicio == Servicio.id_servicio)
+            .join(Solicitud, Servicio.id_solicitud == Solicitud.id_solicitud)
+            .join(Oficio, Solicitud.id_oficio == Oficio.id_oficio)
+            .filter(Servicio.id_trabajador == id_trabajador)
+            .filter(Calificacion.quien_califica == 'solicitante')
+            .order_by(Calificacion.fecha.desc())
+            .all()
+        )
+        
+        calificaciones_list = [
+            CalificacionRecibida(
+                id_calificacion=calificacion.id_calificacion,
+                id_servicio=calificacion.id_servicio,
+                puntaje=float(calificacion.puntaje),
+                comentario=calificacion.comentario,
+                fecha=calificacion.fecha.isoformat(),
+                quien_califica=calificacion.quien_califica,
+                descripcion_servicio=f"{oficio.nombre_oficio}: {solicitud.descripcion_usuario[:100]}"
+            )
+            for calificacion, servicio, solicitud, oficio in calificaciones_query
+        ]
+        
+        # 5. Calcular estadísticas
+        total_servicios = len(servicios_list)
+        servicios_completados = sum(1 for s in servicios_list if s.estado == 'completado')
+        servicios_en_proceso = sum(1 for s in servicios_list if s.estado in ['asignado', 'en_proceso'])
+        total_ingresos = sum(s.costo_final_cop for s in servicios_list if s.estado == 'completado')
+        
+        estadisticas = EstadisticasTrabajador(
+            total_servicios=total_servicios,
+            servicios_completados=servicios_completados,
+            servicios_en_proceso=servicios_en_proceso,
+            total_calificaciones=len(calificaciones_list),
+            promedio_calificacion=float(trabajador.calificacion_promedio),
+            total_ingresos=total_ingresos
+        )
+        
+        # 6. Construir objeto de barrio
+        barrio_info = BarrioInfo(
+            id_barrio=barrio.id_barrio,
+            nombre_barrio=barrio.nombre_barrio,
+            estrato=barrio.estrato,
+            ciudad=ciudad.nombre_ciudad,
+            departamento=ciudad.departamento,
+            region=ciudad.region
+        )
+        
+        # 7. Construir y retornar perfil completo
+        perfil = PerfilTrabajador(
+            id_trabajador=trabajador.id_trabajador,
+            nombre_completo=trabajador.nombre_completo,
+            identificacion=trabajador.identificacion,
+            tipo_persona=trabajador.tipo_persona,
+            telefono=trabajador.telefono,
+            email=trabajador.email,
+            anos_experiencia=trabajador.anos_experiencia,
+            calificacion_promedio=float(trabajador.calificacion_promedio),
+            disponibilidad=trabajador.disponibilidad,
+            cobertura_km=trabajador.cobertura_km,
+            tiene_arl=trabajador.tiene_arl,
+            fecha_registro=trabajador.fecha_registro.isoformat(),
+            barrio=barrio_info,
+            oficios=oficios_list,
+            estadisticas=estadisticas,
+            servicios_realizados=servicios_list,
+            calificaciones_recibidas=calificaciones_list
+        )
+        
+        return perfil
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al obtener perfil del trabajador: {str(e)}"
+        )
 
 @app.post("/alertas/detectar", response_model=AlertaOutput)  
 async def detectar_alertas_endpoint(
