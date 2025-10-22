@@ -1,18 +1,14 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-# Importar modelos y schemas
-from models import (
-    SessionLocal,
-    Oficio,
-    Solicitud,
-    SolicitudInput,
-    SolicitudOutput,
-    get_db
-)
+# Importar modelos SQLAlchemy y función get_db desde database
+from database import Oficio, Solicitud, get_db
+
+# Importar schemas Pydantic desde models
+from models import SolicitudInput, SolicitudOutput
 
 # Importar el servicio de LLM
-from llm_service import generar_solicitud_estructurada
+from llm_service import generar_solicitud_estructurada, analizar_solicitud
 
 app = FastAPI(
     title="TaskPro Backend API",
@@ -38,6 +34,46 @@ def read_root():
 def health_check():
     """Endpoint para verificar que el servicio está funcionando"""
     return {"status": "ok", "service": "TaskPro Backend"}
+
+
+@app.post("/solicitudes/analizar")
+async def analizar_solicitud_desde_texto(
+    solicitud_input: SolicitudInput,
+    db: Session = Depends(get_db)
+):
+    """
+    Agente Analista: interpreta y clasifica la solicitud sin crear registros en BD.
+
+    Retorna un informe con oficio sugerido, urgencia, explicación, posibles alertas y
+    preguntas aclaratorias. Útil para vista previa y transparencia antes de confirmar.
+    """
+
+    # Paso 1: Consultar todos los oficios disponibles
+    oficios = db.query(Oficio).all()
+    if not oficios:
+        raise HTTPException(
+            status_code=500,
+            detail="No hay oficios disponibles en la base de datos. Por favor, carga la tabla de oficios primero."
+        )
+
+    # Paso 2: Formatear los oficios para el LLM
+    oficios_str_list = []
+    for oficio in oficios:
+        oficios_str_list.append(
+            f"ID: {oficio.id_oficio}, Nombre: {oficio.nombre_oficio}, "
+            f"Categoría: {oficio.categoria_servicio}, Descripción: {oficio.descripcion}"
+        )
+    oficios_disponibles = "\n".join(oficios_str_list)
+
+    # Paso 3: Llamar al agente Analista
+    try:
+        analisis = await analizar_solicitud(
+            texto_usuario_original=solicitud_input.texto_usuario,
+            oficios_disponibles=oficios_disponibles
+        )
+        return analisis
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al analizar: {str(e)}")
 
 
 @app.post("/solicitudes/crear", response_model=SolicitudOutput)

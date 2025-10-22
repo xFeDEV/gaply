@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "taskpro-mcp-server"
+version = "1.0.0"
+description = "Model Context Protocol server for TaskPro - AI-powered service request analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "TaskPro Team" }
+]
+dependencies = [
+    "mcp>=1.1.2",
+    "httpx>=0.28.0"
+]
+
+[project.scripts]
+taskpro-mcp = "server:main"
