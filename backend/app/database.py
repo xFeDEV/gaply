@@ -10,6 +10,7 @@ Basado en el esquema TaskPro para PostgreSQL/MySQL/SQL Server.
 
 import os
 from datetime import datetime, date
+from pathlib import Path
 from sqlalchemy import (
     Column,
     Integer,
@@ -27,13 +28,27 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
+# Cargar variables de entorno desde .env
+try:
+    from dotenv import load_dotenv
+    # Buscar el archivo .env en la raíz del proyecto
+    env_path = Path(__file__).parent.parent.parent / ".env"
+    load_dotenv(dotenv_path=env_path)
+except ImportError:
+    print("⚠️  python-dotenv no instalado. Asegúrate de exportar las variables manualmente.")
+
 # Leer la variable de entorno DATABASE_URL
 DATABASE_URL = os.getenv("DATABASE_URL")
-
 if not DATABASE_URL:
     raise ValueError("La variable de entorno DATABASE_URL no está configurada")
 
-# Crear el motor de la base de datos
+# Normalizar URL: si se pasó un driver asíncrono (asyncpg), forzar driver síncrono
+# para el uso actual con SQLAlchemy ORM sin AsyncSession, evitando MissingGreenlet.
+if DATABASE_URL.startswith("postgresql+asyncpg://"):
+    print("⚠️  DATABASE_URL usa 'asyncpg' pero el ORM está en modo síncrono. Cambiando a 'psycopg2'.")
+    DATABASE_URL = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql+psycopg2://", 1)
+
+# Crear el motor de la base de datos (sincrónico)
 engine = create_engine(DATABASE_URL, echo=True)
 
 # Crear la SessionLocal
@@ -194,7 +209,7 @@ class Solicitud(Base):
     __tablename__ = "solicitudes"
     __table_args__ = {'schema': 'public'}
     
-    id_solicitud = Column(Integer, primary_key=True, autoincrement=True)
+    id_solicitud = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     id_solicitante = Column(Integer, ForeignKey("public.solicitantes.id_solicitante"), nullable=False)
     id_oficio = Column(Integer, ForeignKey("public.oficios.id_oficio"), nullable=False)
     descripcion_usuario = Column(String(400), nullable=False)

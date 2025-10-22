@@ -56,3 +56,75 @@ class AnalisisOutput(BaseModel):
     confianza: Optional[float] = None  # 0.0 - 1.0
 
 
+# Schemas para agente recomendador
+class TrabajadorRecomendado(BaseModel):
+    """Un trabajador individual recomendado con su score y explicación."""
+    id_trabajador: int
+    nombre_completo: str
+    score_relevancia: float  # 0.0 - 1.0
+    distancia_km: float
+    motivo_top: str  # 'experiencia' | 'proximidad' | 'precio' | 'calificacion'
+    precio_propuesto: int
+    anos_experiencia: int
+    calificacion_promedio: float
+    explicacion: str
+    tiene_arl: bool
+
+
+class RecomendacionOutput(BaseModel):
+    """Salida del agente recomendador con lista priorizada de trabajadores."""
+    id_solicitud: Optional[int] = None
+    total_candidatos_encontrados: int
+    trabajadores_recomendados: list[TrabajadorRecomendado] = []
+    criterios_busqueda: dict = {}
+    explicacion_algoritmo: str
+    confianza_recomendaciones: float  # 0.0 - 1.0
+
+
+# Schemas para agente detector de alertas
+class AlertaDetectada(BaseModel):
+    """Una alerta individual detectada por el sistema."""
+    tipo_alerta: str  # 'precio_anomalo' | 'riesgo_seguridad' | 'patron_sospechoso'
+    severidad: str  # 'baja' | 'media' | 'alta' | 'critica'
+    detalle: str
+    entidad_afectada: str  # 'solicitud' | 'trabajador' | 'recomendacion'
+    id_entidad: Optional[int] = None
+    accion_recomendada: str
+
+
+class AlertaOutput(BaseModel):
+    """Salida del detector de alertas con todas las anomalías encontradas."""
+    alertas_detectadas: list[AlertaDetectada] = []
+    score_riesgo_general: float  # 0.0 - 1.0
+    requiere_revision_manual: bool
+    explicacion_evaluacion: str
+
+
+# Schema para el flujo completo A2A
+class ProcesamientoCompletoInput(BaseModel):
+    """Entrada para el procesamiento completo A2A: solo el texto del usuario."""
+    texto_usuario: str
+    id_barrio_usuario: Optional[int] = None  # Si se conoce la ubicación del usuario
+
+
+class ProcesamientoCompletoOutput(BaseModel):
+    """Salida del procesamiento completo A2A con todo el pipeline ejecutado."""
+    # Resultados del análisis inicial
+    analisis: AnalisisOutput
+    
+    # ID de la solicitud creada (si se decidió crearla)
+    solicitud_creada: Optional[SolicitudOutput] = None
+    
+    # Recomendaciones de trabajadores
+    recomendaciones: Optional[RecomendacionOutput] = None
+    
+    # Alertas detectadas
+    alertas: AlertaOutput
+    
+    # Meta-información del procesamiento
+    tiempo_procesamiento_ms: int
+    agentes_ejecutados: list[str] = []
+    decision_final: str  # 'solicitud_creada' | 'requiere_aclaraciones' | 'bloqueada_por_alertas'
+    mensaje_usuario: str
+
+

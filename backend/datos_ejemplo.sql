@@ -143,13 +143,129 @@ INSERT INTO solicitantes (id_solicitante, nombre_completo, cedula, telefono, ema
 -- Las tarifas son referenciales y permiten al Agente Analista
 -- detectar precios anómalos (muy altos o bajos) y generar alertas.
 
--- PRÓXIMOS DATOS A CARGAR (según avance del proyecto):
--- - TRABAJADORES: perfiles de técnicos con disponibilidad
--- - TRABAJADOR_OFICIO: relación muchos a muchos con tarifas
--- - SOLICITUDES: casos de prueba con texto en lenguaje natural
--- - RECOMENDACIONES: emparejamiento trabajador-solicitud con score
--- - SERVICIOS: asignaciones y estados de ejecución
--- - CALIFICACIONES: feedback bidireccional
--- - ALERTAS: casos detectados por IA
--- - CLASIFICACION_LOGS: trazabilidad de predicciones del modelo
+-- =====================================================
+-- TRABAJADORES (15 perfiles técnicos - El caso de Carlos incluido)
+-- =====================================================
+
+INSERT INTO trabajadores (id_trabajador, nombre_completo, identificacion, tipo_persona, telefono, email, id_barrio, direccion, anos_experiencia, calificacion_promedio, disponibilidad, cobertura_km, tiene_arl, fecha_registro) VALUES
+-- PLOMEROS (incluye a Carlos para el caso de uso)
+(1, 'Carlos Mendoza Ruiz', '1098765432', 'natural', '3201234567', 'carlos.plomero@email.com', 2, 'Calle 85 #12-34 Apto 102', 12, 4.8, 'disponible', 15, TRUE, '2023-03-15'),
+(2, 'Andrés Felipe Castro', '1087654321', 'natural', '3212345678', 'andres.plomero@email.com', 4, 'Carrera 128 #95-20', 8, 4.5, 'disponible', 12, TRUE, '2023-06-20'),
+(3, 'Jairo Sánchez Villa', '1076543210', 'natural', '3223456789', 'jairo.plomero@email.com', 3, 'Calle 45 Sur #78-15', 15, 4.9, 'parcial', 10, TRUE, '2022-11-10'),
+
+-- ELECTRICISTAS
+(4, 'Roberto Gómez López', '1065432109', 'natural', '3234567890', 'roberto.electricista@email.com', 1, 'Carrera 11 #65-40', 10, 4.7, 'disponible', 20, TRUE, '2023-01-25'),
+(5, 'Edison Vargas Mora', '1054321098', 'natural', '3245678901', 'edison.electricista@email.com', 5, 'Calle 80 #105-30', 6, 4.3, 'disponible', 8, FALSE, '2023-09-12'),
+(6, 'Fernando Eléctricos SAS', '9001234567', 'juridica', '3256789012', 'contacto@fernandoelectricos.com', 6, 'Carrera 43A #15-60 Local 203', 20, 4.9, 'disponible', 25, TRUE, '2020-05-18'),
+
+-- TÉCNICOS AIRES ACONDICIONADOS
+(7, 'Miguel Torres Aire', '1043210987', 'natural', '3267890123', 'miguel.aires@email.com', 7, 'Calle 70 #50-25', 7, 4.6, 'disponible', 18, TRUE, '2023-04-08'),
+(8, 'Climatización Total Ltda', '9007654321', 'juridica', '3278901234', 'servicio@climatotal.com', 9, 'Avenida 6N #28-45 Bodega 12', 15, 4.8, 'disponible', 30, TRUE, '2021-08-14'),
+
+-- TÉCNICOS REFRIGERACIÓN  
+(9, 'Pedro Frío González', '1032109876', 'natural', '3289012345', 'pedro.frio@email.com', 10, 'Calle 5 #40-80 Barrio Jardín', 9, 4.4, 'parcial', 12, TRUE, '2023-02-28'),
+(10, 'Servicio Neveras Express', '9004567890', 'juridica', '3290123456', 'expressfrio@email.com', 11, 'Carrera 58 #76-30', 12, 4.7, 'disponible', 20, TRUE, '2022-07-05'),
+
+-- CERRAJEROS
+(11, 'Jhon Jairo Llaves', '1021098765', 'natural', '3201234568', 'jhon.cerrajero@email.com', 8, 'Calle 33 #25-15 La América', 5, 4.2, 'disponible', 15, FALSE, '2023-08-30'),
+(12, 'Cerrajería 24 Horas', '9002345678', 'juridica', '3212345679', '24horas@cerrajeria.com', 1, 'Calle 57 #8-40 Centro', 18, 4.8, 'disponible', 35, TRUE, '2019-12-01'),
+
+-- TÉCNICOS DE COMPUTADORAS
+(13, 'Alejandro PC Master', '1010987654', 'natural', '3223456780', 'alejandro.pc@email.com', 2, 'Carrera 15 #88-25 Apto 304', 4, 4.1, 'disponible', 10, FALSE, '2024-01-18'),
+(14, 'Soporte TI Profesional', '9003456789', 'juridica', '3234567891', 'soporte@tiprofesional.com', 12, 'Zona Franca Parque Central', 8, 4.6, 'parcial', 25, TRUE, '2022-03-22'),
+
+-- SERVICIOS MUDANZAS
+(15, 'Mudanzas Rápidas Carga', '9005678901', 'juridica', '3245678902', 'carga@mudanzasrapidas.com', 13, 'Carrera 3 #8-120 Bocagrande', 6, 4.3, 'disponible', 40, TRUE, '2023-05-15');
+
+-- =====================================================
+-- TRABAJADOR_OFICIO (Especialidades y Tarifas)
+-- =====================================================
+
+INSERT INTO trabajador_oficio (id_trab_oficio, id_trabajador, id_oficio, tarifa_hora_promedio, tarifa_visita, certificaciones) VALUES
+-- Carlos Mendoza (Plomero estrella) - ID Trabajador 1
+(1, 1, 1, 35000, 25000, 'SENA Instalaciones Hidráulicas, Curso Soldadura SMAW'),
+
+-- Andrés Felipe Castro (Plomero junior) - ID Trabajador 2  
+(2, 2, 1, 28000, 20000, 'SENA Sistemas Hidráulicos'),
+
+-- Jairo Sánchez (Plomero senior) - ID Trabajador 3
+(3, 3, 1, 40000, 30000, 'SENA Instalaciones Hidráulicas, Certificación ARL Sura, 15 años experiencia'),
+
+-- Roberto Gómez (Electricista) - ID Trabajador 4
+(4, 4, 2, 38000, 28000, 'SENA Electricidad Residencial, RETIE vigente'),
+
+-- Edison Vargas (Electricista junior) - ID Trabajador 5
+(5, 5, 2, 30000, 22000, 'Técnico Electricidad Industrial'),
+
+-- Fernando Eléctricos SAS (Empresa electricista) - ID Trabajador 6
+(6, 6, 2, 45000, 35000, 'RETIE, RETILAP, ISO 9001, 20 años mercado'),
+
+-- Miguel Torres (Aires acondicionados) - ID Trabajador 7
+(7, 7, 4, 42000, 35000, 'SENA Refrigeración, Manejo gases refrigerantes'),
+
+-- Climatización Total (Empresa aires) - ID Trabajador 8
+(8, 8, 4, 50000, 40000, 'Certificación EPA, Autorización gases refrigerantes, Garantía 1 año'),
+
+-- Pedro Frío (Técnico neveras) - ID Trabajador 9
+(9, 9, 5, 35000, 25000, 'SENA Refrigeración Doméstica'),
+
+-- Servicio Neveras Express (Empresa neveras) - ID Trabajador 10
+(10, 10, 5, 40000, 30000, 'Autorización fabricantes LG, Samsung, Whirlpool'),
+
+-- Jhon Jairo Llaves (Cerrajero) - ID Trabajador 11
+(11, 11, 3, 25000, 35000, 'Curso Cerrajería Básica'),
+
+-- Cerrajería 24 Horas (Empresa cerrajería) - ID Trabajador 12
+(12, 12, 3, 35000, 45000, 'Cámara de Comercio, Seguros responsabilidad civil'),
+
+-- Alejandro PC Master (Técnico computadoras) - ID Trabajador 13
+(13, 13, 11, 30000, 25000, 'CompTIA A+, Microsoft Certified'),
+
+-- Soporte TI Profesional (Empresa IT) - ID Trabajador 14
+(14, 14, 11, 45000, 35000, 'Cisco CCNA, Microsoft Partner, VMware Certified'),
+(15, 14, 12, 40000, 30000, 'Certificación Redes, Cableado Estructurado'),
+(16, 14, 15, 50000, 40000, 'ITIL Foundation, Soporte Técnico Nivel 2'),
+
+-- Mudanzas Rápidas (Empresa mudanzas) - ID Trabajador 15  
+(17, 15, 20, 80000, 150000, 'Licencia Transporte Carga, Seguros mercancía, Embalaje profesional');
+
+-- =====================================================
+-- SOLICITUDES DE EJEMPLO (Casos típicos como María)
+-- =====================================================
+
+INSERT INTO solicitudes (id_solicitud, id_solicitante, id_oficio, descripcion_usuario, urgencia, id_barrio_servicio, fecha_creacion, estado, precio_estimado_mercado, flag_alerta) VALUES
+-- María con su inodoro (caso principal del reto)
+(1, 1, 1, 'Necesito un plomero urgente, se me rompió el inodoro y está saliendo agua por todos lados', 'alta', 1, '2024-10-22 14:30:00', 'pendiente', 80000, FALSE),
+
+-- Otros casos típicos
+(2, 2, 2, 'Se fue la luz en mi apartamento, necesito un electricista que venga hoy', 'alta', 2, '2024-10-22 09:15:00', 'pendiente', 90000, FALSE),
+(3, 3, 4, 'Mi aire acondicionado no enfría, hace mucho calor y tengo un bebé', 'media', 3, '2024-10-22 11:45:00', 'pendiente', 120000, FALSE),
+(4, 4, 5, 'La nevera no está enfriando bien y se me puede dañar la comida', 'media', 4, '2024-10-22 16:20:00', 'pendiente', 95000, FALSE),
+(5, 5, 3, 'Se me perdieron las llaves del apartamento y no puedo entrar', 'alta', 5, '2024-10-22 19:45:00', 'pendiente', 65000, FALSE),
+(6, 6, 11, 'Mi computador se puso lento y no arranca bien, trabajo desde casa', 'media', 6, '2024-10-22 08:30:00', 'pendiente', 70000, FALSE),
+(7, 8, 20, 'Necesito una mudanza para el próximo fin de semana, tengo apartamento de 2 habitaciones', 'baja', 9, '2024-10-22 13:10:00', 'pendiente', 300000, FALSE);
+
+-- =====================================================
+-- COMENTARIOS FINALES
+-- =====================================================
+
+-- TRABAJADORES incluye al "Carlos" del caso de uso:
+-- - Carlos Mendoza: plomero con 12 años experiencia, calificación 4.8/5
+-- - Ubicado en Usaquén (estrato 5), cobertura 15km  
+-- - Disponible, con ARL, tarifas competitivas
+-- - PERFECTO para atender a María (Chapinero, problema urgente plomería)
+
+-- Los datos permiten probar el flujo completo A2A:
+-- 1. María escribe: "Necesito plomero urgente, se rompió inodoro"
+-- 2. Agente Analista → identifica oficio plomero (ID 1), urgencia alta
+-- 3. Agente Recomendador → encuentra Carlos y otros cerca, los prioriza
+-- 4. Agente Guardian → verifica seguridad, precios normales
+-- 5. Orquestador → decide proceder, conecta María con Carlos
+
+-- PRÓXIMAS TABLAS A POBLAR (desarrollo futuro):
+-- - RECOMENDACIONES: matches calculados por el Agente Recomendador
+-- - SERVICIOS: asignaciones confirmadas
+-- - CALIFICACIONES: feedback post-servicio  
+-- - ALERTAS: casos detectados por Agente Guardian
+-- - CLASIFICACION_LOGS: historial decisiones IA
 

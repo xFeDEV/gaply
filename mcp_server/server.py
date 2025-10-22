@@ -79,6 +79,45 @@ async def handle_list_tools() -> list[types.Tool]:
                 },
                 "required": ["texto_usuario"]
             }
+        ),
+        types.Tool(
+            name="procesar_solicitud_completa",
+            description=(
+                "🚀 **AGENTE ORQUESTADOR A2A**: Resuelve el problema completo de María y Carlos. "
+                "Ejecuta el pipeline completo de agentes: Analista → Recomendador → Guardian → Decisión. "
+                "\n\n**Caso de uso:** María: 'Necesito un plomero urgente, se rompió mi inodoro' "
+                "→ Sistema encuentra a Carlos (plomero, 5⭐, 2km, disponible) → Conexión exitosa. "
+                "\n\n**Pipeline ejecutado:**\n"
+                "1. 🔍 Agente Analista: identifica oficio, urgencia, precio estimado\n"
+                "2. 🎯 Agente Recomendador: encuentra trabajadores cercanos y calificados\n"
+                "3. 🛡️ Agente Guardian: detecta riesgos, precios anómalos, patrones sospechosos\n"
+                "4. 🧠 Orquestador: decide acción final basándose en análisis y alertas\n"
+                "\n**Retorna:** Análisis completo + Recomendaciones priorizadas + Alertas de seguridad + Decisión final"
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "texto_usuario": {
+                        "type": "string",
+                        "description": (
+                            "Descripción del problema en lenguaje natural. El usuario puede escribir "
+                            "como hablaría en la vida real. Ejemplos:\n"
+                            "• 'Se me dañó la nevera y no enfría nada, necesito que venga alguien hoy'\n"
+                            "• 'Tengo una fuga de agua en el baño, es urgente'\n"
+                            "• 'Necesito un electricista para instalar un aire acondicionado'\n"
+                            "• 'Se me tapó el desagüe de la cocina y huele horrible'"
+                        )
+                    },
+                    "id_barrio_usuario": {
+                        "type": "integer",
+                        "description": (
+                            "ID del barrio donde vive el usuario (opcional). "
+                            "Si se proporciona, permite calcular distancias más precisas y priorizar trabajadores cercanos."
+                        )
+                    }
+                },
+                "required": ["texto_usuario"]
+            }
         )
     ]
 
@@ -197,6 +236,126 @@ async def handle_call_tool(
                     types.TextContent(
                         type="text",
                         text=f"❌ Error inesperado: {str(e)}"
+                    )
+                ]
+        
+        elif name == "procesar_solicitud_completa":
+            # 🚀 Ejecutar el pipeline completo A2A (María → Carlos)
+            try:
+                # Extraer parámetros adicionales
+                id_barrio_usuario = arguments.get("id_barrio_usuario")
+                
+                payload = {"texto_usuario": texto_usuario}
+                if id_barrio_usuario:
+                    payload["id_barrio_usuario"] = id_barrio_usuario
+                
+                response = await client.post(
+                    f"{BACKEND_URL}/solicitudes/procesar-completa",
+                    json=payload
+                )
+                response.raise_for_status()
+                procesamiento = response.json()
+                
+                # Formatear respuesta completa del pipeline A2A
+                resultado = (
+                    f"🚀 **PIPELINE COMPLETO EJECUTADO** ({procesamiento.get('tiempo_procesamiento_ms')}ms)\n"
+                    f"**Agentes ejecutados:** {', '.join(procesamiento.get('agentes_ejecutados', []))}\n\n"
+                )
+                
+                # Análisis inicial
+                analisis = procesamiento.get('analisis', {})
+                resultado += (
+                    f"🔍 **ANÁLISIS INICIAL**\n"
+                    f"**Oficio identificado:** {analisis.get('nombre_oficio_sugerido', 'No identificado')} "
+                    f"(ID: {analisis.get('id_oficio_sugerido', 'N/A')})\n"
+                    f"**Urgencia:** {analisis.get('urgencia_inferida', 'No determinada')}\n"
+                    f"**Precio estimado:** ${analisis.get('precio_mercado_estimado', 0)} COP\n"
+                    f"**Confianza:** {analisis.get('confianza', 0):.2f}/1.0\n"
+                    f"**Explicación:** {analisis.get('explicacion', 'Sin explicación')}\n\n"
+                )
+                
+                # Recomendaciones de trabajadores
+                recomendaciones = procesamiento.get('recomendaciones')
+                if recomendaciones and recomendaciones.get('trabajadores_recomendados'):
+                    resultado += f"🎯 **TRABAJADORES RECOMENDADOS** ({recomendaciones.get('total_candidatos_encontrados')} encontrados)\n\n"
+                    
+                    for i, trabajador in enumerate(recomendaciones['trabajadores_recomendados'][:3], 1):  # Top 3
+                        resultado += (
+                            f"**#{i}. {trabajador.get('nombre_completo')}**\n"
+                            f"• Score de relevancia: {trabajador.get('score_relevancia'):.2f}/1.0\n"
+                            f"• Distancia: {trabajador.get('distancia_km')} km\n"
+                            f"• Experiencia: {trabajador.get('anos_experiencia')} años\n"
+                            f"• Calificación: {trabajador.get('calificacion_promedio')}/5 ⭐\n"
+                            f"• Precio propuesto: ${trabajador.get('precio_propuesto')} COP\n"
+                            f"• Motivo principal: {trabajador.get('motivo_top')}\n"
+                            f"• ARL: {'✅' if trabajador.get('tiene_arl') else '❌'}\n"
+                            f"• **Explicación:** {trabajador.get('explicacion')}\n\n"
+                        )
+                else:
+                    resultado += "❌ **No se encontraron trabajadores disponibles**\n\n"
+                
+                # Alertas de seguridad
+                alertas = procesamiento.get('alertas', {})
+                alertas_detectadas = alertas.get('alertas_detectadas', [])
+                
+                if alertas_detectadas:
+                    resultado += f"🛡️ **ALERTAS DE SEGURIDAD** (Riesgo general: {alertas.get('score_riesgo_general', 0):.2f}/1.0)\n\n"
+                    
+                    for alerta in alertas_detectadas:
+                        severidad_emoji = {
+                            'critica': '🔴',
+                            'alta': '🟠', 
+                            'media': '🟡',
+                            'baja': '🟢'
+                        }.get(alerta.get('severidad', 'baja'), '⚪')
+                        
+                        resultado += (
+                            f"{severidad_emoji} **{alerta.get('tipo_alerta').replace('_', ' ').title()}** "
+                            f"({alerta.get('severidad').upper()})\n"
+                            f"**Detalle:** {alerta.get('detalle')}\n"
+                            f"**Acción recomendada:** {alerta.get('accion_recomendada')}\n\n"
+                        )
+                else:
+                    resultado += "🟢 **Sin alertas de seguridad detectadas**\n\n"
+                
+                # Decisión final
+                decision = procesamiento.get('decision_final', 'desconocida')
+                mensaje = procesamiento.get('mensaje_usuario', '')
+                
+                decision_emoji = {
+                    'solicitud_creada': '✅',
+                    'requiere_aclaraciones': '❓',
+                    'bloqueada_por_alertas': '🚫'
+                }.get(decision, '❓')
+                
+                resultado += (
+                    f"{decision_emoji} **DECISIÓN FINAL:** {decision.replace('_', ' ').title()}\n"
+                    f"**Mensaje para el usuario:** {mensaje}\n"
+                )
+                
+                # Solicitud creada (si aplica)
+                if procesamiento.get('solicitud_creada'):
+                    solicitud = procesamiento['solicitud_creada']
+                    resultado += (
+                        f"\n📝 **Solicitud creada:** ID {solicitud.get('id_solicitud')} "
+                        f"(Estado: {solicitud.get('estado')})\n"
+                    )
+                
+                return [types.TextContent(type="text", text=resultado)]
+                
+            except httpx.HTTPStatusError as e:
+                error_detail = e.response.json().get("detail", str(e)) if e.response else str(e)
+                return [
+                    types.TextContent(
+                        type="text",
+                        text=f"❌ Error en pipeline A2A: {error_detail}"
+                    )
+                ]
+            except Exception as e:
+                return [
+                    types.TextContent(
+                        type="text", 
+                        text=f"❌ Error inesperado en pipeline A2A: {str(e)}"
                     )
                 ]
         
