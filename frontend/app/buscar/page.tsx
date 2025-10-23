@@ -118,6 +118,14 @@ export default function SearchPage() {
               <CardDescription>Describe tu problema con tus propias palabras</CardDescription>
             </CardHeader>
             <CardContent className="relative z-10">
+              {/* Mensaje informativo */}
+              <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
+                <p className="text-xs text-muted-foreground text-pretty">
+                  ⏱️ <strong>Ten en cuenta:</strong> La búsqueda puede tardar entre 30 segundos y 1 minuto y 30 segundos. 
+                  Por favor, ten paciencia mientras nuestros agentes de IA trabajan para darte la mejor respuesta.
+                </p>
+              </div>
+              
               <Textarea
                 placeholder="Ejemplo: Se me dañó el enchufe del cuarto y no prende la luz. También hace un ruido extraño cuando intento usarlo..."
                 value={problem}

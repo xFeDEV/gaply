@@ -132,9 +132,18 @@ export default function HomePage() {
               <label htmlFor="problem" className="block text-left text-sm font-medium mb-3 relative z-10">
                 ¿Qué necesitas reparar o instalar?
               </label>
+              
+              {/* Mensaje informativo */}
+              <div className="mb-3 p-3 bg-primary/5 border border-primary/20 rounded-lg relative z-10">
+                <p className="text-xs text-muted-foreground text-pretty">
+                  ⏱️ <strong>Ten en cuenta:</strong> La búsqueda puede tardar entre 30 segundos y 1 minuto y 30 segundos. 
+                  Por favor, ten paciencia mientras nuestros agentes de IA trabajan para darte la mejor respuesta.
+                </p>
+              </div>
+              
               <Textarea
                 id="problem"
-                placeholder="Ejemplo: Se me dañó el enchufe del cuarto y no prende la luz..."
+                placeholder="Ejemplo: Se me dañó el enchufe del cuarto y no prende la luz. IMPORTANTE: SE DEBE AGREGAR LA CIUDAD DONDE SE NECESITA EL SERVICIO PARA QUE NUESTROS AGENTES PUEDAN HACER UNA BUSQUEDA CORRECTA."
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
                 className="min-h-[120px] text-base resize-none relative z-10 focus:ring-2 focus:ring-primary/50 transition-all"
