@@ -20,12 +20,49 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (problem.trim()) {
       setIsSearching(true)
-      setTimeout(() => {
+      try {
+        // Llamar a nuestra API route que hace proxy al backend
+        const response = await fetch("/api/solicitudes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            texto_usuario: problem,
+            id_barrio_usuario: 0,
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error(`Error del servidor: ${response.status}`)
+        }
+
+        const data = await response.json()
+        
+        // Validar que tenemos datos
+        if (!data || !data.analisis) {
+          throw new Error("Respuesta inválida del servidor")
+        }
+
+        console.log("✅ Datos recibidos:", data)
+        
+        // Guardar los datos en sessionStorage para usarlos en la página de resultados
+        sessionStorage.setItem("searchResults", JSON.stringify(data))
+        
+        // Redirigir a resultados
         router.push(`/resultados?q=${encodeURIComponent(problem)}`)
-      }, 600)
+      } catch (error) {
+        console.error("❌ Error al procesar la solicitud:", error)
+        setIsSearching(false)
+        alert(
+          error instanceof Error 
+            ? `Error: ${error.message}` 
+            : "Hubo un error al procesar tu solicitud. Por favor intenta nuevamente."
+        )
+      }
     }
   }
 

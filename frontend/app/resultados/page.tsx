@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useToast } from "@/hooks/use-toast"
 import { 
   Star, 
   MapPin, 
@@ -76,6 +77,15 @@ function ResultsContent() {
   const query = searchParams.get("q") || ""
   const [results, setResults] = useState<SearchResults | null>(null)
   const [loading, setLoading] = useState(true)
+  const { toast } = useToast()
+
+  const handleSolicitarServicio = (trabajadorNombre: string) => {
+    toast({
+      title: "¡Solicitud enviada con éxito!",
+      description: `${trabajadorNombre} ha sido notificado sobre tu solicitud de servicio. Te contactará pronto.`,
+      duration: 5000,
+    })
+  }
 
   useEffect(() => {
     // Obtener los resultados del sessionStorage
@@ -374,6 +384,7 @@ function ResultsContent() {
                       className="w-full" 
                       disabled={isBlocked}
                       variant={isBlocked ? "outline" : "default"}
+                      onClick={() => handleSolicitarServicio(trabajador.nombre_completo)}
                     >
                       {isBlocked ? 'No disponible' : 'Solicitar servicio'}
                     </Button>

@@ -68,6 +68,7 @@ export default function LoginTecnicoPage() {
     localStorage.setItem(
       "tecnico_auth",
       JSON.stringify({
+        id: "1", // ID del técnico Carlos Rodríguez
         documento: formData.documento,
         loginTime: new Date().toISOString(),
       }),
