@@ -62,7 +62,7 @@ class TrabajadorRecomendado(BaseModel):
     id_trabajador: int
     nombre_completo: str
     score_relevancia: float  # 0.0 - 1.0
-    distancia_km: float
+    distancia_km: Optional[float] = None  # Opcional porque puede no estar disponible la ubicación exacta
     motivo_top: str  # 'experiencia' | 'proximidad' | 'precio' | 'calificacion'
     precio_propuesto: int
     anos_experiencia: int
