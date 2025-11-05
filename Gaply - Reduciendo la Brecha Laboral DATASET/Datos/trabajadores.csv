@@ -1,0 +1,221 @@
+id_trabajador,nombre_completo,identificacion,tipo_persona,telefono,email,id_barrio,direccion,anos_experiencia,calificacion_promedio,disponibilidad,cobertura_km,tiene_arl,fecha_registro
+1,Santiago Castro López,29891032-2,Persona Natural,3152681144,santiago.castro116@empresa.com.co,1,Calle 101 #37-112,2,4.2,HOY,8,True,2025-08-26
+2,Carolina Suárez López,92979370-0,Persona Natural,3157739741,carolina.suárez283@hotmail.com,3,Transversal 89 #31-7,5,3.17,HOY,3,True,2025-07-10
+3,Camilo Suárez López,50329802-2,SAS,3208434162,camilo.suárez996@gmail.com,45,Transversal 35 #94-54,4,4.17,HOY,5,False,2025-08-06
+4,Santiago Rojas Rubio,64141437-7,Ltda,3029796063,santiago.rojas68@hotmail.com,4,Calle 23 #25-113,9,3.47,INMEDIATA,3,True,2025-07-25
+5,Camilo Rojas Gómez,42472381-1,PN,3119200480,camilo.rojas651@empresa.com.co,30,Carrera 112 #61-76,2,4.15,HOY,15,False,2025-05-17
+6,María Moreno Pérez,96889858-8,SAS,3054468370,maría.moreno875@hotmail.com,4,Diagonal 66 #3-111,7,3.46,INMEDIATA,10,False,2025-10-06
+7,Carolina Gómez Ramírez,66882385-5,Ltda,3237316209,carolina.gómez623@outlook.com,15,Diagonal 33 #28-60,4,4.87,PROGRAMADA,10,True,2025-04-25
+8,Felipe Cortés Suárez,18568064-4,PN,3115638619,felipe.cortés306@outlook.com,42,Transversal 34 #84-92,11,4.09,INMEDIATA,5,True,2025-06-24
+9,Carolina Moreno Gómez,97966375-5,SAS,3135959422,carolina.moreno698@outlook.com,43,Diagonal 52 #50-95,12,4.47,PROGRAMADA,5,True,2025-06-19
+10,Valentina Suárez Hernández,98263548-8,Ltda,3234038955,valentina.suárez520@outlook.com,43,Diagonal 17 #95-34,5,3.67,INMEDIATA,15,False,2025-10-08
+11,Sofía Rojas Rojas,44971668-8,Ltda,3155933359,sofía.rojas431@outlook.com,15,Calle 61 #7-111,2,3.81,PROGRAMADA,3,True,2025-06-12
+12,Ana Moreno López,28436852-2,PN,3056749046,ana.moreno424@outlook.com,34,Diagonal 19 #41-111,4,3.45,HOY,8,True,2025-06-08
+13,Carlos Gómez Reyes,31264801-1,SAS,3132477088,carlos.gómez215@outlook.com,29,Diagonal 82 #55-52,1,4.55,INMEDIATA,3,True,2025-07-28
+14,Paula Rubio Pérez,40368869-9,PN,3206777230,paula.rubio693@gmail.com,13,Calle 50 #65-76,5,4.47,INMEDIATA,8,False,2025-08-18
+15,Carolina Rubio Vargas,75790669-9,SAS,3114161264,carolina.rubio910@empresa.com.co,22,Diagonal 3 #30-29,5,4.04,PROGRAMADA,3,True,2025-06-06
+16,Felipe Rodríguez Acosta,16437132-2,PN,3162813842,felipe.rodríguez790@outlook.com,25,Calle 7 #89-15,2,4.54,PROGRAMADA,8,True,2025-06-02
+17,María Torres Acosta,91286864-4,Ltda,3203301222,maría.torres679@gmail.com,27,Calle 66 #93-80,7,4.47,INMEDIATA,10,True,2025-06-14
+18,Santiago Sánchez Rodríguez,83569939-9,SAS,3134484526,santiago.sánchez303@empresa.com.co,23,Diagonal 43 #31-1,7,4.32,INMEDIATA,12,True,2025-06-01
+19,Santiago Martínez Pérez,71304112-2,Ltda,3105431282,santiago.martínez927@gmail.com,47,Calle 105 #23-112,9,4.4,PROGRAMADA,8,True,2025-05-23
+20,Carlos Gómez Castro,93457527-7,Ltda,3102559464,carlos.gómez337@hotmail.com,9,Transversal 24 #15-52,2,4.62,HOY,15,False,2025-08-09
+21,Diana García García,65838294-4,SAS,3239097940,diana.garcía966@gmail.com,9,Diagonal 24 #79-49,7,3.62,PROGRAMADA,15,False,2025-05-27
+22,Laura García Ramírez,97909064-4,PN,3111207369,laura.garcía48@empresa.com.co,27,Carrera 86 #112-44,0,4.21,PROGRAMADA,3,True,2025-06-26
+23,Felipe Moreno Rubio,72986894-4,SAS,3229318729,felipe.moreno12@gmail.com,10,Calle 97 #63-42,6,5,INMEDIATA,12,True,2025-10-05
+24,Daniela Pérez Martínez,76901651-1,Persona Natural,3136302632,daniela.pérez455@empresa.com.co,6,Diagonal 96 #84-3,9,4.61,PROGRAMADA,12,True,2025-05-17
+25,Carolina Torres Vargas,58767001-1,Persona Natural,3221910586,carolina.torres671@hotmail.com,33,Diagonal 43 #72-99,2,3.91,PROGRAMADA,8,True,2025-05-23
+26,Sofía Gómez Cortés,80059652-2,Ltda,3112783791,sofía.gómez850@outlook.com,22,Carrera 64 #18-106,4,3.52,INMEDIATA,8,True,2025-06-11
+27,Daniela Sánchez García,65629268-8,Ltda,3003067274,daniela.sánchez734@hotmail.com,30,Diagonal 59 #85-76,8,4.23,HOY,3,True,2025-05-06
+28,Jorge Reyes López,23898777-7,SAS,3126399642,jorge.reyes709@hotmail.com,31,Diagonal 54 #78-118,4,3.95,HOY,8,False,2025-08-17
+29,Luisa Jiménez Cortés,94903891-1,Ltda,3054370359,luisa.jiménez864@outlook.com,39,Transversal 88 #45-118,0,3.05,PROGRAMADA,5,True,2025-10-18
+30,Paula García Reyes,86589761-1,Persona Natural,3168004117,paula.garcía576@outlook.com,49,Transversal 113 #109-55,7,3.73,INMEDIATA,10,True,2025-10-12
+31,Pedro Ramírez López,18325904-4,Ltda,3205951637,pedro.ramírez294@hotmail.com,49,Calle 46 #105-58,12,4.9,PROGRAMADA,12,False,2025-10-06
+32,Daniela Pérez Moreno,62016704-4,PN,3126245463,daniela.pérez710@outlook.com,33,Calle 2 #96-33,8,5,HOY,5,False,2025-10-21
+33,Felipe Reyes Torres,70238919-9,SAS,3022249382,felipe.reyes795@hotmail.com,35,Carrera 95 #66-16,2,4.67,PROGRAMADA,8,True,2025-09-20
+34,María Vargas Vargas,90111922-2,SAS,3006052539,maría.vargas41@hotmail.com,30,Transversal 10 #101-91,4,4.62,INMEDIATA,12,True,2025-08-31
+35,Jorge Cortés Pérez,38635863-3,Ltda,3166568081,jorge.cortés95@empresa.com.co,35,Transversal 28 #97-80,7,3.98,PROGRAMADA,3,True,2025-07-21
+36,Sofía Acosta Vargas,61186964-4,PN,3232902100,sofía.acosta982@hotmail.com,40,Transversal 4 #117-67,7,3.86,PROGRAMADA,10,True,2025-07-08
+37,Pedro Vargas Hernández,82205759-9,PN,3141122986,pedro.vargas971@gmail.com,33,Carrera 86 #81-100,7,5,INMEDIATA,5,True,2025-10-20
+38,Juan López Rodríguez,21746856-6,Ltda,3011910467,juan.lópez735@empresa.com.co,2,Transversal 72 #10-74,9,3.31,HOY,10,True,2025-08-05
+39,Paula Gómez Acosta,18487605-5,PN,3211763646,paula.gómez548@gmail.com,25,Calle 46 #119-65,11,4.84,HOY,12,True,2025-08-14
+40,Daniela Gómez López,62478133-3,SAS,3215948917,daniela.gómez547@hotmail.com,31,Carrera 39 #87-114,12,3.84,PROGRAMADA,15,True,2025-04-26
+41,Valentina López Cortés,83487621-1,Persona Natural,3016111869,valentina.lópez6@gmail.com,8,Transversal 28 #53-116,3,3.82,INMEDIATA,5,True,2025-06-27
+42,Ana Hernández Cortés,19817298-8,Persona Natural,3102130159,ana.hernández872@gmail.com,43,Carrera 93 #75-63,9,4.16,PROGRAMADA,15,True,2025-07-05
+43,Juan Sánchez Acosta,98506156-6,Ltda,3103556763,juan.sánchez462@empresa.com.co,21,Transversal 104 #41-55,7,4.68,INMEDIATA,15,True,2025-08-13
+44,Felipe López Castro,69774935-5,Persona Natural,3116124966,felipe.lópez899@outlook.com,44,Calle 23 #83-78,8,4.5,INMEDIATA,12,True,2025-10-01
+45,Juan Gómez Reyes,38556255-5,Persona Natural,3231614990,juan.gómez833@gmail.com,33,Diagonal 84 #100-20,4,4.57,PROGRAMADA,15,False,2025-05-28
+46,Santiago Rubio Pérez,92414513-3,PN,3163782393,santiago.rubio373@empresa.com.co,6,Carrera 58 #21-23,1,4.04,INMEDIATA,15,True,2025-07-24
+47,Sofía Suárez Pérez,15745651-1,Ltda,3164469093,sofía.suárez271@gmail.com,15,Transversal 50 #61-118,4,4.34,PROGRAMADA,8,True,2025-09-04
+48,Camilo Ramírez Rojas,88876916-6,Persona Natural,3162305896,camilo.ramírez386@hotmail.com,38,Diagonal 117 #29-67,0,4.81,HOY,10,True,2025-09-25
+49,Santiago López Rubio,96366021-1,PN,3104548668,santiago.lópez236@hotmail.com,29,Carrera 47 #78-92,8,3.63,HOY,8,True,2025-08-25
+50,Laura Suárez Gómez,42704875-5,Persona Natural,3003145556,laura.suárez663@hotmail.com,14,Carrera 18 #81-66,11,4.46,INMEDIATA,5,True,2025-06-09
+51,Daniela Acosta Martínez,39070676-6,Ltda,3138909005,daniela.acosta900@gmail.com,37,Carrera 29 #107-53,0,3.77,INMEDIATA,12,True,2025-06-30
+52,Paula Castro Moreno,27745355-5,Persona Natural,3011277874,paula.castro236@gmail.com,39,Diagonal 106 #20-78,9,4.62,PROGRAMADA,12,True,2025-09-07
+53,Ana Martínez Jiménez,80067590-0,PN,3127213902,ana.martínez924@hotmail.com,31,Diagonal 30 #103-62,6,3.83,PROGRAMADA,15,False,2025-10-19
+54,Ana Jiménez Martínez,48019408-8,SAS,3157855954,ana.jiménez489@outlook.com,9,Calle 91 #96-102,10,4.33,PROGRAMADA,3,True,2025-06-15
+55,Paula Jiménez Reyes,44042008-8,Persona Natural,3109994347,paula.jiménez159@gmail.com,24,Transversal 79 #36-88,3,4.5,PROGRAMADA,12,True,2025-07-27
+56,Valentina Suárez Moreno,28531242-2,Ltda,3222997927,valentina.suárez592@outlook.com,17,Diagonal 101 #90-21,9,4.65,HOY,12,True,2025-10-16
+57,Diana Moreno López,73306295-5,PN,3238304421,diana.moreno824@gmail.com,41,Transversal 29 #48-11,1,3.79,HOY,12,True,2025-07-06
+58,Carlos Hernández Sánchez,98165507-7,PN,3239693169,carlos.hernández450@empresa.com.co,41,Calle 101 #77-66,3,4.26,INMEDIATA,15,True,2025-06-24
+59,María Hernández Rojas,99880518-8,Persona Natural,3127802338,maría.hernández799@outlook.com,6,Calle 95 #91-9,10,3.99,PROGRAMADA,12,False,2025-07-22
+60,Camilo Pérez Reyes,10624307-7,Persona Natural,3103936596,camilo.pérez466@hotmail.com,39,Calle 72 #10-65,3,5,PROGRAMADA,8,False,2025-09-18
+61,Mónica Moreno Vargas,71585593-3,SAS,3168729606,mónica.moreno789@empresa.com.co,37,Calle 62 #15-34,11,4.59,INMEDIATA,15,True,2025-07-13
+62,Felipe Rubio Pérez,48559355-5,Ltda,3017692945,felipe.rubio718@gmail.com,35,Transversal 10 #71-120,7,4.69,INMEDIATA,12,True,2025-10-15
+63,Laura Sánchez Sánchez,40763714-4,Ltda,3055189194,laura.sánchez894@hotmail.com,16,Transversal 20 #100-14,7,4.44,PROGRAMADA,10,True,2025-09-09
+64,Laura Rojas Suárez,34544645-5,Ltda,3219575399,laura.rojas505@outlook.com,40,Carrera 97 #74-17,12,4.6,HOY,12,True,2025-07-21
+65,Diana Castro Gómez,38286706-6,PN,3122690268,diana.castro324@empresa.com.co,8,Transversal 24 #71-34,6,4.86,PROGRAMADA,8,True,2025-08-29
+66,Pedro Jiménez Ramírez,70495821-1,Persona Natural,3023200150,pedro.jiménez374@outlook.com,45,Carrera 105 #13-93,5,4.66,HOY,10,True,2025-06-01
+67,María Hernández Suárez,50269906-6,Ltda,3101800429,maría.hernández138@empresa.com.co,27,Carrera 8 #28-105,5,5,INMEDIATA,10,True,2025-06-29
+68,Felipe Cortés Jiménez,26272220-0,PN,3114337963,felipe.cortés353@outlook.com,36,Carrera 100 #37-46,3,4.83,PROGRAMADA,10,False,2025-07-30
+69,Andrés Castro Vargas,66615250-0,SAS,3167790959,andrés.castro890@hotmail.com,41,Calle 11 #21-44,6,4.73,HOY,15,True,2025-10-06
+70,Camilo Castro Jiménez,32457056-6,Persona Natural,3021387572,camilo.castro766@outlook.com,50,Carrera 85 #33-96,5,4.11,INMEDIATA,10,True,2025-05-10
+71,Valentina Rodríguez García,45225746-6,PN,3153605071,valentina.rodríguez537@empresa.com.co,2,Diagonal 40 #30-32,5,3.76,INMEDIATA,5,True,2025-06-06
+72,Carlos Rojas Cortés,69706076-6,Ltda,3023970181,carlos.rojas479@empresa.com.co,21,Diagonal 81 #96-82,9,3.93,PROGRAMADA,15,True,2025-07-21
+73,Valentina Pérez Jiménez,44870711-1,Ltda,3026093108,valentina.pérez316@empresa.com.co,6,Carrera 45 #37-61,0,4.13,HOY,10,True,2025-08-12
+74,Carolina Pérez Cortés,68667423-3,Persona Natural,3125192561,carolina.pérez194@outlook.com,1,Diagonal 107 #49-29,5,4.82,INMEDIATA,12,True,2025-09-27
+75,Camilo Torres Martínez,34482277-7,SAS,3025858602,camilo.torres423@outlook.com,42,Diagonal 80 #58-35,4,3.75,HOY,3,True,2025-09-07
+76,Diana García Gómez,41247296-6,Persona Natural,3013528052,diana.garcía129@outlook.com,19,Carrera 44 #54-40,7,3.73,HOY,10,True,2025-05-02
+77,Juan López Martínez,82905989-9,Persona Natural,3134046805,juan.lópez795@outlook.com,4,Transversal 105 #49-107,16,4.41,PROGRAMADA,5,True,2025-08-15
+78,Carlos Sánchez Suárez,62227199-9,SAS,3166236326,carlos.sánchez534@gmail.com,30,Carrera 81 #94-6,5,3.67,INMEDIATA,8,True,2025-07-09
+79,Felipe Rodríguez Pérez,94947603-3,PN,3126444432,felipe.rodríguez997@hotmail.com,43,Transversal 75 #16-51,6,4.24,INMEDIATA,12,True,2025-08-23
+80,Carolina López Suárez,22267708-8,SAS,3166677780,carolina.lópez255@gmail.com,24,Calle 8 #46-83,8,4.81,INMEDIATA,5,True,2025-07-14
+81,Felipe Castro Rojas,28083446-6,Persona Natural,3101662507,felipe.castro22@hotmail.com,47,Diagonal 72 #38-70,5,3.99,INMEDIATA,12,True,2025-08-21
+82,Carolina Cortés Castro,49684512-2,SAS,3225418267,carolina.cortés544@gmail.com,11,Diagonal 1 #100-82,0,4.27,INMEDIATA,12,False,2025-09-29
+83,Paula Martínez Cortés,30687181-1,Persona Natural,3155750117,paula.martínez195@empresa.com.co,43,Transversal 15 #13-67,5,4.17,INMEDIATA,5,False,2025-06-14
+84,Laura Sánchez Suárez,80574548-8,Persona Natural,3155293936,laura.sánchez585@gmail.com,7,Carrera 78 #92-10,14,4.39,PROGRAMADA,10,False,2025-05-14
+85,Carlos Rojas Rodríguez,92803389-9,Ltda,3109875496,carlos.rojas842@empresa.com.co,36,Calle 107 #39-10,15,3.87,INMEDIATA,3,True,2025-09-07
+86,Pedro Sánchez Cortés,84912498-8,SAS,3122770234,pedro.sánchez584@hotmail.com,34,Transversal 87 #59-90,1,3.41,INMEDIATA,5,True,2025-08-31
+87,Diana Cortés Vargas,83830667-7,Ltda,3117236418,diana.cortés956@empresa.com.co,39,Diagonal 106 #93-42,2,3.89,INMEDIATA,10,True,2025-06-28
+88,Mónica Castro Torres,89961933-3,PN,3009684044,mónica.castro744@gmail.com,26,Transversal 1 #39-29,6,4.72,PROGRAMADA,8,False,2025-09-01
+89,Diego Reyes Rojas,30952341-1,Persona Natural,3025445763,diego.reyes39@gmail.com,10,Carrera 30 #33-104,4,4.92,PROGRAMADA,5,True,2025-07-16
+90,Diana Suárez Rodríguez,87347488-8,Ltda,3122316632,diana.suárez610@gmail.com,45,Transversal 45 #113-105,2,4.76,INMEDIATA,5,True,2025-09-25
+91,Daniela Rodríguez Vargas,77431202-2,SAS,3204704361,daniela.rodríguez327@gmail.com,20,Diagonal 58 #97-77,4,4.2,HOY,8,True,2025-05-31
+92,Paula Martínez Ramírez,21419108-8,Persona Natural,3129419194,paula.martínez562@gmail.com,31,Carrera 98 #18-62,1,4.09,PROGRAMADA,12,True,2025-09-28
+93,Sofía Pérez Vargas,87311859-9,Persona Natural,3012887937,sofía.pérez796@outlook.com,5,Diagonal 47 #45-25,3,4.91,INMEDIATA,8,True,2025-07-22
+94,Mónica Acosta Sánchez,60173377-7,SAS,3022439727,mónica.acosta46@empresa.com.co,10,Calle 32 #80-119,10,5,HOY,3,True,2025-05-22
+95,Mónica Suárez Sánchez,83339816-6,SAS,3145339561,mónica.suárez215@outlook.com,2,Carrera 89 #90-86,11,4.38,PROGRAMADA,12,True,2025-06-06
+96,Andrés Sánchez Gómez,18938604-4,Persona Natural,3125551832,andrés.sánchez55@outlook.com,45,Transversal 111 #14-3,3,5,HOY,5,False,2025-09-01
+97,Paula Suárez Rubio,71469875-5,SAS,3141360516,paula.suárez191@gmail.com,39,Transversal 43 #63-51,5,4.2,PROGRAMADA,8,True,2025-07-10
+98,Santiago Ramírez Gómez,84482698-8,Persona Natural,3104784649,santiago.ramírez900@outlook.com,4,Diagonal 85 #18-12,5,3.7,PROGRAMADA,12,False,2025-10-16
+99,Jorge Pérez Acosta,54195849-9,Ltda,3133210769,jorge.pérez437@hotmail.com,37,Carrera 75 #70-88,8,3.35,HOY,15,True,2025-09-05
+100,Jorge López Cortés,81532887-7,PN,3202986209,jorge.lópez326@hotmail.com,42,Carrera 94 #4-98,1,5,HOY,8,True,2025-10-04
+101,Luisa Sánchez Acosta,92805158-8,PN,3104874049,luisa.sánchez190@hotmail.com,7,Carrera 88 #4-46,12,4.72,INMEDIATA,12,False,2025-08-22
+102,Felipe Hernández Hernández,35938895-5,SAS,3051540722,felipe.hernández486@empresa.com.co,25,Calle 119 #35-53,7,5,INMEDIATA,5,True,2025-08-14
+103,Laura Vargas Rodríguez,91594977-7,Persona Natural,3207381619,laura.vargas438@hotmail.com,30,Diagonal 79 #96-74,1,3.96,PROGRAMADA,3,True,2025-08-17
+104,Carlos Pérez Cortés,61995659-9,PN,3141827040,carlos.pérez753@empresa.com.co,34,Diagonal 51 #114-39,6,3.89,INMEDIATA,10,True,2025-05-07
+105,Santiago López Hernández,88577462-2,PN,3233270069,santiago.lópez93@empresa.com.co,30,Transversal 58 #4-23,2,4.61,INMEDIATA,10,True,2025-07-15
+106,Diana García Rojas,21449650-0,Persona Natural,3147443916,diana.garcía724@gmail.com,6,Carrera 49 #71-49,8,4.38,HOY,12,False,2025-06-01
+107,Luisa Hernández Torres,69895766-6,Ltda,3104031576,luisa.hernández430@gmail.com,50,Carrera 26 #1-80,6,4.22,HOY,10,True,2025-04-25
+108,Laura Pérez Castro,20657547-7,Persona Natural,3151110277,laura.pérez465@empresa.com.co,14,Transversal 80 #81-72,7,3.99,INMEDIATA,5,True,2025-07-22
+109,Luisa Rodríguez Rodríguez,24614652-2,PN,3123990511,luisa.rodríguez340@outlook.com,43,Transversal 79 #85-89,4,3.68,PROGRAMADA,5,False,2025-09-19
+110,Carlos Martínez Moreno,19082067-7,Ltda,3218169304,carlos.martínez331@outlook.com,50,Calle 38 #61-18,11,4.99,HOY,12,True,2025-06-16
+111,Pedro Acosta Suárez,91171931-1,PN,3235818203,pedro.acosta586@gmail.com,4,Transversal 34 #68-74,9,4.29,INMEDIATA,12,True,2025-09-04
+112,Laura Suárez Sánchez,10212187-7,Ltda,3011402431,laura.suárez726@hotmail.com,12,Calle 95 #109-27,10,3.0,HOY,3,True,2025-09-14
+113,Pedro Gómez Ramírez,19104802-2,Ltda,3106037929,pedro.gómez707@hotmail.com,41,Transversal 99 #1-15,4,3.88,PROGRAMADA,12,True,2025-05-01
+114,Pedro Vargas Rodríguez,96657974-4,Persona Natural,3029078154,pedro.vargas939@empresa.com.co,22,Diagonal 115 #111-69,9,3.96,HOY,15,True,2025-09-04
+115,Diego Vargas Rojas,18886963-3,Ltda,3025705338,diego.vargas214@gmail.com,36,Transversal 49 #81-69,8,3.76,HOY,5,True,2025-07-11
+116,Carlos Ramírez Rojas,70653840-0,SAS,3226077267,carlos.ramírez509@gmail.com,27,Transversal 23 #15-48,7,3.45,INMEDIATA,10,True,2025-08-25
+117,Luisa Sánchez Vargas,29232735-5,Ltda,3212648387,luisa.sánchez751@empresa.com.co,22,Carrera 27 #93-5,0,4.5,PROGRAMADA,3,True,2025-05-05
+118,Carolina Martínez García,79870757-7,PN,3216242557,carolina.martínez911@empresa.com.co,22,Transversal 82 #115-27,4,4.6,HOY,12,True,2025-08-14
+119,Ana Ramírez Gómez,93610257-7,PN,3149624506,ana.ramírez281@hotmail.com,10,Transversal 71 #41-35,9,4.91,HOY,12,True,2025-05-12
+120,Carolina Vargas Gómez,73181059-9,SAS,3231846511,carolina.vargas52@empresa.com.co,35,Calle 12 #55-51,8,4.91,PROGRAMADA,15,False,2025-10-20
+121,Carolina Rojas Cortés,20542212-2,SAS,3238813071,carolina.rojas838@outlook.com,20,Calle 105 #103-118,5,4.09,HOY,15,True,2025-08-21
+122,Sofía Pérez Moreno,34609232-2,Ltda,3206541983,sofía.pérez935@outlook.com,10,Transversal 59 #63-4,7,4.4,HOY,10,False,2025-07-05
+123,Carolina Reyes Vargas,84645170-0,PN,3162189907,carolina.reyes416@gmail.com,9,Diagonal 52 #76-53,6,4.67,INMEDIATA,10,True,2025-07-20
+124,Diego Jiménez Hernández,98934311-1,SAS,3162306851,diego.jiménez558@outlook.com,28,Diagonal 15 #76-77,1,4.45,HOY,5,True,2025-08-05
+125,Carolina García Rodríguez,22151134-4,Persona Natural,3053330636,carolina.garcía336@empresa.com.co,44,Calle 97 #19-85,8,4.8,HOY,12,True,2025-06-13
+126,Paula Torres Rojas,21983952-2,Persona Natural,3151136218,paula.torres941@outlook.com,37,Diagonal 109 #17-110,4,4.76,PROGRAMADA,3,True,2025-09-14
+127,Ana Torres Vargas,61377152-2,Persona Natural,3127401599,ana.torres443@hotmail.com,2,Carrera 85 #23-61,9,4.79,HOY,10,True,2025-10-12
+128,Luisa Gómez Jiménez,28223512-2,Persona Natural,3013302174,luisa.gómez148@gmail.com,5,Diagonal 111 #59-115,7,3.64,HOY,12,True,2025-09-01
+129,Valentina Castro Jiménez,91144449-9,SAS,3009357686,valentina.castro232@outlook.com,25,Carrera 92 #65-35,1,4.63,HOY,3,False,2025-09-16
+130,Felipe García López,80653292-2,PN,3225687895,felipe.garcía985@empresa.com.co,38,Calle 67 #114-79,9,4.6,PROGRAMADA,15,False,2025-05-13
+131,Valentina Reyes Cortés,11447323-3,Ltda,3138617439,valentina.reyes926@gmail.com,20,Diagonal 74 #94-43,2,4.91,HOY,8,True,2025-10-18
+132,Andrés Reyes Reyes,32693431-1,Persona Natural,3151866037,andrés.reyes645@gmail.com,17,Transversal 104 #95-80,10,4.4,INMEDIATA,12,True,2025-07-04
+133,Luisa Acosta Gómez,24971907-7,Ltda,3153929534,luisa.acosta879@outlook.com,18,Carrera 85 #58-48,7,3.94,PROGRAMADA,5,True,2025-09-06
+134,Paula Martínez Jiménez,61427803-3,Persona Natural,3058385078,paula.martínez858@hotmail.com,10,Carrera 27 #74-94,6,4.16,HOY,3,True,2025-08-20
+135,Laura Torres Suárez,45248951-1,Persona Natural,3029899342,laura.torres389@hotmail.com,31,Calle 37 #119-103,0,4.54,PROGRAMADA,15,False,2025-05-18
+136,Felipe Jiménez Ramírez,23190487-7,Ltda,3107562471,felipe.jiménez344@outlook.com,40,Carrera 94 #87-76,6,3.7,PROGRAMADA,15,False,2025-07-13
+137,María Gómez Rubio,23946199-9,PN,3168481668,maría.gómez422@gmail.com,5,Transversal 33 #25-5,7,4.33,PROGRAMADA,15,False,2025-06-18
+138,Ana García García,34731360-0,SAS,3105942041,ana.garcía385@hotmail.com,6,Calle 82 #59-119,12,4.27,PROGRAMADA,15,True,2025-07-15
+139,Diana Martínez Vargas,18060935-5,Persona Natural,3105440339,diana.martínez392@gmail.com,18,Calle 63 #119-26,4,4.1,HOY,3,True,2025-08-12
+140,Carolina García Martínez,19450582-2,PN,3155204309,carolina.garcía106@outlook.com,29,Calle 115 #64-20,5,4.28,INMEDIATA,15,True,2025-06-01
+141,Paula Moreno Suárez,68526669-9,Persona Natural,3122176077,paula.moreno528@gmail.com,37,Calle 50 #89-105,6,4.05,PROGRAMADA,8,True,2025-07-10
+142,Carlos Martínez Torres,96945247-7,Persona Natural,3053963163,carlos.martínez83@outlook.com,24,Diagonal 85 #25-39,3,3.3,PROGRAMADA,15,True,2025-05-15
+143,Mónica Sánchez Reyes,42008932-2,PN,3137522436,mónica.sánchez198@gmail.com,9,Transversal 64 #69-107,9,3.09,INMEDIATA,3,True,2025-07-19
+144,Daniela García Reyes,41270805-5,SAS,3232208521,daniela.garcía963@empresa.com.co,14,Carrera 63 #84-3,2,4.5,INMEDIATA,5,True,2025-05-27
+145,Diana Rodríguez Reyes,18584245-5,SAS,3222783941,diana.rodríguez468@gmail.com,20,Carrera 9 #103-26,0,4.71,PROGRAMADA,15,True,2025-05-24
+146,Diego Cortés Rodríguez,89602555-5,SAS,3026628818,diego.cortés857@outlook.com,9,Transversal 19 #97-54,7,4.72,INMEDIATA,10,True,2025-09-19
+147,Luisa García Gómez,75359668-8,SAS,3011106528,luisa.garcía797@empresa.com.co,41,Calle 91 #84-76,9,3.96,HOY,15,True,2025-05-30
+148,Camilo Rubio Acosta,15049433-3,SAS,3154019906,camilo.rubio245@empresa.com.co,29,Calle 81 #106-101,4,4.79,PROGRAMADA,5,True,2025-09-06
+149,Carolina Rojas Ramírez,17122803-3,SAS,3052890441,carolina.rojas476@hotmail.com,49,Diagonal 64 #23-21,5,4.17,PROGRAMADA,8,True,2025-08-13
+150,Paula Acosta Rodríguez,82123324-4,PN,3023651565,paula.acosta45@empresa.com.co,49,Diagonal 66 #15-10,11,3.81,PROGRAMADA,12,True,2025-06-13
+151,Paula Pérez García,41825487-7,SAS,3207922203,paula.pérez334@gmail.com,50,Diagonal 115 #29-10,1,4.4,HOY,5,True,2025-09-27
+152,Diana Moreno Rojas,46197787-7,SAS,3056635321,diana.moreno469@hotmail.com,24,Calle 36 #18-15,8,3.86,INMEDIATA,8,True,2025-07-08
+153,Diana Acosta Rubio,75661110-0,Persona Natural,3224631304,diana.acosta89@hotmail.com,11,Diagonal 36 #2-94,1,4.74,INMEDIATA,8,True,2025-06-19
+154,Luisa Reyes Suárez,77674770-0,PN,3008142021,luisa.reyes46@empresa.com.co,1,Diagonal 104 #103-90,7,3.81,INMEDIATA,3,True,2025-04-27
+155,Jorge Sánchez Martínez,12138110-0,SAS,3136114309,jorge.sánchez303@outlook.com,9,Diagonal 110 #74-96,3,3.61,HOY,5,False,2025-08-05
+156,Felipe Castro Moreno,54681905-5,PN,3141548852,felipe.castro882@gmail.com,46,Transversal 90 #79-70,3,4.14,PROGRAMADA,3,True,2025-07-18
+157,Santiago Rojas Castro,93098685-5,Ltda,3007133266,santiago.rojas393@gmail.com,4,Calle 72 #91-100,9,5,INMEDIATA,12,True,2025-08-24
+158,Pedro Pérez Rubio,66764586-6,Ltda,3101913687,pedro.pérez920@outlook.com,21,Transversal 58 #63-65,3,4.26,PROGRAMADA,12,True,2025-09-07
+159,Mónica Acosta Martínez,20760289-9,Persona Natural,3123999964,mónica.acosta193@gmail.com,24,Calle 14 #22-36,7,4.48,INMEDIATA,5,True,2025-10-01
+160,Andrés Jiménez Jiménez,69573887-7,Ltda,3201360413,andrés.jiménez486@hotmail.com,44,Calle 3 #112-103,7,5,PROGRAMADA,8,True,2025-07-20
+161,Paula Suárez Reyes,27710599-9,Ltda,3236142132,paula.suárez469@empresa.com.co,38,Transversal 30 #62-48,12,4.14,INMEDIATA,5,True,2025-08-18
+162,Carolina Hernández López,31643241-1,SAS,3052961547,carolina.hernández187@outlook.com,46,Transversal 74 #17-57,5,4.62,PROGRAMADA,15,True,2025-07-14
+163,Luisa Rojas García,13345404-4,Ltda,3129378825,luisa.rojas547@hotmail.com,29,Diagonal 119 #41-20,12,4.32,PROGRAMADA,8,True,2025-07-08
+164,Andrés Reyes Vargas,25074747-7,Persona Natural,3209035971,andrés.reyes819@hotmail.com,43,Carrera 87 #71-15,4,4.77,INMEDIATA,10,True,2025-07-16
+165,Carolina Sánchez Sánchez,13026428-8,Ltda,3018473546,carolina.sánchez801@hotmail.com,38,Calle 66 #51-25,0,4.34,PROGRAMADA,3,False,2025-07-25
+166,Luisa Jiménez Torres,56294407-7,PN,3116168814,luisa.jiménez382@empresa.com.co,24,Calle 28 #94-114,5,4.84,HOY,8,True,2025-08-10
+167,Luisa Reyes Torres,73701495-5,SAS,3229813089,,39,Calle 120 #76-97,5,4.34,PROGRAMADA,8,True,2025-09-13
+168,Diego López Torres,84338760-0,Persona Natural,3131708550,diego.lópez853@hotmail.com,13,Transversal 107 #75-39,0,4.33,INMEDIATA,3,True,2025-06-02
+169,Andrés Suárez Suárez,96541691-1,SAS,3051477187,andrés.suárez428@outlook.com,8,Transversal 64 #9-77,5,3.64,PROGRAMADA,10,False,2025-10-01
+170,Laura García Hernández,88068345-5,Ltda,3003451774,laura.garcía866@gmail.com,24,Carrera 46 #21-7,5,4.82,HOY,3,True,2025-09-06
+171,Juan Rubio Acosta,32432603-3,PN,3146412444,juan.rubio784@hotmail.com,13,Transversal 35 #88-90,5,4.09,PROGRAMADA,8,False,2025-04-27
+172,Santiago Torres Hernández,23746292-2,Ltda,3053593001,santiago.torres422@empresa.com.co,24,Carrera 102 #115-72,0,3.68,PROGRAMADA,12,True,2025-10-20
+173,Jorge Castro Gómez,74359847-7,SAS,3116227335,jorge.castro839@gmail.com,5,Carrera 105 #57-114,10,4.25,HOY,5,True,2025-05-01
+174,Sofía López Torres,26823411-1,SAS,3053184699,,45,Diagonal 89 #98-101,6,4.36,HOY,10,True,2025-05-21
+175,Santiago Reyes Rodríguez,18891570-0,Ltda,3101172342,santiago.reyes122@empresa.com.co,4,Calle 118 #78-27,3,4.13,PROGRAMADA,8,True,2025-05-31
+176,Diego Rojas Rubio,86535694-4,SAS,3012662717,diego.rojas876@hotmail.com,23,Calle 68 #28-92,7,4.68,PROGRAMADA,3,False,2025-05-19
+177,Santiago Suárez Hernández,57623448-8,PN,3128115080,santiago.suárez451@hotmail.com,24,Carrera 53 #15-98,8,4.28,INMEDIATA,12,True,2025-07-25
+178,Valentina Rodríguez Moreno,48065683-3,PN,3136234607,valentina.rodríguez506@outlook.com,6,Diagonal 29 #71-53,4,5,INMEDIATA,3,False,2025-08-23
+179,Felipe Hernández Moreno,68795196-6,PN,3142426162,felipe.hernández689@empresa.com.co,1,Diagonal 52 #89-76,12,4.18,INMEDIATA,3,True,2025-06-13
+180,Pedro Acosta Suárez,47382097-7,Persona Natural,3215579723,pedro.acosta239@gmail.com,26,Diagonal 46 #61-86,2,3.99,HOY,12,True,2025-08-18
+181,Ana Ramírez Gómez,23368540-0,SAS,3201886716,ana.ramírez237@empresa.com.co,32,Diagonal 87 #4-23,1,4.81,INMEDIATA,8,True,2025-05-18
+182,Santiago Suárez Suárez,77752405-5,Persona Natural,3106764913,santiago.suárez301@hotmail.com,30,Calle 98 #5-56,7,4.13,HOY,8,False,2025-08-15
+183,Carlos Rodríguez Suárez,67805041-1,SAS,3026242203,carlos.rodríguez906@outlook.com,12,Diagonal 98 #15-73,3,3.65,PROGRAMADA,12,True,2025-08-23
+184,Diana Rubio Reyes,60707149-9,Persona Natural,3156918393,diana.rubio270@empresa.com.co,4,Transversal 42 #8-4,4,4.16,HOY,8,False,2025-09-20
+185,Paula Moreno Jiménez,57146562-2,Ltda,3005097480,paula.moreno354@empresa.com.co,7,Transversal 76 #11-117,2,3.37,INMEDIATA,8,True,2025-09-08
+186,Carlos Castro Ramírez,12738346-6,Persona Natural,3208880256,carlos.castro582@empresa.com.co,43,Transversal 49 #74-50,5,4.5,HOY,3,True,2025-06-15
+187,Laura Rubio Rojas,68517739-9,Ltda,3059337466,laura.rubio171@outlook.com,49,Calle 108 #109-69,6,4.68,HOY,12,True,2025-06-20
+188,Juan Reyes Reyes,81278157-7,PN,3138165647,juan.reyes280@outlook.com,7,Calle 84 #106-39,2,4.29,PROGRAMADA,12,True,2025-08-08
+189,Camilo Acosta Gómez,94267786-6,SAS,3209660803,camilo.acosta688@empresa.com.co,33,Diagonal 28 #85-106,5,3.74,PROGRAMADA,12,False,2025-08-13
+190,Carlos Rubio Pérez,30196097-7,SAS,3206037789,carlos.rubio474@outlook.com,13,Diagonal 41 #111-107,10,3.92,HOY,8,False,2025-10-06
+191,Camilo Acosta López,35758531-1,PN,3005120259,camilo.acosta245@empresa.com.co,16,Transversal 60 #63-72,10,4.27,INMEDIATA,5,True,2025-05-28
+192,Camilo Ramírez Suárez,12672106-6,PN,3002408104,camilo.ramírez660@hotmail.com,43,Transversal 111 #9-116,14,4.0,PROGRAMADA,15,False,2025-08-03
+193,Sofía García Suárez,22112987-7,Ltda,3053051464,sofía.garcía535@gmail.com,37,Transversal 43 #107-75,5,3.4,PROGRAMADA,5,False,2025-06-18
+194,Ana Hernández Ramírez,89118793-3,Persona Natural,3009226851,ana.hernández451@outlook.com,14,Calle 41 #70-55,3,4.36,HOY,5,True,2025-07-27
+195,María Acosta Ramírez,84185883-3,SAS,3126188664,maría.acosta708@gmail.com,3,Transversal 116 #104-88,11,5.0,HOY,10,True,2025-08-02
+196,Andrés Martínez Hernández,68900892-2,SAS,3166321470,andrés.martínez305@hotmail.com,49,Diagonal 102 #5-36,10,3.61,HOY,10,True,2025-07-18
+197,Ana Hernández Rojas,66488286-6,PN,3156482263,ana.hernández519@outlook.com,45,Calle 98 #7-83,2,3.75,PROGRAMADA,5,True,2025-06-14
+198,Andrés Vargas Pérez,79305456-6,SAS,3203182597,andrés.vargas114@gmail.com,37,Diagonal 102 #41-58,0,4.41,HOY,5,True,2025-07-16
+199,Pedro Martínez Moreno,86556525-5,Persona Natural,3051347869,pedro.martínez187@outlook.com,27,Carrera 117 #12-60,7,5,INMEDIATA,3,True,2025-08-11
+200,Camilo López Gómez,80576741-1,PN,3128611954,camilo.lópez175@outlook.com,6,Diagonal 16 #29-92,8,5,HOY,8,True,2025-07-30
+201,Jorge Sánchez Sánchez,66147435-5,Ltda,3027853897,jorge.sánchez844@hotmail.com,39,Calle 38 #34-31,0,3.57,HOY,12,True,2025-08-19
+202,María Suárez Sánchez,61471888-8,Persona Natural,3208101643,maría.suárez998@outlook.com,9,Transversal 10 #13-72,9,4.46,INMEDIATA,10,False,2025-09-26
+203,Carolina Rodríguez Torres,62975309-9,Persona Natural,3167222689,carolina.rodríguez517@outlook.com,1,Calle 75 #23-34,8,4.81,HOY,10,True,2025-07-14
+204,Jorge López López,77002914-4,PN,3225714408,jorge.lópez321@gmail.com,17,Diagonal 37 #116-113,5,5,HOY,12,True,2025-06-05
+205,Laura López López,17323881-1,SAS,3054072601,laura.lópez55@empresa.com.co,36,Transversal 21 #91-60,6,4.94,HOY,3,True,2025-09-14
+206,Mónica Suárez Martínez,37344675-5,Ltda,3225766683,mónica.suárez127@hotmail.com,8,Carrera 96 #66-106,4,5,PROGRAMADA,5,True,2025-04-25
+207,Diego Hernández García,54111700-0,Persona Natural,3005769447,diego.hernández253@gmail.com,27,Calle 51 #48-76,7,4.2,HOY,5,True,2025-08-19
+208,Laura Castro Vargas,15885044-4,PN,3168601790,laura.castro609@outlook.com,41,Carrera 28 #111-7,7,3.91,INMEDIATA,15,True,2025-09-25
+209,Juan Moreno Martínez,12753078-8,Persona Natural,3224493397,juan.moreno246@hotmail.com,17,Diagonal 37 #83-97,8,4.22,HOY,10,False,2025-07-12
+210,Carolina López Rubio,36826266-6,Ltda,3138473283,carolina.lópez853@gmail.com,23,Diagonal 35 #73-77,0,4.69,HOY,12,True,2025-10-02
+211,Juan Rodríguez Pérez,96920825-5,Persona Natural,3163601637,juan.rodríguez997@outlook.com,33,Calle 38 #60-56,12,4.73,HOY,5,False,2025-10-16
+212,Sofía Rubio Cortés,20272020-0,PN,3231756566,sofía.rubio583@outlook.com,28,Diagonal 53 #13-60,3,3.75,HOY,8,True,2025-05-14
+213,María García Moreno,16074522-2,SAS,3017983542,maría.garcía184@empresa.com.co,48,Transversal 41 #76-93,0,4.51,PROGRAMADA,8,True,2025-06-10
+214,Diana Martínez Jiménez,81722733-3,PN,3001098097,diana.martínez893@outlook.com,48,Calle 22 #84-62,2,4.43,PROGRAMADA,15,True,2025-08-26
+215,Carolina Acosta Martínez,26789227-7,Ltda,3021232799,carolina.acosta824@empresa.com.co,24,Calle 90 #25-110,10,4.4,INMEDIATA,15,True,2025-10-01
+216,Pedro Martínez Jiménez,12928205-5,Persona Natural,3013786787,pedro.martínez152@empresa.com.co,20,Diagonal 63 #61-3,9,3.79,INMEDIATA,8,True,2025-08-02
+217,Paula Gómez Reyes,89972230-0,Persona Natural,3205878387,paula.gómez426@empresa.com.co,7,Diagonal 63 #66-76,4,3.14,HOY,5,True,2025-09-06
+218,Jorge Reyes Suárez,25695520-0,Persona Natural,3136817736,jorge.reyes275@gmail.com,21,Diagonal 3 #21-37,5,3.74,HOY,5,True,2025-09-21
+219,Paula Acosta Moreno,65950146-6,Ltda,3227044085,paula.acosta135@empresa.com.co,46,Carrera 80 #27-37,5,4.1,HOY,5,True,2025-06-03
+220,Laura García Sánchez,84736526-6,SAS,3001304180,laura.garcía311@empresa.com.co,27,Transversal 46 #87-21,9,5,PROGRAMADA,3,False,2025-07-19

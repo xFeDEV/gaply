@@ -1,0 +1,51 @@
+id_barrio,id_ciudad,nombre_barrio,estrato
+1,1,Fontibón,3
+2,1,Chapinero,4
+3,1,Bosa,4
+4,1,Teusaquillo,5
+5,1,Usaquén,4
+6,2,Laureles,5
+7,2,Robledo,3
+8,2,Belén,3
+9,2,Manrique,3
+10,2,El Poblado,3
+11,3,San Antonio,5
+12,3,Santa Mónica,4
+13,3,Granada,5
+14,3,Aguablanca,5
+15,3,Ciudad Jardín,4
+16,4,Riomar,4
+17,4,Alto Prado,1
+18,4,La Concepción,3
+19,4,El Prado,3
+20,4,Campo Alegre,2
+21,5,Bocagrande,2
+22,5,Crespo,3
+23,5,Manga,4
+24,5,Getsemaní,4
+25,5,Pie de la Popa,4
+26,6,San Francisco,3
+27,6,Provenza,2
+28,6,Sotomayor,5
+29,6,Cabecera,4
+30,6,La Concordia,2
+31,7,Cuba,2
+32,7,Álamos,2
+33,7,Villavicencio,5
+34,7,Centro,5
+35,7,Pinares,3
+36,8,Milán,2
+37,8,Castilla,3
+38,8,Palermo,2
+39,8,Chipre,3
+40,8,La Enea,5
+41,9,Obonuco,4
+42,9,Las Cuadras,5
+43,9,Centro,2
+44,9,Morasurco,2
+45,9,Anganoy,4
+46,10,La Esmeralda,6
+47,10,Pandiguando,5
+48,10,Bolívar,1
+49,10,Campanario,4
+50,10,Centro,4

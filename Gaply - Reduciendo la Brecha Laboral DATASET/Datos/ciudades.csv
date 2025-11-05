@@ -1,0 +1,11 @@
+id_ciudad,nombre_ciudad,departamento,region,codigo_postal_base
+1,Bogotá,Cundinamarca,Andina,780598
+2,Medellín,Antioquia,Andina,226850
+3,Cali,Valle del Cauca,Pacífico,136336
+4,Barranquilla,Atlántico,Caribe,887683
+5,Cartagena,Bolívar,Caribe,398500
+6,Bucaramanga,Santander,Andina,366898
+7,Pereira,Risaralda,Eje Cafetero,344164
+8,Manizales,Caldas,Eje Cafetero,256427
+9,Pasto,Nariño,Andina,882357
+10,Popayán,Cauca,Andina,217584

@@ -1,0 +1,13 @@
+id_oficio,nombre_oficio,categoria_servicio,descripcion
+1,Plomería,Hogar,Servicios de plomería para hogares/negocios.
+2,Electricidad,Hogar,Servicios de electricidad para hogares/negocios.
+3,Cerrajería,Urgencias,Servicios de cerrajería para hogares/negocios.
+4,Gasodomésticos,Hogar,Servicios de gasodomésticos para hogares/negocios.
+5,Carpintería,Obra y Remodelación,Servicios de carpintería para hogares/negocios.
+6,Pintura,Obra y Remodelación,Servicios de pintura para hogares/negocios.
+7,Aseo Profundo,Limpieza,Servicios de aseo profundo para hogares/negocios.
+8,Mudanzas,Logística,Servicios de mudanzas para hogares/negocios.
+9,Jardinería,Exterior,Servicios de jardinería para hogares/negocios.
+10,Techos y Cubiertas,Obra y Remodelación,Servicios de techos y cubiertas para hogares/negocios.
+11,Reparación Electrodomésticos,Hogar,Servicios de reparación electrodomésticos para hogares/negocios.
+12,Soporte IT Domicilio,Tecnología,Servicios de soporte it domicilio para hogares/negocios.

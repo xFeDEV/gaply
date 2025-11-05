@@ -1,0 +1,221 @@
+id_log,id_solicitud,texto_original,id_oficio_predicho,confianza,modelo_version
+1,104,Se levantó teja por viento y hay filtración,12,0.365,nlp-café-0.4
+2,50,"Mudanza de apartamento, tercer piso sin ascensor",1,0.682,nlp-café-0.4
+3,78,Se tapó el sanitario y huele fuerte,7,0.3,nlp-arepa-0.3
+4,63,La lavadora no exprime y hace ruido,4,0.373,nlp-arepa-0.3
+5,133,"Mudanza de apartamento, tercer piso sin ascensor",12,0.766,nlp-arepa-0.3
+6,53,Se tapó el sanitario y huele fuerte,6,0.439,nlp-café-0.4
+7,138,"Mudanza de apartamento, tercer piso sin ascensor",12,0.685,nlp-koala-0.2
+8,98,"Puerta no abre, cerradura dañada",12,0.376,nlp-café-0.4
+9,137,Da chispazos el tomacorriente de la caja,12,0.3,nlp-arepa-0.3
+10,81,"Mudanza de apartamento, tercer piso sin ascensor",10,0.3,nlp-café-0.4
+11,43,Da chispazos el tomacorriente de la caja,4,0.598,nlp-café-0.4
+12,101,Goteo en tubo del lavamanos,8,0.726,nlp-arepa-0.3
+13,44,Goteo en tubo del lavamanos,5,0.3,nlp-koala-0.2
+14,42,Goteo en tubo del lavamanos,12,0.439,nlp-arepa-0.3
+15,11,El computador no enciende después de apagón,1,0.438,nlp-arepa-0.3
+16,142,La lavadora no exprime y hace ruido,10,0.561,nlp-koala-0.2
+17,5,"Puerta no abre, cerradura dañada",7,0.704,nlp-koala-0.2
+18,70,La lavadora no exprime y hace ruido,10,0.521,nlp-arepa-0.3
+19,92,Da chispazos el tomacorriente de la caja,7,0.512,nlp-koala-0.2
+20,1,El computador no enciende después de apagón,3,0.534,nlp-café-0.4
+21,147,La lavadora no exprime y hace ruido,6,0.533,nlp-café-0.4
+22,11,El computador no enciende después de apagón,1,0.398,nlp-arepa-0.3
+23,171,"Mudanza de apartamento, tercer piso sin ascensor",2,0.689,nlp-café-0.4
+24,61,Se tapó el sanitario y huele fuerte,2,0.571,nlp-café-0.4
+25,122,Goteo en tubo del lavamanos,2,0.357,nlp-café-0.4
+26,28,Se tapó el sanitario y huele fuerte,7,0.532,nlp-arepa-0.3
+27,61,Se tapó el sanitario y huele fuerte,2,0.3,nlp-arepa-0.3
+28,95,Da chispazos el tomacorriente de la caja,11,0.749,nlp-koala-0.2
+29,1,El computador no enciende después de apagón,3,0.328,nlp-café-0.4
+30,89,Goteo en tubo del lavamanos,11,0.632,nlp-café-0.4
+31,104,Se levantó teja por viento y hay filtración,12,0.3,nlp-café-0.4
+32,92,Da chispazos el tomacorriente de la caja,7,0.587,nlp-koala-0.2
+33,92,Da chispazos el tomacorriente de la caja,7,0.432,nlp-koala-0.2
+34,143,"Mudanza de apartamento, tercer piso sin ascensor",8,0.357,nlp-café-0.4
+35,50,"Mudanza de apartamento, tercer piso sin ascensor",1,0.695,nlp-café-0.4
+36,171,"Mudanza de apartamento, tercer piso sin ascensor",2,0.707,nlp-arepa-0.3
+37,111,La lavadora no exprime y hace ruido,5,0.469,nlp-koala-0.2
+38,129,"Necesito pintar sala y comedor, humedad en pared",10,0.657,nlp-café-0.4
+39,5,"Puerta no abre, cerradura dañada",7,0.592,nlp-café-0.4
+40,121,Goteo en tubo del lavamanos,1,0.3,nlp-café-0.4
+41,9,La lavadora no exprime y hace ruido,10,0.3,nlp-café-0.4
+42,53,Se tapó el sanitario y huele fuerte,6,0.457,nlp-café-0.4
+43,32,La lavadora no exprime y hace ruido,12,0.3,nlp-arepa-0.3
+44,76,Goteo en tubo del lavamanos,10,0.382,nlp-arepa-0.3
+45,34,"Mudanza de apartamento, tercer piso sin ascensor",4,0.561,nlp-koala-0.2
+46,101,Goteo en tubo del lavamanos,8,0.49,nlp-café-0.4
+47,88,La lavadora no exprime y hace ruido,2,0.773,nlp-café-0.4
+48,103,Se levantó teja por viento y hay filtración,9,0.691,nlp-arepa-0.3
+49,43,Da chispazos el tomacorriente de la caja,4,0.381,nlp-koala-0.2
+50,97,Goteo en tubo del lavamanos,5,0.3,nlp-koala-0.2
+51,30,"Necesito pintar sala y comedor, humedad en pared",4,0.394,nlp-arepa-0.3
+52,157,La lavadora no exprime y hace ruido,12,0.558,nlp-arepa-0.3
+53,36,La lavadora no exprime y hace ruido,7,0.389,nlp-arepa-0.3
+54,46,Se tapó el sanitario y huele fuerte,2,0.311,nlp-koala-0.2
+55,32,La lavadora no exprime y hace ruido,12,0.565,nlp-arepa-0.3
+56,61,Se tapó el sanitario y huele fuerte,2,0.329,nlp-café-0.4
+57,166,Goteo en tubo del lavamanos,10,0.596,nlp-arepa-0.3
+58,8,"Puerta no abre, cerradura dañada",6,0.355,nlp-arepa-0.3
+59,123,El computador no enciende después de apagón,6,0.74,nlp-arepa-0.3
+60,139,Se levantó teja por viento y hay filtración,2,0.373,nlp-arepa-0.3
+61,96,Se levantó teja por viento y hay filtración,8,0.558,nlp-café-0.4
+62,112,"Necesito pintar sala y comedor, humedad en pared",11,0.396,nlp-koala-0.2
+63,60,Se tapó el sanitario y huele fuerte,7,0.521,nlp-arepa-0.3
+64,2,"Mudanza de apartamento, tercer piso sin ascensor",3,0.493,nlp-koala-0.2
+65,36,La lavadora no exprime y hace ruido,7,0.372,nlp-café-0.4
+66,90,La lavadora no exprime y hace ruido,10,0.331,nlp-koala-0.2
+67,180,"Puerta no abre, cerradura dañada",9,0.697,nlp-café-0.4
+68,15,La lavadora no exprime y hace ruido,11,0.3,nlp-koala-0.2
+69,101,Goteo en tubo del lavamanos,8,0.3,nlp-koala-0.2
+70,24,"Puerta no abre, cerradura dañada",3,0.758,nlp-koala-0.2
+71,121,Goteo en tubo del lavamanos,1,0.342,nlp-café-0.4
+72,37,Se tapó el sanitario y huele fuerte,2,0.58,nlp-arepa-0.3
+73,127,La lavadora no exprime y hace ruido,9,0.3,nlp-arepa-0.3
+74,138,"Mudanza de apartamento, tercer piso sin ascensor",12,0.586,nlp-café-0.4
+75,64,"Mudanza de apartamento, tercer piso sin ascensor",3,0.57,nlp-café-0.4
+76,83,Da chispazos el tomacorriente de la caja,7,0.627,nlp-arepa-0.3
+77,142,La lavadora no exprime y hace ruido,10,0.395,nlp-koala-0.2
+78,150,"Necesito pintar sala y comedor, humedad en pared",6,0.601,nlp-koala-0.2
+79,175,Se levantó teja por viento y hay filtración,7,0.705,nlp-koala-0.2
+80,81,"Mudanza de apartamento, tercer piso sin ascensor",10,0.3,nlp-koala-0.2
+81,129,"Necesito pintar sala y comedor, humedad en pared",10,0.397,nlp-arepa-0.3
+82,158,Da chispazos el tomacorriente de la caja,10,0.3,nlp-koala-0.2
+83,15,La lavadora no exprime y hace ruido,11,0.402,nlp-koala-0.2
+84,136,Se levantó teja por viento y hay filtración,1,0.711,nlp-koala-0.2
+85,93,Da chispazos el tomacorriente de la caja,10,0.385,nlp-koala-0.2
+86,67,El computador no enciende después de apagón,7,0.469,nlp-arepa-0.3
+87,69,La lavadora no exprime y hace ruido,7,0.483,nlp-arepa-0.3
+88,164,"Mudanza de apartamento, tercer piso sin ascensor",9,0.329,nlp-koala-0.2
+89,77,"Mudanza de apartamento, tercer piso sin ascensor",5,0.463,nlp-café-0.4
+90,76,Goteo en tubo del lavamanos,10,0.3,nlp-arepa-0.3
+91,31,Goteo en tubo del lavamanos,10,0.414,nlp-arepa-0.3
+92,180,"Puerta no abre, cerradura dañada",9,0.683,nlp-café-0.4
+93,118,"Puerta no abre, cerradura dañada",10,0.32,nlp-arepa-0.3
+94,155,Se tapó el sanitario y huele fuerte,7,0.322,nlp-arepa-0.3
+95,60,Se tapó el sanitario y huele fuerte,7,0.493,nlp-café-0.4
+96,8,"Puerta no abre, cerradura dañada",6,0.333,nlp-koala-0.2
+97,136,Se levantó teja por viento y hay filtración,1,0.331,nlp-koala-0.2
+98,18,Goteo en tubo del lavamanos,12,0.613,nlp-koala-0.2
+99,165,"Puerta no abre, cerradura dañada",5,0.513,nlp-café-0.4
+100,47,La lavadora no exprime y hace ruido,5,0.456,nlp-koala-0.2
+101,132,La lavadora no exprime y hace ruido,8,0.485,nlp-café-0.4
+102,45,"Mudanza de apartamento, tercer piso sin ascensor",9,0.687,nlp-café-0.4
+103,18,Goteo en tubo del lavamanos,12,0.412,nlp-koala-0.2
+104,123,El computador no enciende después de apagón,6,0.526,nlp-koala-0.2
+105,3,La lavadora no exprime y hace ruido,8,0.371,nlp-café-0.4
+106,112,"Necesito pintar sala y comedor, humedad en pared",11,0.31,nlp-café-0.4
+107,17,Se levantó teja por viento y hay filtración,2,0.388,nlp-koala-0.2
+108,114,"Mudanza de apartamento, tercer piso sin ascensor",5,0.615,nlp-arepa-0.3
+109,84,"Puerta no abre, cerradura dañada",4,0.699,nlp-koala-0.2
+110,84,"Puerta no abre, cerradura dañada",4,0.637,nlp-arepa-0.3
+111,132,La lavadora no exprime y hace ruido,8,0.3,nlp-café-0.4
+112,145,"Necesito pintar sala y comedor, humedad en pared",11,0.718,nlp-arepa-0.3
+113,109,"Mudanza de apartamento, tercer piso sin ascensor",12,0.611,nlp-koala-0.2
+114,75,Se levantó teja por viento y hay filtración,1,0.368,nlp-arepa-0.3
+115,128,Se levantó teja por viento y hay filtración,9,0.3,nlp-arepa-0.3
+116,114,"Mudanza de apartamento, tercer piso sin ascensor",5,0.645,nlp-koala-0.2
+117,152,Se tapó el sanitario y huele fuerte,1,0.685,nlp-café-0.4
+118,17,Se levantó teja por viento y hay filtración,2,0.792,nlp-koala-0.2
+119,54,Goteo en tubo del lavamanos,1,0.688,nlp-koala-0.2
+120,151,"Necesito pintar sala y comedor, humedad en pared",7,0.563,nlp-arepa-0.3
+121,97,Goteo en tubo del lavamanos,5,0.577,nlp-arepa-0.3
+122,68,"Necesito pintar sala y comedor, humedad en pared",2,0.783,nlp-arepa-0.3
+123,14,La lavadora no exprime y hace ruido,9,0.566,nlp-café-0.4
+124,150,"Necesito pintar sala y comedor, humedad en pared",6,0.674,nlp-café-0.4
+125,10,Se levantó teja por viento y hay filtración,2,0.3,nlp-café-0.4
+126,153,La lavadora no exprime y hace ruido,11,0.532,nlp-arepa-0.3
+127,59,Se levantó teja por viento y hay filtración,11,0.546,nlp-café-0.4
+128,60,Se tapó el sanitario y huele fuerte,7,0.7,nlp-café-0.4
+129,88,La lavadora no exprime y hace ruido,2,0.3,nlp-café-0.4
+130,22,Se tapó el sanitario y huele fuerte,11,0.524,nlp-arepa-0.3
+131,170,Da chispazos el tomacorriente de la caja,9,0.513,nlp-arepa-0.3
+132,44,Goteo en tubo del lavamanos,5,0.59,nlp-arepa-0.3
+133,71,Da chispazos el tomacorriente de la caja,9,0.642,nlp-café-0.4
+134,133,"Mudanza de apartamento, tercer piso sin ascensor",12,0.379,nlp-café-0.4
+135,158,Da chispazos el tomacorriente de la caja,10,0.635,nlp-café-0.4
+136,95,Da chispazos el tomacorriente de la caja,11,0.463,nlp-café-0.4
+137,95,Da chispazos el tomacorriente de la caja,11,0.694,nlp-arepa-0.3
+138,85,"Necesito pintar sala y comedor, humedad en pared",5,0.581,nlp-café-0.4
+139,90,La lavadora no exprime y hace ruido,10,0.653,nlp-koala-0.2
+140,133,"Mudanza de apartamento, tercer piso sin ascensor",12,0.645,nlp-café-0.4
+141,14,La lavadora no exprime y hace ruido,9,0.307,nlp-koala-0.2
+142,113,Se levantó teja por viento y hay filtración,8,0.647,nlp-arepa-0.3
+143,138,"Mudanza de apartamento, tercer piso sin ascensor",12,0.566,nlp-café-0.4
+144,162,La lavadora no exprime y hace ruido,4,0.703,nlp-koala-0.2
+145,77,"Mudanza de apartamento, tercer piso sin ascensor",5,0.517,nlp-koala-0.2
+146,164,"Mudanza de apartamento, tercer piso sin ascensor",9,0.565,nlp-arepa-0.3
+147,21,Da chispazos el tomacorriente de la caja,7,0.477,nlp-arepa-0.3
+148,149,Se tapó el sanitario y huele fuerte,11,0.517,nlp-arepa-0.3
+149,85,"Necesito pintar sala y comedor, humedad en pared",5,0.687,nlp-arepa-0.3
+150,53,Se tapó el sanitario y huele fuerte,6,0.455,nlp-koala-0.2
+151,134,Da chispazos el tomacorriente de la caja,8,0.797,nlp-café-0.4
+152,27,"Mudanza de apartamento, tercer piso sin ascensor",12,0.3,nlp-café-0.4
+153,56,El computador no enciende después de apagón,12,0.583,nlp-koala-0.2
+154,136,Se levantó teja por viento y hay filtración,1,0.502,nlp-arepa-0.3
+155,138,"Mudanza de apartamento, tercer piso sin ascensor",12,0.3,nlp-koala-0.2
+156,148,La lavadora no exprime y hace ruido,12,0.347,nlp-arepa-0.3
+157,138,"Mudanza de apartamento, tercer piso sin ascensor",12,0.3,nlp-arepa-0.3
+158,148,La lavadora no exprime y hace ruido,12,0.3,nlp-koala-0.2
+159,159,Da chispazos el tomacorriente de la caja,2,0.594,nlp-café-0.4
+160,147,La lavadora no exprime y hace ruido,6,0.578,nlp-koala-0.2
+161,27,"Mudanza de apartamento, tercer piso sin ascensor",12,0.467,nlp-café-0.4
+162,13,La lavadora no exprime y hace ruido,5,0.422,nlp-koala-0.2
+163,144,Da chispazos el tomacorriente de la caja,7,0.717,nlp-arepa-0.3
+164,150,"Necesito pintar sala y comedor, humedad en pared",6,0.325,nlp-arepa-0.3
+165,23,Goteo en tubo del lavamanos,10,0.577,nlp-café-0.4
+166,81,"Mudanza de apartamento, tercer piso sin ascensor",10,0.647,nlp-café-0.4
+167,6,Goteo en tubo del lavamanos,12,0.653,nlp-arepa-0.3
+168,4,El computador no enciende después de apagón,11,0.661,nlp-café-0.4
+169,82,"Necesito pintar sala y comedor, humedad en pared",10,0.317,nlp-café-0.4
+170,102,"Necesito pintar sala y comedor, humedad en pared",2,0.3,nlp-café-0.4
+171,32,La lavadora no exprime y hace ruido,12,0.3,nlp-koala-0.2
+172,150,"Necesito pintar sala y comedor, humedad en pared",6,0.3,nlp-koala-0.2
+173,137,Da chispazos el tomacorriente de la caja,12,0.3,nlp-café-0.4
+174,122,Goteo en tubo del lavamanos,2,0.384,nlp-café-0.4
+175,81,"Mudanza de apartamento, tercer piso sin ascensor",10,0.41,nlp-koala-0.2
+176,110,Goteo en tubo del lavamanos,10,0.3,nlp-koala-0.2
+177,177,"Mudanza de apartamento, tercer piso sin ascensor",1,0.519,nlp-café-0.4
+178,26,Da chispazos el tomacorriente de la caja,5,0.713,nlp-café-0.4
+179,32,La lavadora no exprime y hace ruido,12,0.3,nlp-arepa-0.3
+180,16,La lavadora no exprime y hace ruido,7,0.728,nlp-arepa-0.3
+181,55,Da chispazos el tomacorriente de la caja,10,0.629,nlp-koala-0.2
+182,103,Se levantó teja por viento y hay filtración,9,0.3,nlp-arepa-0.3
+183,179,El computador no enciende después de apagón,1,0.677,nlp-café-0.4
+184,128,Se levantó teja por viento y hay filtración,9,0.323,nlp-arepa-0.3
+185,36,La lavadora no exprime y hace ruido,7,0.749,nlp-koala-0.2
+186,56,El computador no enciende después de apagón,12,0.614,nlp-café-0.4
+187,154,Se levantó teja por viento y hay filtración,5,0.441,nlp-koala-0.2
+188,54,Goteo en tubo del lavamanos,1,0.412,nlp-café-0.4
+189,16,La lavadora no exprime y hace ruido,7,0.623,nlp-café-0.4
+190,86,Se levantó teja por viento y hay filtración,6,0.527,nlp-arepa-0.3
+191,24,"Puerta no abre, cerradura dañada",3,0.42,nlp-arepa-0.3
+192,116,"Mudanza de apartamento, tercer piso sin ascensor",10,0.599,nlp-koala-0.2
+193,167,Se tapó el sanitario y huele fuerte,8,0.401,nlp-arepa-0.3
+194,97,Goteo en tubo del lavamanos,5,0.344,nlp-arepa-0.3
+195,146,Se levantó teja por viento y hay filtración,8,0.312,nlp-arepa-0.3
+196,30,"Necesito pintar sala y comedor, humedad en pared",4,0.3,nlp-arepa-0.3
+197,64,"Mudanza de apartamento, tercer piso sin ascensor",3,0.436,nlp-café-0.4
+198,158,Da chispazos el tomacorriente de la caja,10,0.3,nlp-koala-0.2
+199,131,Se levantó teja por viento y hay filtración,6,0.747,nlp-arepa-0.3
+200,125,"Mudanza de apartamento, tercer piso sin ascensor",4,0.309,nlp-koala-0.2
+201,41,El computador no enciende después de apagón,4,0.527,nlp-arepa-0.3
+202,167,Se tapó el sanitario y huele fuerte,8,0.427,nlp-koala-0.2
+203,88,La lavadora no exprime y hace ruido,2,0.748,nlp-arepa-0.3
+204,46,Se tapó el sanitario y huele fuerte,2,0.513,nlp-arepa-0.3
+205,66,"Necesito pintar sala y comedor, humedad en pared",5,0.354,nlp-café-0.4
+206,175,Se levantó teja por viento y hay filtración,7,0.447,nlp-koala-0.2
+207,27,"Mudanza de apartamento, tercer piso sin ascensor",12,0.574,nlp-café-0.4
+208,119,"Puerta no abre, cerradura dañada",11,0.775,nlp-arepa-0.3
+209,163,Da chispazos el tomacorriente de la caja,1,0.735,nlp-arepa-0.3
+210,138,"Mudanza de apartamento, tercer piso sin ascensor",12,0.723,nlp-café-0.4
+211,77,"Mudanza de apartamento, tercer piso sin ascensor",5,0.446,nlp-arepa-0.3
+212,11,El computador no enciende después de apagón,1,0.785,nlp-koala-0.2
+213,10,Se levantó teja por viento y hay filtración,2,0.313,nlp-café-0.4
+214,140,"Mudanza de apartamento, tercer piso sin ascensor",1,0.3,nlp-arepa-0.3
+215,55,Da chispazos el tomacorriente de la caja,10,0.3,nlp-koala-0.2
+216,125,"Mudanza de apartamento, tercer piso sin ascensor",4,0.452,nlp-arepa-0.3
+217,35,La lavadora no exprime y hace ruido,9,0.76,nlp-café-0.4
+218,27,"Mudanza de apartamento, tercer piso sin ascensor",12,0.358,nlp-arepa-0.3
+219,174,Goteo en tubo del lavamanos,7,0.362,nlp-koala-0.2
+220,136,Se levantó teja por viento y hay filtración,1,0.653,nlp-koala-0.2

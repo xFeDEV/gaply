@@ -1,0 +1,381 @@
+id_calificacion,id_servicio,quien_califica,puntaje,comentario,fecha
+1,68,TRABAJADOR,4.6,Precio alto para lo realizado,2025-09-30
+2,5,TRABAJADOR,3.5,Llegó tarde pero resolvió,2025-04-27
+3,23,TRABAJADOR,3.9,Buena relación calidad/precio,2025-07-10
+4,14,SOLICITANTE,4.5,Trabajo rápido y bien hecho,2025-04-29
+5,88,TRABAJADOR,3.6,Buena relación calidad/precio,2025-07-19
+6,74,TRABAJADOR,4.6,Llegó tarde pero resolvió,2025-04-28
+7,25,TRABAJADOR,4.2,Llegó tarde pero resolvió,2025-05-10
+8,1,SOLICITANTE,4.2,Llegó tarde pero resolvió,2025-10-18
+9,64,SOLICITANTE,3.5,Trabajo rápido y bien hecho,2025-08-18
+10,19,TRABAJADOR,4.8,No solucionó del todo,2025-07-26
+11,40,SOLICITANTE,5,Precio alto para lo realizado,2025-06-29
+12,96,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-07-25
+13,21,TRABAJADOR,4.5,Precio alto para lo realizado,2025-07-04
+14,22,SOLICITANTE,3.4,Trabajo rápido y bien hecho,2025-09-22
+15,53,SOLICITANTE,4.8,Precio alto para lo realizado,2025-07-05
+16,84,SOLICITANTE,4.1,Precio alto para lo realizado,2025-10-16
+17,83,SOLICITANTE,4.9,Precio alto para lo realizado,2025-07-06
+18,32,SOLICITANTE,5,,2025-09-15
+19,58,TRABAJADOR,4.9,Excelente trato y limpieza,2025-07-11
+20,9,TRABAJADOR,3.2,Llegó tarde pero resolvió,2025-08-10
+21,32,TRABAJADOR,4.6,Excelente trato y limpieza,2025-05-29
+22,60,TRABAJADOR,4.4,Trabajo rápido y bien hecho,2025-09-02
+23,5,SOLICITANTE,4.4,Trabajo rápido y bien hecho,2025-08-07
+24,30,SOLICITANTE,3.9,Trabajo rápido y bien hecho,2025-08-10
+25,6,SOLICITANTE,4.6,No solucionó del todo,2025-10-12
+26,58,SOLICITANTE,4.5,Buena relación calidad/precio,2025-07-20
+27,60,SOLICITANTE,4.5,Precio alto para lo realizado,2025-08-06
+28,14,SOLICITANTE,5,Llegó tarde pero resolvió,2025-05-06
+29,47,TRABAJADOR,4.6,Excelente trato y limpieza,2025-08-04
+30,15,SOLICITANTE,5,Precio alto para lo realizado,2025-09-06
+31,46,TRABAJADOR,4.3,Excelente trato y limpieza,2025-09-23
+32,64,SOLICITANTE,4.7,Llegó tarde pero resolvió,2025-10-12
+33,78,TRABAJADOR,5,Precio alto para lo realizado,2025-08-14
+34,56,TRABAJADOR,3.8,Llegó tarde pero resolvió,2025-09-05
+35,18,TRABAJADOR,4.4,Trabajo rápido y bien hecho,2025-07-01
+36,54,TRABAJADOR,5,Buena relación calidad/precio,2025-05-11
+37,7,TRABAJADOR,5,No solucionó del todo,2025-08-21
+38,33,SOLICITANTE,5,No solucionó del todo,2025-09-12
+39,92,TRABAJADOR,4.3,No solucionó del todo,2025-06-26
+40,91,SOLICITANTE,4.2,Llegó tarde pero resolvió,2025-08-30
+41,104,TRABAJADOR,4.6,Buena relación calidad/precio,2025-08-29
+42,101,TRABAJADOR,3.5,Precio alto para lo realizado,2025-08-14
+43,16,TRABAJADOR,3.4,Excelente trato y limpieza,2025-07-07
+44,53,TRABAJADOR,4.6,Excelente trato y limpieza,2025-05-06
+45,62,TRABAJADOR,4.1,Precio alto para lo realizado,2025-06-07
+46,56,SOLICITANTE,4.7,No solucionó del todo,2025-09-23
+47,75,SOLICITANTE,5,No solucionó del todo,2025-04-27
+48,92,TRABAJADOR,4.6,Buena relación calidad/precio,2025-06-17
+49,7,TRABAJADOR,4.8,No solucionó del todo,2025-05-21
+50,53,SOLICITANTE,5,Buena relación calidad/precio,2025-10-10
+51,34,SOLICITANTE,3.5,,2025-05-15
+52,48,TRABAJADOR,5,,2025-04-29
+53,65,TRABAJADOR,3.3,Buena relación calidad/precio,2025-05-12
+54,52,TRABAJADOR,4.1,Trabajo rápido y bien hecho,2025-07-24
+55,66,SOLICITANTE,4.8,,2025-08-31
+56,57,SOLICITANTE,4.2,Trabajo rápido y bien hecho,2025-05-05
+57,61,TRABAJADOR,4.1,Excelente trato y limpieza,2025-06-09
+58,49,SOLICITANTE,4.2,Buena relación calidad/precio,2025-06-03
+59,64,TRABAJADOR,4.9,Precio alto para lo realizado,2025-08-10
+60,65,SOLICITANTE,3.3,,2025-10-12
+61,86,SOLICITANTE,4.7,Llegó tarde pero resolvió,2025-07-23
+62,92,SOLICITANTE,4.3,No solucionó del todo,2025-07-23
+63,6,TRABAJADOR,5,No solucionó del todo,2025-06-08
+64,37,SOLICITANTE,4.1,Trabajo rápido y bien hecho,2025-08-19
+65,103,TRABAJADOR,4.8,Precio alto para lo realizado,2025-05-05
+66,54,TRABAJADOR,4.5,No solucionó del todo,2025-06-30
+67,55,SOLICITANTE,3.8,Llegó tarde pero resolvió,2025-07-12
+68,9,TRABAJADOR,5,Trabajo rápido y bien hecho,2025-06-03
+69,75,SOLICITANTE,4.5,Buena relación calidad/precio,2025-09-09
+70,17,SOLICITANTE,3.5,Precio alto para lo realizado,2025-08-04
+71,90,SOLICITANTE,4.4,No solucionó del todo,2025-08-13
+72,34,TRABAJADOR,2.1,No solucionó del todo,2025-09-18
+73,55,SOLICITANTE,4.7,No solucionó del todo,2025-05-16
+74,10,SOLICITANTE,4.7,Buena relación calidad/precio,2025-10-10
+75,82,SOLICITANTE,4.4,Precio alto para lo realizado,2025-05-21
+76,28,TRABAJADOR,3.9,Llegó tarde pero resolvió,2025-06-26
+77,33,TRABAJADOR,2.7,No solucionó del todo,2025-08-04
+78,100,SOLICITANTE,5,Llegó tarde pero resolvió,2025-08-28
+79,34,SOLICITANTE,4.0,No solucionó del todo,2025-07-14
+80,5,SOLICITANTE,4.2,No solucionó del todo,2025-05-10
+81,97,TRABAJADOR,3.7,Buena relación calidad/precio,2025-09-03
+82,90,TRABAJADOR,3.4,No solucionó del todo,2025-09-10
+83,94,SOLICITANTE,3.9,Excelente trato y limpieza,2025-09-12
+84,13,TRABAJADOR,4.7,No solucionó del todo,2025-05-20
+85,42,SOLICITANTE,4.7,Excelente trato y limpieza,2025-06-30
+86,55,SOLICITANTE,4.1,Buena relación calidad/precio,2025-08-14
+87,65,TRABAJADOR,3.3,No solucionó del todo,2025-05-17
+88,44,TRABAJADOR,5,Trabajo rápido y bien hecho,2025-09-28
+89,93,SOLICITANTE,4.2,Trabajo rápido y bien hecho,2025-08-24
+90,32,TRABAJADOR,4.4,Trabajo rápido y bien hecho,2025-05-14
+91,88,SOLICITANTE,4.3,Precio alto para lo realizado,2025-09-08
+92,104,TRABAJADOR,4.4,,2025-10-06
+93,13,TRABAJADOR,4.8,Llegó tarde pero resolvió,2025-05-08
+94,63,SOLICITANTE,5,Buena relación calidad/precio,2025-05-28
+95,68,TRABAJADOR,4.5,Precio alto para lo realizado,2025-07-29
+96,88,TRABAJADOR,4.5,No solucionó del todo,2025-08-12
+97,53,SOLICITANTE,3.3,Llegó tarde pero resolvió,2025-06-30
+98,2,TRABAJADOR,3.6,Excelente trato y limpieza,2025-07-20
+99,4,TRABAJADOR,5,Llegó tarde pero resolvió,2025-06-19
+100,101,SOLICITANTE,3.9,Llegó tarde pero resolvió,2025-08-05
+101,101,SOLICITANTE,4.6,Buena relación calidad/precio,2025-08-09
+102,90,TRABAJADOR,4.9,Llegó tarde pero resolvió,2025-07-21
+103,7,SOLICITANTE,4.6,,2025-08-10
+104,24,SOLICITANTE,4.7,Excelente trato y limpieza,2025-08-24
+105,85,TRABAJADOR,4.7,Llegó tarde pero resolvió,2025-07-13
+106,9,TRABAJADOR,4.5,Llegó tarde pero resolvió,2025-05-19
+107,48,TRABAJADOR,4.2,No solucionó del todo,2025-10-04
+108,8,SOLICITANTE,4.5,Trabajo rápido y bien hecho,2025-09-21
+109,51,TRABAJADOR,2.3,Buena relación calidad/precio,2025-09-14
+110,26,SOLICITANTE,4.8,Llegó tarde pero resolvió,2025-04-27
+111,58,SOLICITANTE,5,Buena relación calidad/precio,2025-06-30
+112,82,TRABAJADOR,5,Precio alto para lo realizado,2025-09-06
+113,30,TRABAJADOR,4.7,Llegó tarde pero resolvió,2025-07-21
+114,76,TRABAJADOR,4.8,Excelente trato y limpieza,2025-10-03
+115,48,TRABAJADOR,3.6,No solucionó del todo,2025-05-26
+116,86,SOLICITANTE,3.0,Llegó tarde pero resolvió,2025-07-01
+117,5,TRABAJADOR,4.2,Llegó tarde pero resolvió,2025-07-27
+118,84,TRABAJADOR,4.0,Precio alto para lo realizado,2025-05-13
+119,18,SOLICITANTE,4.7,,2025-08-16
+120,99,TRABAJADOR,3.8,Trabajo rápido y bien hecho,2025-08-03
+121,32,TRABAJADOR,3.3,Buena relación calidad/precio,2025-06-05
+122,22,SOLICITANTE,4.9,No solucionó del todo,2025-06-06
+123,61,TRABAJADOR,5,Buena relación calidad/precio,2025-09-09
+124,103,SOLICITANTE,3.9,Precio alto para lo realizado,2025-06-28
+125,92,SOLICITANTE,4.0,Trabajo rápido y bien hecho,2025-06-21
+126,93,SOLICITANTE,4.2,Llegó tarde pero resolvió,2025-07-11
+127,5,SOLICITANTE,5,No solucionó del todo,2025-08-03
+128,61,TRABAJADOR,3.9,Excelente trato y limpieza,2025-06-07
+129,33,TRABAJADOR,4.2,,2025-06-29
+130,55,SOLICITANTE,4.6,No solucionó del todo,2025-10-17
+131,61,SOLICITANTE,4.0,Excelente trato y limpieza,2025-09-12
+132,2,TRABAJADOR,4.3,Precio alto para lo realizado,2025-08-30
+133,85,TRABAJADOR,5,No solucionó del todo,2025-09-30
+134,75,TRABAJADOR,5,Precio alto para lo realizado,2025-10-17
+135,8,TRABAJADOR,4.1,Llegó tarde pero resolvió,2025-10-20
+136,62,SOLICITANTE,4.3,Precio alto para lo realizado,2025-06-22
+137,104,SOLICITANTE,5,,2025-09-09
+138,91,TRABAJADOR,4.4,Precio alto para lo realizado,2025-10-07
+139,76,TRABAJADOR,4.5,Precio alto para lo realizado,2025-06-23
+140,102,SOLICITANTE,4.6,Buena relación calidad/precio,2025-08-29
+141,51,SOLICITANTE,4.7,No solucionó del todo,2025-06-07
+142,66,SOLICITANTE,4.2,Precio alto para lo realizado,2025-05-25
+143,105,SOLICITANTE,3.5,Trabajo rápido y bien hecho,2025-06-07
+144,3,SOLICITANTE,4.2,Excelente trato y limpieza,2025-05-05
+145,66,TRABAJADOR,3.6,Buena relación calidad/precio,2025-04-26
+146,11,TRABAJADOR,4.5,Trabajo rápido y bien hecho,2025-06-23
+147,38,TRABAJADOR,4.8,Buena relación calidad/precio,2025-05-15
+148,66,SOLICITANTE,4.5,No solucionó del todo,2025-06-12
+149,40,TRABAJADOR,3.7,No solucionó del todo,2025-10-14
+150,5,SOLICITANTE,4.8,Trabajo rápido y bien hecho,2025-08-05
+151,1,TRABAJADOR,5,,2025-09-21
+152,57,SOLICITANTE,3.7,Trabajo rápido y bien hecho,2025-10-12
+153,55,TRABAJADOR,5,Trabajo rápido y bien hecho,2025-10-06
+154,48,TRABAJADOR,4.9,Buena relación calidad/precio,2025-06-20
+155,1,TRABAJADOR,3.4,No solucionó del todo,2025-08-04
+156,105,TRABAJADOR,4.3,No solucionó del todo,2025-07-27
+157,98,SOLICITANTE,3.6,Excelente trato y limpieza,2025-06-14
+158,71,SOLICITANTE,3.6,No solucionó del todo,2025-06-03
+159,78,TRABAJADOR,5,Trabajo rápido y bien hecho,2025-09-09
+160,72,SOLICITANTE,2.2,Buena relación calidad/precio,2025-09-28
+161,47,SOLICITANTE,4.8,Llegó tarde pero resolvió,2025-08-11
+162,47,TRABAJADOR,4.7,Excelente trato y limpieza,2025-09-23
+163,17,SOLICITANTE,3.6,Trabajo rápido y bien hecho,2025-10-20
+164,59,SOLICITANTE,4.0,Trabajo rápido y bien hecho,2025-04-25
+165,48,SOLICITANTE,4.8,Trabajo rápido y bien hecho,2025-07-25
+166,66,TRABAJADOR,4.5,Excelente trato y limpieza,2025-10-21
+167,86,SOLICITANTE,4.3,Excelente trato y limpieza,2025-09-25
+168,101,SOLICITANTE,5,Buena relación calidad/precio,2025-07-04
+169,78,TRABAJADOR,4.8,Precio alto para lo realizado,2025-06-08
+170,19,TRABAJADOR,3.7,Excelente trato y limpieza,2025-06-30
+171,35,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-07-21
+172,38,TRABAJADOR,2.9,Llegó tarde pero resolvió,2025-08-31
+173,1,SOLICITANTE,4.5,Precio alto para lo realizado,2025-07-26
+174,1,SOLICITANTE,4.6,Buena relación calidad/precio,2025-10-21
+175,53,TRABAJADOR,4.1,Trabajo rápido y bien hecho,2025-06-17
+176,36,TRABAJADOR,5,No solucionó del todo,2025-07-04
+177,8,SOLICITANTE,4.4,Excelente trato y limpieza,2025-09-03
+178,21,TRABAJADOR,4.1,,2025-05-12
+179,70,TRABAJADOR,3.7,Trabajo rápido y bien hecho,2025-05-09
+180,72,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-08-20
+181,105,SOLICITANTE,4.9,Llegó tarde pero resolvió,2025-05-14
+182,96,TRABAJADOR,4.4,Excelente trato y limpieza,2025-09-16
+183,26,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-08-12
+184,41,SOLICITANTE,5,Buena relación calidad/precio,2025-10-08
+185,65,TRABAJADOR,4.2,No solucionó del todo,2025-10-19
+186,30,SOLICITANTE,4.6,Excelente trato y limpieza,2025-09-17
+187,53,TRABAJADOR,3.4,Precio alto para lo realizado,2025-07-04
+188,99,SOLICITANTE,3.4,No solucionó del todo,2025-09-02
+189,61,SOLICITANTE,5,Llegó tarde pero resolvió,2025-05-15
+190,99,SOLICITANTE,5,Precio alto para lo realizado,2025-09-14
+191,79,TRABAJADOR,4.3,Precio alto para lo realizado,2025-05-11
+192,38,SOLICITANTE,5,Buena relación calidad/precio,2025-06-28
+193,98,SOLICITANTE,4.2,Llegó tarde pero resolvió,2025-06-01
+194,68,SOLICITANTE,3.9,No solucionó del todo,2025-08-11
+195,25,SOLICITANTE,4.7,,2025-07-09
+196,65,SOLICITANTE,2.6,Llegó tarde pero resolvió,2025-07-30
+197,39,TRABAJADOR,3.7,Precio alto para lo realizado,2025-07-17
+198,7,TRABAJADOR,4.8,Buena relación calidad/precio,2025-07-25
+199,80,TRABAJADOR,2.7,Llegó tarde pero resolvió,2025-08-03
+200,27,SOLICITANTE,4.4,Trabajo rápido y bien hecho,2025-07-18
+201,14,SOLICITANTE,4.3,Excelente trato y limpieza,2025-07-12
+202,86,SOLICITANTE,4.6,,2025-08-20
+203,50,SOLICITANTE,4.2,,2025-04-28
+204,43,TRABAJADOR,4.0,Excelente trato y limpieza,2025-10-20
+205,22,SOLICITANTE,3.7,Excelente trato y limpieza,2025-07-27
+206,41,TRABAJADOR,4.1,,2025-05-15
+207,18,SOLICITANTE,4.1,,2025-09-15
+208,8,SOLICITANTE,4.8,,2025-05-14
+209,15,TRABAJADOR,4.8,Precio alto para lo realizado,2025-06-09
+210,103,TRABAJADOR,2.8,Llegó tarde pero resolvió,2025-07-05
+211,64,SOLICITANTE,4.9,Excelente trato y limpieza,2025-05-27
+212,77,SOLICITANTE,5,No solucionó del todo,2025-10-05
+213,30,SOLICITANTE,3.9,Trabajo rápido y bien hecho,2025-08-02
+214,87,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-09-19
+215,1,TRABAJADOR,4.0,Llegó tarde pero resolvió,2025-05-02
+216,55,SOLICITANTE,3.3,Llegó tarde pero resolvió,2025-09-09
+217,81,SOLICITANTE,4.4,,2025-07-19
+218,79,SOLICITANTE,5,,2025-10-16
+219,44,SOLICITANTE,4.2,Trabajo rápido y bien hecho,2025-05-12
+220,8,TRABAJADOR,5,No solucionó del todo,2025-04-28
+221,74,TRABAJADOR,4.0,No solucionó del todo,2025-09-10
+222,92,TRABAJADOR,4.0,Buena relación calidad/precio,2025-08-24
+223,35,SOLICITANTE,4.4,Buena relación calidad/precio,2025-06-18
+224,25,TRABAJADOR,3.8,Llegó tarde pero resolvió,2025-04-29
+225,51,TRABAJADOR,5,Excelente trato y limpieza,2025-06-03
+226,42,SOLICITANTE,4.6,Trabajo rápido y bien hecho,2025-06-17
+227,41,TRABAJADOR,5,Precio alto para lo realizado,2025-06-10
+228,14,TRABAJADOR,3.8,Trabajo rápido y bien hecho,2025-10-10
+229,90,SOLICITANTE,4.3,Precio alto para lo realizado,2025-07-11
+230,13,SOLICITANTE,5,No solucionó del todo,2025-08-09
+231,6,TRABAJADOR,4.3,Precio alto para lo realizado,2025-09-09
+232,53,TRABAJADOR,4.2,Trabajo rápido y bien hecho,2025-08-02
+233,29,SOLICITANTE,4.8,,2025-07-05
+234,43,TRABAJADOR,3.5,No solucionó del todo,2025-09-10
+235,42,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-09-22
+236,40,SOLICITANTE,4.0,Precio alto para lo realizado,2025-06-08
+237,89,SOLICITANTE,4.7,Excelente trato y limpieza,2025-09-04
+238,10,TRABAJADOR,3.4,Trabajo rápido y bien hecho,2025-05-26
+239,57,SOLICITANTE,4.6,Trabajo rápido y bien hecho,2025-06-04
+240,92,SOLICITANTE,4.7,Precio alto para lo realizado,2025-09-26
+241,22,SOLICITANTE,5,,2025-09-05
+242,67,TRABAJADOR,4.0,No solucionó del todo,2025-05-21
+243,65,TRABAJADOR,3.1,Precio alto para lo realizado,2025-07-18
+244,71,SOLICITANTE,4.2,No solucionó del todo,2025-10-17
+245,22,SOLICITANTE,3.0,Excelente trato y limpieza,2025-05-05
+246,97,TRABAJADOR,4.9,Buena relación calidad/precio,2025-06-18
+247,71,TRABAJADOR,3.8,,2025-09-01
+248,62,SOLICITANTE,4.6,Llegó tarde pero resolvió,2025-10-09
+249,66,SOLICITANTE,3.9,Precio alto para lo realizado,2025-08-24
+250,1,SOLICITANTE,4.6,Llegó tarde pero resolvió,2025-10-01
+251,18,SOLICITANTE,4.8,Trabajo rápido y bien hecho,2025-07-04
+252,63,TRABAJADOR,3.6,Buena relación calidad/precio,2025-05-22
+253,54,TRABAJADOR,3.3,No solucionó del todo,2025-06-13
+254,2,SOLICITANTE,4.3,Precio alto para lo realizado,2025-06-16
+255,36,SOLICITANTE,3.3,Precio alto para lo realizado,2025-05-27
+256,64,TRABAJADOR,4.4,Trabajo rápido y bien hecho,2025-06-12
+257,100,SOLICITANTE,4.1,No solucionó del todo,2025-07-18
+258,53,TRABAJADOR,4.2,Trabajo rápido y bien hecho,2025-09-23
+259,57,TRABAJADOR,4.2,Excelente trato y limpieza,2025-09-20
+260,79,SOLICITANTE,4.6,Trabajo rápido y bien hecho,2025-09-24
+261,54,SOLICITANTE,4.6,Excelente trato y limpieza,2025-09-26
+262,21,SOLICITANTE,5,Llegó tarde pero resolvió,2025-09-09
+263,9,TRABAJADOR,5,Excelente trato y limpieza,2025-09-16
+264,103,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-07-26
+265,72,TRABAJADOR,3.9,Excelente trato y limpieza,2025-08-02
+266,97,SOLICITANTE,3.6,Precio alto para lo realizado,2025-09-02
+267,47,TRABAJADOR,4.9,Trabajo rápido y bien hecho,2025-07-06
+268,39,SOLICITANTE,3.7,Precio alto para lo realizado,2025-09-25
+269,92,SOLICITANTE,4.7,No solucionó del todo,2025-04-26
+270,83,TRABAJADOR,4.4,Precio alto para lo realizado,2025-08-13
+271,12,TRABAJADOR,4.6,Precio alto para lo realizado,2025-08-07
+272,18,TRABAJADOR,5,Llegó tarde pero resolvió,2025-06-01
+273,87,SOLICITANTE,4.1,No solucionó del todo,2025-09-23
+274,80,SOLICITANTE,4.3,Precio alto para lo realizado,2025-07-12
+275,85,TRABAJADOR,2.6,Llegó tarde pero resolvió,2025-09-14
+276,104,SOLICITANTE,5,,2025-06-10
+277,86,SOLICITANTE,3.7,Llegó tarde pero resolvió,2025-06-20
+278,34,SOLICITANTE,4.6,Buena relación calidad/precio,2025-05-14
+279,86,TRABAJADOR,4.1,Excelente trato y limpieza,2025-07-01
+280,60,TRABAJADOR,5,Llegó tarde pero resolvió,2025-08-18
+281,76,TRABAJADOR,3.7,Buena relación calidad/precio,2025-10-03
+282,26,TRABAJADOR,4.9,No solucionó del todo,2025-07-02
+283,50,TRABAJADOR,4.0,Trabajo rápido y bien hecho,2025-07-04
+284,11,SOLICITANTE,4.0,No solucionó del todo,2025-04-26
+285,43,TRABAJADOR,4.8,No solucionó del todo,2025-07-20
+286,98,TRABAJADOR,3.7,Llegó tarde pero resolvió,2025-08-03
+287,58,SOLICITANTE,4.0,Trabajo rápido y bien hecho,2025-06-24
+288,59,TRABAJADOR,4.6,Buena relación calidad/precio,2025-05-24
+289,24,TRABAJADOR,4.7,,2025-07-06
+290,86,TRABAJADOR,3.7,Precio alto para lo realizado,2025-06-03
+291,105,SOLICITANTE,3.6,Llegó tarde pero resolvió,2025-07-12
+292,92,SOLICITANTE,3.7,Buena relación calidad/precio,2025-06-20
+293,88,SOLICITANTE,4.6,Trabajo rápido y bien hecho,2025-10-16
+294,64,TRABAJADOR,4.5,Trabajo rápido y bien hecho,2025-09-11
+295,12,TRABAJADOR,4.0,Llegó tarde pero resolvió,2025-07-25
+296,36,SOLICITANTE,3.0,Excelente trato y limpieza,2025-10-15
+297,87,TRABAJADOR,4.8,Trabajo rápido y bien hecho,2025-06-12
+298,21,SOLICITANTE,4.1,Llegó tarde pero resolvió,2025-05-31
+299,57,TRABAJADOR,3.5,Excelente trato y limpieza,2025-08-12
+300,88,TRABAJADOR,3.8,Trabajo rápido y bien hecho,2025-05-09
+301,6,TRABAJADOR,4.5,Precio alto para lo realizado,2025-09-08
+302,4,TRABAJADOR,3.8,Trabajo rápido y bien hecho,2025-06-01
+303,88,SOLICITANTE,5,Buena relación calidad/precio,2025-07-12
+304,41,TRABAJADOR,3.3,Trabajo rápido y bien hecho,2025-09-25
+305,30,SOLICITANTE,3.0,Precio alto para lo realizado,2025-09-06
+306,89,SOLICITANTE,4.0,Trabajo rápido y bien hecho,2025-06-13
+307,80,TRABAJADOR,4.2,Llegó tarde pero resolvió,2025-09-03
+308,23,SOLICITANTE,4.0,Buena relación calidad/precio,2025-08-26
+309,45,SOLICITANTE,4.1,Buena relación calidad/precio,2025-09-28
+310,85,SOLICITANTE,4.7,Precio alto para lo realizado,2025-08-15
+311,90,SOLICITANTE,4.2,No solucionó del todo,2025-06-07
+312,37,TRABAJADOR,4.8,Precio alto para lo realizado,2025-06-20
+313,30,TRABAJADOR,3.3,Excelente trato y limpieza,2025-07-22
+314,61,TRABAJADOR,4.4,Excelente trato y limpieza,2025-06-10
+315,78,TRABAJADOR,4.3,Trabajo rápido y bien hecho,2025-06-03
+316,49,SOLICITANTE,5,Precio alto para lo realizado,2025-07-23
+317,71,SOLICITANTE,4.9,No solucionó del todo,2025-10-02
+318,91,SOLICITANTE,5,Buena relación calidad/precio,2025-06-30
+319,34,TRABAJADOR,4.0,Excelente trato y limpieza,2025-08-15
+320,17,SOLICITANTE,4.9,,2025-06-02
+321,21,SOLICITANTE,5,Buena relación calidad/precio,2025-09-26
+322,33,SOLICITANTE,3.2,Buena relación calidad/precio,2025-10-11
+323,81,SOLICITANTE,5,Precio alto para lo realizado,2025-07-23
+324,8,TRABAJADOR,4.8,Llegó tarde pero resolvió,2025-10-08
+325,50,SOLICITANTE,5,Buena relación calidad/precio,2025-08-24
+326,9,SOLICITANTE,3.9,Buena relación calidad/precio,2025-07-03
+327,31,SOLICITANTE,4.3,Excelente trato y limpieza,2025-06-21
+328,40,SOLICITANTE,4.0,Trabajo rápido y bien hecho,2025-05-12
+329,100,TRABAJADOR,3.7,Precio alto para lo realizado,2025-05-08
+330,101,TRABAJADOR,3.9,Buena relación calidad/precio,2025-07-26
+331,9,TRABAJADOR,3.8,Buena relación calidad/precio,2025-08-23
+332,47,TRABAJADOR,4.2,,2025-10-09
+333,48,SOLICITANTE,4.7,,2025-07-01
+334,10,TRABAJADOR,3.9,,2025-05-17
+335,93,TRABAJADOR,4.7,,2025-09-22
+336,58,TRABAJADOR,3.9,Excelente trato y limpieza,2025-05-29
+337,33,SOLICITANTE,4.7,,2025-10-11
+338,10,TRABAJADOR,5,Trabajo rápido y bien hecho,2025-05-12
+339,74,SOLICITANTE,5,Buena relación calidad/precio,2025-09-29
+340,60,TRABAJADOR,3.4,No solucionó del todo,2025-05-12
+341,55,TRABAJADOR,4.7,Excelente trato y limpieza,2025-09-25
+342,17,TRABAJADOR,3.6,Trabajo rápido y bien hecho,2025-07-19
+343,74,TRABAJADOR,3.3,Buena relación calidad/precio,2025-07-23
+344,82,SOLICITANTE,5,Buena relación calidad/precio,2025-06-14
+345,78,SOLICITANTE,4.0,Buena relación calidad/precio,2025-07-17
+346,25,SOLICITANTE,5,No solucionó del todo,2025-06-09
+347,16,SOLICITANTE,4.1,Trabajo rápido y bien hecho,2025-09-21
+348,46,SOLICITANTE,4.5,Excelente trato y limpieza,2025-07-05
+349,82,TRABAJADOR,3.4,Llegó tarde pero resolvió,2025-05-06
+350,18,TRABAJADOR,5,Llegó tarde pero resolvió,2025-10-11
+351,64,TRABAJADOR,4.0,Llegó tarde pero resolvió,2025-09-22
+352,40,SOLICITANTE,4.0,Llegó tarde pero resolvió,2025-05-02
+353,43,SOLICITANTE,4.6,Trabajo rápido y bien hecho,2025-07-23
+354,90,SOLICITANTE,4.2,Buena relación calidad/precio,2025-07-02
+355,55,SOLICITANTE,4.4,Excelente trato y limpieza,2025-05-22
+356,73,TRABAJADOR,4.9,Precio alto para lo realizado,2025-05-06
+357,48,TRABAJADOR,5,Buena relación calidad/precio,2025-07-27
+358,15,SOLICITANTE,3.6,Buena relación calidad/precio,2025-07-09
+359,11,TRABAJADOR,4.1,No solucionó del todo,2025-09-05
+360,72,TRABAJADOR,3.7,Llegó tarde pero resolvió,2025-08-13
+361,39,TRABAJADOR,3.8,Llegó tarde pero resolvió,2025-07-07
+362,40,TRABAJADOR,4.5,Llegó tarde pero resolvió,2025-08-03
+363,78,SOLICITANTE,3.2,No solucionó del todo,2025-10-21
+364,36,TRABAJADOR,4.0,Llegó tarde pero resolvió,2025-06-30
+365,68,SOLICITANTE,5,Precio alto para lo realizado,2025-09-22
+366,65,TRABAJADOR,5,,2025-09-18
+367,105,TRABAJADOR,5,Trabajo rápido y bien hecho,2025-05-20
+368,98,TRABAJADOR,4.9,Trabajo rápido y bien hecho,2025-05-05
+369,42,TRABAJADOR,5,No solucionó del todo,2025-07-06
+370,91,TRABAJADOR,3.7,No solucionó del todo,2025-05-26
+371,32,SOLICITANTE,5,Trabajo rápido y bien hecho,2025-09-16
+372,39,TRABAJADOR,4.6,No solucionó del todo,2025-05-07
+373,19,TRABAJADOR,4.0,Trabajo rápido y bien hecho,2025-05-23
+374,94,TRABAJADOR,3.9,Llegó tarde pero resolvió,2025-09-23
+375,25,TRABAJADOR,4.8,No solucionó del todo,2025-10-14
+376,1,TRABAJADOR,4.5,No solucionó del todo,2025-05-11
+377,91,TRABAJADOR,4.1,No solucionó del todo,2025-06-29
+378,42,TRABAJADOR,4.0,,2025-09-11
+379,7,SOLICITANTE,4.6,Llegó tarde pero resolvió,2025-06-11
+380,21,SOLICITANTE,4.9,Llegó tarde pero resolvió,2025-06-09
