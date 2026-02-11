@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Navigation } from "@/components/navigation"
+import { PipelineLoader } from "@/components/pipeline-loader"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Search, Zap, Shield, Users, ArrowRight, Sparkles } from "lucide-react"
@@ -102,6 +103,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      {isSearching && <PipelineLoader />}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div
           className="absolute top-0 -left-1/4 w-[800px] h-[800px] rounded-full opacity-20 blur-3xl animate-pulse"

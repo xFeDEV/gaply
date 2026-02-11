@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Navigation } from "@/components/navigation"
+import { PipelineLoader } from "@/components/pipeline-loader"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -30,29 +31,41 @@ export default function SearchPage() {
         })
 
         if (!response.ok) {
-          throw new Error(`Error del servidor: ${response.status}`)
+          let errorMessage = `Error del servidor: ${response.status}`
+          try {
+            const errorData = await response.json()
+            if (errorData.error) {
+              const parsed = typeof errorData.error === 'string' ? JSON.parse(errorData.error) : errorData.error
+              if (parsed.detail) errorMessage = parsed.detail
+            } else if (errorData.detail) {
+              errorMessage = errorData.detail
+            }
+          } catch {
+            // usar mensaje genérico
+          }
+          throw new Error(errorMessage)
         }
 
         const data = await response.json()
-        
+
         // Validar que tenemos datos
         if (!data || !data.analisis) {
           throw new Error("Respuesta inválida del servidor")
         }
 
         console.log("✅ Datos recibidos:", data)
-        
+
         // Guardar los datos en sessionStorage para usarlos en la página de resultados
         sessionStorage.setItem("searchResults", JSON.stringify(data))
-        
+
         // Redirigir a resultados
         router.push(`/resultados?q=${encodeURIComponent(problem)}`)
       } catch (error) {
         console.error("❌ Error al procesar la solicitud:", error)
         setIsSearching(false)
         alert(
-          error instanceof Error 
-            ? `Error: ${error.message}` 
+          error instanceof Error
+            ? error.message
             : "Hubo un error al procesar tu solicitud. Por favor intenta nuevamente."
         )
       }
@@ -78,6 +91,7 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      {isSearching && <PipelineLoader />}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div
           className="absolute top-1/4 left-1/3 w-[600px] h-[600px] rounded-full opacity-15 blur-3xl animate-pulse"
@@ -121,11 +135,11 @@ export default function SearchPage() {
               {/* Mensaje informativo */}
               <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
                 <p className="text-xs text-muted-foreground text-pretty">
-                  ⏱️ <strong>Ten en cuenta:</strong> La búsqueda puede tardar entre 30 segundos y 1 minuto y 30 segundos. 
+                  ⏱️ <strong>Ten en cuenta:</strong> La búsqueda puede tardar entre 30 segundos y 1 minuto y 30 segundos.
                   Por favor, ten paciencia mientras nuestros agentes de IA trabajan para darte la mejor respuesta.
                 </p>
               </div>
-              
+
               <Textarea
                 placeholder="Ejemplo: Se me dañó el enchufe del cuarto y no prende la luz. También hace un ruido extraño cuando intento usarlo..."
                 value={problem}
