@@ -1,9 +1,10 @@
 import os
+import json
+import re
 from datetime import datetime
 from typing import Literal, Annotated
 from pathlib import Path
-from google import genai
-from google.genai.types import HttpOptions
+from openai import AzureOpenAI
 from pydantic import BaseModel, Field
 from models import (
     AnalisisOutput, RecomendacionOutput, AlertaOutput, 
@@ -27,69 +28,96 @@ class CrearSolicitudTool(BaseModel):
     descripcion_usuario: str = Field(..., description="Descripción limpia y estructurada extraída del texto del usuario")
 
 
-def get_gemini_client():
+# ──────────────────────────────────────────────
+# Cliente Azure OpenAI
+# ──────────────────────────────────────────────
+
+def get_openai_client() -> AzureOpenAI:
     """
-    Configura y devuelve el cliente de Gemini.
-    
-    Soporta dos métodos de autenticación:
-    1. Vertex AI con ADC (Application Default Credentials) - Recomendado para producción
-    2. API Key - Fallback o desarrollo
-    
-    La configuración se controla mediante variables de entorno:
-    - GOOGLE_GENAI_USE_VERTEXAI: Si es "True", usa Vertex AI
-    - GOOGLE_APPLICATION_CREDENTIALS: Ruta al archivo JSON de credenciales (para Vertex AI)
-    - GOOGLE_CLOUD_PROJECT: ID del proyecto de Google Cloud (para Vertex AI)
-    - GOOGLE_CLOUD_LOCATION: Ubicación del servicio (para Vertex AI, ej: us-central1)
-    - GOOGLE_API_KEY: API Key de Gemini (fallback)
-    
-    Returns:
-        Cliente de Gemini configurado.
+    Configura y devuelve el cliente de Azure OpenAI.
+
+    Variables de entorno requeridas:
+    - AZURE_OPENAI_ENDPOINT: URL del recurso Azure OpenAI
+    - AZURE_OPENAI_API_KEY: Clave de autenticación
+    - AZURE_OPENAI_API_VERSION: Versión del API (ej: 2024-12-01-preview)
     """
-    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() == "true"
-    
-    if use_vertex:
-        # Modo Vertex AI con ADC
-        # Las credenciales se cargan automáticamente desde GOOGLE_APPLICATION_CREDENTIALS
-        project = os.getenv("GOOGLE_CLOUD_PROJECT")
-        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-        
-        if not project:
-            raise ValueError(
-                "GOOGLE_CLOUD_PROJECT no está configurado. "
-                "Es requerido cuando se usa Vertex AI."
-            )
-        
-        print(f"🔐 Usando Vertex AI con ADC - Proyecto: {project}, Ubicación: {location}")
-        
-        # El cliente se autentica automáticamente usando ADC
-        client = genai.Client(
-            http_options=HttpOptions(api_version="v1")
+    endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    api_key = os.getenv("AZURE_OPENAI_API_KEY")
+    api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-12-01-preview")
+
+    if not endpoint or not api_key:
+        raise ValueError(
+            "Faltan variables de entorno AZURE_OPENAI_ENDPOINT y/o AZURE_OPENAI_API_KEY. "
+            "Configúralas en el archivo .env"
         )
-    else:
-        # Modo API Key (fallback)
-        api_key = os.getenv("GOOGLE_API_KEY")
-        
-        if not api_key:
-            raise ValueError(
-                "No se encontró GOOGLE_API_KEY. "
-                "Asegúrate de configurarla en el archivo docker-compose.yml "
-                "o habilita Vertex AI con GOOGLE_GENAI_USE_VERTEXAI=True"
-            )
-        
-        print("🔑 Usando API Key de Gemini")
-        
-        # Crear el cliente con la API key
-        client = genai.Client(
-            api_key=api_key,
-            http_options=HttpOptions(api_version="v1")
-        )
-    
+
+    print(f"🔑 Conectando a Azure OpenAI → {endpoint}")
+
+    client = AzureOpenAI(
+        azure_endpoint=endpoint,
+        api_key=api_key,
+        api_version=api_version,
+    )
     return client
 
 
 # Inicializar el cliente global
-client = get_gemini_client()
+client = get_openai_client()
 
+# Deployment name (modelo desplegado en Azure)
+DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5-mini")
+
+
+# ──────────────────────────────────────────────
+# Helper: llamar al modelo y devolver texto
+# ──────────────────────────────────────────────
+
+def _chat(system: str, user: str, *,
+          max_tokens: int = 8192, json_mode: bool = True) -> str:
+    """
+    Wrapper interno para llamadas a chat.completions.create.
+    Devuelve el contenido de texto del primer choice.
+    Usa role='developer' en lugar de 'system' (requerido por modelos de razonamiento como gpt-5-mini).
+    """
+    kwargs = dict(
+        model=DEPLOYMENT,
+        messages=[
+            {"role": "developer", "content": system},
+            {"role": "user", "content": user},
+        ],
+        max_completion_tokens=max_tokens,
+    )
+    if json_mode:
+        kwargs["response_format"] = {"type": "json_object"}
+
+    response = client.chat.completions.create(**kwargs)
+
+    content = response.choices[0].message.content
+    if not content:
+        # Reasoning models pueden devolver contenido vacío en algunos casos
+        print(f"⚠️ [LLM] Respuesta vacía. Finish reason: {response.choices[0].finish_reason}")
+        raise ValueError("El modelo devolvió una respuesta vacía")
+
+    return content
+
+
+def _parse_json(text: str, context: str = "LLM") -> dict:
+    """Parse JSON robusto con fallback de regex."""
+    try:
+        return json.loads(text)
+    except Exception:
+        match = re.search(r"\{[\s\S]*\}", text)
+        if match:
+            try:
+                return json.loads(match.group(0))
+            except Exception as e:
+                raise ValueError(f"{context}: no se pudo parsear JSON. Texto: {text[:500]}...") from e
+        raise ValueError(f"{context}: no se encontró JSON. Texto: {text[:500]}...")
+
+
+# ──────────────────────────────────────────────
+#  Función stub para compatibilidad
+# ──────────────────────────────────────────────
 
 def crear_solicitud(
     id_oficio: Annotated[int, "ID del oficio/servicio identificado de la tabla de oficios disponibles"],
@@ -98,223 +126,95 @@ def crear_solicitud(
 ):
     """
     Crea una solicitud de servicio estructurada a partir del texto del usuario.
-    
+
     Esta función es usada por el LLM mediante Function Calling para estructurar
     la información extraída del texto en lenguaje natural del usuario.
-    
-    Args:
-        id_oficio: ID del oficio/servicio identificado de la tabla de oficios disponibles
-        urgencia: Nivel de urgencia (baja, media o alta)
-        descripcion_usuario: Descripción limpia y estructurada extraída del texto del usuario
     """
     pass  # Esta función solo define la interfaz para el LLM
 
 
+# ══════════════════════════════════════════════
+# AGENTE 1 — Generar solicitud estructurada
+# ══════════════════════════════════════════════
+
 async def generar_solicitud_estructurada(texto_usuario_original: str, oficios_disponibles: str) -> CrearSolicitudTool:
     """
     Procesa el texto en lenguaje natural del usuario y lo convierte en una solicitud estructurada
-    usando Google Gemini y Function Calling.
-    
-    Args:
-        texto_usuario_original: El texto que escribió el usuario describiendo su necesidad
-        oficios_disponibles: String con la tabla de oficios disponibles en formato legible
-    
-    Returns:
-        CrearSolicitudTool: Objeto estructurado con id_oficio, urgencia y descripción
+    usando Azure OpenAI (gpt-5-mini) con JSON mode.
     """
-    
-    # System prompt para guiar a Gemini
-    system_instruction = f"""Eres 'TaskPro Assistant', un asistente inteligente que ayuda a usuarios a crear solicitudes de servicios profesionales.
 
-Tu trabajo es:
-1. Leer la solicitud en lenguaje natural del usuario
-2. Identificar el oficio/servicio más apropiado de la tabla de oficios disponibles
-3. Determinar el nivel de urgencia (baja, media, alta) basándote en palabras clave y contexto
-4. Extraer y limpiar la descripción del servicio necesitado
+    system_instruction = f"""Clasifica solicitudes de servicios. Responde SOLO JSON con: id_oficio (int), urgencia ("baja"|"media"|"alta"), descripcion_usuario (str concisa, tercera persona).
 
-[INICIO DE TABLA DE OFICIOS]
+Oficios disponibles:
 {oficios_disponibles}
-[FIN DE TABLA DE OFICIOS]
 
-REGLAS IMPORTANTES:
-- Siempre debes llamar a la función 'crear_solicitud' con los datos estructurados
-- El id_oficio DEBE existir en la tabla de oficios proporcionada
-- La urgencia debe ser: 'baja', 'media' o 'alta'
-  * 'alta': si el usuario menciona "urgente", "ya", "hoy", "emergencia"
-  * 'media': si menciona "pronto", "esta semana", o no especifica tiempo
-  * 'baja': si menciona "cuando puedan", "sin apuro", o fechas lejanas
-- La descripción debe ser clara, concisa y en tercera persona
+Urgencia: alta=urgente/ya/hoy/emergencia, media=pronto/esta semana/sin especificar, baja=sin apuro/cuando puedan.
+El id_oficio DEBE existir en la tabla."""
 
-Ejemplo de transformación:
-Usuario: "Necesito un plomero urgente, se me rompió un caño en la cocina"
-→ id_oficio: [ID del oficio 'Plomero'], urgencia: 'alta', descripcion_usuario: 'Reparación urgente de caño roto en cocina'
-"""
+    user_message = texto_usuario_original
 
-    # Preparar el mensaje del usuario
-    user_message = f"[SOLICITUD DEL USUARIO]\n{texto_usuario_original}"
-    
-    # Llamar a Gemini con function calling
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=user_message,
-            config={
-                "system_instruction": system_instruction,
-                "tools": [crear_solicitud],
-                "response_modalities": ["TEXT"],
-                "temperature": 0.2,  # Baja temperatura para respuestas más determinísticas
-            }
-        )
+        text = _chat(system_instruction, user_message, max_tokens=4096)
     except Exception as e:
-        raise ValueError(f"Error al llamar a Gemini: {str(e)}")
-    
-    # Extraer la llamada a la función
-    if not response.candidates:
-        raise ValueError("No se recibió respuesta del modelo")
-    
-    candidate = response.candidates[0]
-    
-    if not candidate.content or not candidate.content.parts:
-        raise ValueError("La respuesta del modelo no contiene parts")
-    
-    # Buscar la function call en la respuesta
-    function_call = None
-    for part in candidate.content.parts:
-        if hasattr(part, 'function_call') and part.function_call:
-            function_call = part.function_call
-            break
-    
-    if not function_call:
-        # Intentar obtener texto de la respuesta para debugging
-        text_parts = [p.text for p in candidate.content.parts if hasattr(p, 'text')]
-        text_response = " ".join(text_parts) if text_parts else "Sin texto"
-        raise ValueError(f"El modelo no generó una llamada a función. Respuesta: {text_response}")
-    
-    if function_call.name != "crear_solicitud":
-        raise ValueError(f"El modelo llamó a una función inesperada: {function_call.name}")
-    
-    # Extraer y parsear los argumentos
-    args = dict(function_call.args)
-    
-    # Crear y retornar la instancia de CrearSolicitudTool
+        raise ValueError(f"Error al llamar a Azure OpenAI: {str(e)}")
+
+    parsed = _parse_json(text, "Solicitud")
+
     try:
         solicitud_tool = CrearSolicitudTool(
-            id_oficio=int(args['id_oficio']),
-            urgencia=args['urgencia'],
-            descripcion_usuario=args['descripcion_usuario']
+            id_oficio=int(parsed['id_oficio']),
+            urgencia=parsed['urgencia'],
+            descripcion_usuario=parsed['descripcion_usuario']
         )
         return solicitud_tool
     except KeyError as e:
-        raise ValueError(f"Falta el parámetro requerido: {str(e)}. Args recibidos: {args}")
+        raise ValueError(f"Falta el parámetro requerido: {str(e)}. Args recibidos: {parsed}")
     except Exception as e:
-        raise ValueError(f"Error al crear CrearSolicitudTool: {str(e)}. Args recibidos: {args}")
+        raise ValueError(f"Error al crear CrearSolicitudTool: {str(e)}. Args recibidos: {parsed}")
 
+
+# ══════════════════════════════════════════════
+# AGENTE 2 — Analizar solicitud
+# ══════════════════════════════════════════════
 
 async def analizar_solicitud(texto_usuario_original: str, oficios_disponibles: str) -> AnalisisOutput:
     """
     Agente Analista: interpreta la necesidad, sugiere oficio, estima urgencia y precio,
     detecta señales de alerta y formula preguntas aclaratorias.
-
-    Retorna un AnalisisOutput con trazabilidad y campos útiles para UI y auditoría.
     """
 
-    system_instruction = f"""Eres 'TaskPro Analyst', un analista experto en clasificación de servicios técnicos para LATAM.
+    system_instruction = f"""Analista de servicios técnicos LATAM. Responde SOLO JSON con estas claves:
+{{"texto_usuario_original":str, "id_oficio_sugerido":int|null, "nombre_oficio_sugerido":str|null, "urgencia_inferida":"baja"|"media"|"alta"|null, "descripcion_normalizada":str|null, "precio_mercado_estimado":float|null, "explicacion":str|null, "senales_alerta":[str], "necesita_aclaraciones":bool, "preguntas_aclaratorias":[str], "confianza":float|null}}
 
-Objetivo:
-- Entender el problema del usuario y mapearlo al oficio más adecuado de la lista provista.
-- Inferir urgencia ('baja' | 'media' | 'alta').
-- Normalizar la descripción en tercera persona, concisa y clara.
-- Estimar un precio de mercado razonable (si es posible) en moneda local referencial.
-- Detectar señales de alerta (riesgos, términos problemáticos, incoherencias o potencial fraude).
-- Indicar si hacen falta aclaraciones y proponer 1-3 preguntas concretas.
-- Proveer una explicación breve y un puntaje de confianza (0.0 a 1.0).
-
-Contexto de negocio (resumen):
-- Conectar necesidades urgentes y confiables (usuarios) con trabajadores calificados disponibles.
-- Transparencia: explicar por qué se recomienda un oficio.
-- Priorizar seguridad y claridad (alertas, precios fuera de rango, lenguaje agresivo, etc.).
-
-[INICIO DE TABLA DE OFICIOS]
+Oficios:
 {oficios_disponibles}
-[FIN DE TABLA DE OFICIOS]
 
-Formato de salida JSON estricto con las claves EXACTAS:
-{{
-  "texto_usuario_original": str,
-  "id_oficio_sugerido": int | null,
-  "nombre_oficio_sugerido": str | null,
-  "urgencia_inferida": "baja" | "media" | "alta" | null,
-  "descripcion_normalizada": str | null,
-  "precio_mercado_estimado": float | null,
-  "explicacion": str | null,
-  "senales_alerta": [str],
-  "necesita_aclaraciones": bool,
-  "preguntas_aclaratorias": [str],
-  "confianza": float | null
-}}
+Reglas: mapea al oficio más relevante (ID DEBE existir). Urgencia alta=urgente/hoy/emergencia. Precio en moneda local o null. Detecta alertas (fraude, lenguaje agresivo, incoherencias). Confianza 0.0-1.0. Máx 3 preguntas aclaratorias si faltan datos."""
 
-Reglas:
-- Si dudas entre 2 oficios, escoge el más directamente relacionado con la acción solicitada.
-- Si mencionan urgencia explícita ("urgente", "hoy", "inmediato"), marca 'alta'.
-- Si no hay suficiente info para un precio, deja null.
-- No inventes IDs: el id_oficio_sugerido DEBE existir en la tabla provista o deja null.
-"""
-
-    user_message = f"[SOLICITUD DEL USUARIO]\n{texto_usuario_original}"
+    user_message = texto_usuario_original
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=user_message,
-            config={
-                "system_instruction": system_instruction,
-                "response_modalities": ["TEXT"],
-                "temperature": 0.2,
-                "max_output_tokens": 4096,  # Suficiente para análisis completo
-            }
-        )
+        text = _chat(system_instruction, user_message, max_tokens=8192)
     except Exception as e:
-        raise ValueError(f"Error al llamar a Gemini (analista): {str(e)}")
+        raise ValueError(f"Error al llamar a Azure OpenAI (analista): {str(e)}")
 
-    if not response.candidates:
-        raise ValueError("Analista: no se recibió respuesta del modelo")
-
-    candidate = response.candidates[0]
-    text_parts = [getattr(p, 'text', '') for p in getattr(candidate, 'content', {}).parts or []]
-    text = " ".join([t for t in text_parts if t]).strip()
-
-    if not text:
-        raise ValueError("Analista: la respuesta no contiene texto JSON")
-
-    # Intentar parsear JSON de forma robusta
-    import json
-    parsed = None
-    try:
-        parsed = json.loads(text)
-    except Exception:
-        # Heurística: extraer el primer bloque entre llaves
-        import re
-        match = re.search(r"\{[\s\S]*\}", text)
-        if match:
-            try:
-                parsed = json.loads(match.group(0))
-            except Exception as e:
-                raise ValueError(f"Analista: no se pudo parsear JSON. Texto: {text[:500]}...") from e
-        else:
-            raise ValueError(f"Analista: no se encontró JSON en la respuesta. Texto: {text[:500]}...")
+    parsed = _parse_json(text, "Analista")
 
     try:
-        # Normalización de tipos
         if parsed.get("id_oficio_sugerido") is not None:
-            parsed["id_oficio_sugerido"] = int(parsed["id_oficio_sugerido"])  # puede venir como str
+            parsed["id_oficio_sugerido"] = int(parsed["id_oficio_sugerido"])
         if parsed.get("precio_mercado_estimado") is not None:
-            parsed["precio_mercado_estimado"] = float(parsed["precio_mercado_estimado"])  # coerción
+            parsed["precio_mercado_estimado"] = float(parsed["precio_mercado_estimado"])
 
         analisis = AnalisisOutput(**parsed)
         return analisis
     except Exception as e:
         raise ValueError(f"Analista: error creando AnalisisOutput: {str(e)} | parsed={parsed}")
 
+
+# ══════════════════════════════════════════════
+# AGENTE 3 — Recomendar trabajadores
+# ══════════════════════════════════════════════
 
 async def recomendar_trabajadores(
     id_oficio: int, 
@@ -325,132 +225,26 @@ async def recomendar_trabajadores(
 ) -> RecomendacionOutput:
     """
     Agente Recomendador: encuentra y prioriza trabajadores para una solicitud específica.
-    
-    Args:
-        id_oficio: ID del oficio requerido
-        urgencia: Nivel de urgencia ('baja', 'media', 'alta')
-        descripcion_normalizada: Descripción limpia del servicio requerido
-        trabajadores_disponibles: String con datos de trabajadores formateados
-        criterios_ubicacion: Información adicional de ubicación/distancia
-    
-    Returns:
-        RecomendacionOutput: Lista priorizada de trabajadores recomendados con explicaciones
     """
 
-    system_instruction = f"""Eres 'TaskPro Matcher', un agente especializado en conectar solicitudes con los trabajadores más apropiados.
+    system_instruction = f"""Recomienda TOP 5 trabajadores. Responde SOLO JSON:
+{{"total_candidatos_encontrados":int, "trabajadores_recomendados":[{{"id_trabajador":int, "nombre_completo":str, "score_relevancia":float, "distancia_km":float, "motivo_top":"experiencia"|"proximidad"|"precio"|"calificacion"|"disponibilidad", "precio_propuesto":int, "anos_experiencia":int, "calificacion_promedio":float, "explicacion":str, "tiene_arl":bool}}], "criterios_busqueda":{{"urgencia":str,"oficio_id":int}}, "explicacion_algoritmo":str, "confianza_recomendaciones":float}}
 
-Objetivo:
-- Analizar trabajadores disponibles y asignar scores de relevancia (0.0 a 1.0).
-- Priorizar basándote en: experiencia relevante, proximidad, disponibilidad, calificación, precio justo.
-- Generar explicaciones claras de por qué cada trabajador es recomendado.
-- Limitar a los TOP 5 mejores candidatos para evitar sobrecarga cognitiva.
+Solicitud: oficio={id_oficio}, urgencia={urgencia}, desc="{descripcion_normalizada}", ubicación={criterios_ubicacion}
 
-Contexto de la solicitud:
-- Oficio requerido: ID {id_oficio}
-- Urgencia: {urgencia}
-- Descripción: {descripcion_normalizada}
-- Criterios ubicación: {criterios_ubicacion}
-
-[INICIO DE TRABAJADORES DISPONIBLES]
+Trabajadores:
 {trabajadores_disponibles}
-[FIN DE TRABAJADORES DISPONIBLES]
 
-Criterios de scoring (prioridad según urgencia):
-- URGENCIA ALTA: Disponibilidad inmediata (40%), Proximidad (30%), Experiencia (20%), Precio (10%)
-- URGENCIA MEDIA: Experiencia (30%), Calificación (25%), Proximidad (25%), Precio (20%)
-- URGENCIA BAJA: Precio (35%), Calificación (30%), Experiencia (25%), Proximidad (10%)
+Scoring por urgencia — alta: disponibilidad(40%)+proximidad(30%)+experiencia(20%)+precio(10%), media: experiencia(30%)+calificación(25%)+proximidad(25%)+precio(20%), baja: precio(35%)+calificación(30%)+experiencia(25%)+proximidad(10%). Ordenar por score desc. Explicaciones breves y específicas."""
 
-Motivos principales: 'experiencia' | 'proximidad' | 'precio' | 'calificacion' | 'disponibilidad'
-
-FORMATO JSON REQUERIDO (debes devolver EXACTAMENTE esta estructura):
-{{
-  "total_candidatos_encontrados": <número total de trabajadores analizados>,
-  "trabajadores_recomendados": [
-    {{
-      "id_trabajador": <int>,
-      "nombre_completo": "<string>",
-      "score_relevancia": <float entre 0.0 y 1.0>,
-      "distancia_km": <float>,
-      "motivo_top": "<disponibilidad|experiencia|precio|calificacion|proximidad>",
-      "precio_propuesto": <int en COP>,
-      "anos_experiencia": <int>,
-      "calificacion_promedio": <float entre 0 y 5>,
-      "explicacion": "<razón específica de esta recomendación>",
-      "tiene_arl": <true|false>
-    }}
-  ],
-  "criterios_busqueda": {{ "urgencia": "{urgencia}", "oficio_id": {id_oficio} }},
-  "explicacion_algoritmo": "<breve explicación de cómo se priorizaron los candidatos>",
-  "confianza_recomendaciones": <float entre 0.0 y 1.0>
-}}
-
-REGLAS CRÍTICAS:
-- DEBES devolver SOLO JSON puro, sin markdown, sin bloques de código, sin texto adicional
-- DEBES incluir TODOS los campos del formato (total_candidatos_encontrados, trabajadores_recomendados, criterios_busqueda, explicacion_algoritmo, confianza_recomendaciones)
-- trabajadores_recomendados debe ser un ARRAY con hasta 5 trabajadores
-- Ordenar por score_relevancia descendente
-- Scores realistas: pocos trabajadores deberían tener >0.9
-- Explicaciones específicas y accionables (no genéricas)
-"""
-
-    user_message = f"""Analiza todos los trabajadores disponibles y recomienda los TOP 5 más apropiados para esta solicitud:
-
-Oficio requerido: {id_oficio}
-Urgencia: {urgencia}
-Descripción del trabajo: {descripcion_normalizada}
-
-RESPONDE SOLO CON JSON VÁLIDO según el formato especificado."""
+    user_message = f"Recomienda TOP 5 para oficio {id_oficio}, urgencia {urgencia}: {descripcion_normalizada}"
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=user_message,
-            config={
-                "system_instruction": system_instruction,
-                "response_modalities": ["TEXT"],
-                "temperature": 0.3,  # Algo de variabilidad en recomendaciones
-                "max_output_tokens": 8192,  # Aumentar límite para respuestas largas
-            }
-        )
+        text = _chat(system_instruction, user_message, max_tokens=16384)
     except Exception as e:
-        raise ValueError(f"Error al llamar a Gemini (recomendador): {str(e)}")
+        raise ValueError(f"Error al llamar a Azure OpenAI (recomendador): {str(e)}")
 
-    if not response.candidates:
-        raise ValueError(f"Recomendador: no se recibió respuesta del modelo. Response: {response}")
-
-    candidate = response.candidates[0]
-    
-    # Verificar si fue bloqueado por seguridad
-    if hasattr(candidate, 'finish_reason') and candidate.finish_reason:
-        if candidate.finish_reason != 'STOP':
-            raise ValueError(f"Recomendador: modelo bloqueado o terminado antes de tiempo. Razón: {candidate.finish_reason}")
-    
-    text_parts = [getattr(p, 'text', '') for p in getattr(candidate, 'content', {}).parts or []]
-    text = " ".join([t for t in text_parts if t]).strip()
-
-    if not text:
-        raise ValueError(f"Recomendador: la respuesta no contiene texto JSON. Candidate: {candidate}")
-
-    # Parsear JSON
-    import json
-    import re
-    
-    # Limpiar bloques de código markdown si existen
-    text_clean = re.sub(r'```(?:json)?\s*', '', text)
-    text_clean = text_clean.strip()
-    
-    try:
-        parsed = json.loads(text_clean)
-    except Exception:
-        # Intentar extraer solo el primer objeto JSON completo
-        match = re.search(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', text_clean, re.DOTALL)
-        if match:
-            try:
-                parsed = json.loads(match.group(0))
-            except Exception as e:
-                raise ValueError(f"Recomendador: no se pudo parsear JSON. Texto: {text[:500]}...") from e
-        else:
-            raise ValueError(f"Recomendador: no se encontró JSON. Texto: {text[:500]}...")
+    parsed = _parse_json(text, "Recomendador")
 
     try:
         recomendacion = RecomendacionOutput(**parsed)
@@ -459,6 +253,10 @@ RESPONDE SOLO CON JSON VÁLIDO según el formato especificado."""
         raise ValueError(f"Recomendador: error creando RecomendacionOutput: {str(e)} | parsed={parsed}")
 
 
+# ══════════════════════════════════════════════
+# AGENTE 4 — Detectar alertas
+# ══════════════════════════════════════════════
+
 async def detectar_alertas(
     analisis: "AnalisisOutput",
     recomendaciones: "RecomendacionOutput" = None,
@@ -466,17 +264,8 @@ async def detectar_alertas(
 ) -> AlertaOutput:
     """
     Agente Detector de Alertas: identifica anomalías, riesgos y patrones sospechosos.
-    
-    Args:
-        analisis: Resultado del análisis inicial de la solicitud
-        recomendaciones: Recomendaciones de trabajadores (opcional)
-        contexto_adicional: Información adicional para evaluación
-    
-    Returns:
-        AlertaOutput: Lista de alertas detectadas con severidad y acciones recomendadas
     """
 
-    # Preparar datos para el análisis
     solicitud_data = {
         "texto_original": analisis.texto_usuario_original,
         "oficio_sugerido": analisis.nombre_oficio_sugerido,
@@ -497,95 +286,26 @@ async def detectar_alertas(
                 "calificacion": rec.calificacion_promedio
             })
 
-    system_instruction = f"""Eres 'TaskPro Guardian', un agente de seguridad especializado en detectar anomalías y riesgos.
+    system_instruction = f"""Detector de riesgos. Responde SOLO JSON:
+{{"alertas_detectadas":[{{"tipo_alerta":str, "severidad":"baja"|"media"|"alta"|"critica", "detalle":str, "entidad_afectada":str, "id_entidad":int|null, "accion_recomendada":str}}], "score_riesgo_general":float(0-1), "requiere_revision_manual":bool, "explicacion_evaluacion":str}}
 
-Objetivo:
-- Evaluar solicitudes, precios y recomendaciones en busca de patrones anómalos.
-- Detectar posibles fraudes, riesgos de seguridad, precios fuera de rango.
-- Clasificar alertas por severidad: 'baja' | 'media' | 'alta' | 'critica'.
-- Proponer acciones específicas para mitigar riesgos.
+Tipos: PRECIO_ANOMALO, RIESGO_SEGURIDAD, PATRON_SOSPECHOSO, CALIDAD_BAJA, DISPONIBILIDAD_DUDOSA.
+Severidad critica=bloquear, alta=revisión manual, media=advertir, baja=log.
+Revisión manual si score>0.7 o alertas criticas/altas. Solo alertas con evidencia concreta.
 
-Tipos de alertas a buscar:
-1. PRECIO_ANOMALO: Precios muy por encima/debajo del mercado
-2. RIESGO_SEGURIDAD: Trabajos peligrosos, horarios nocturnos, ubicaciones riesgosas
-3. PATRON_SOSPECHOSO: Lenguaje agresivo, urgencia artificial, datos inconsistentes
-4. CALIDAD_BAJA: Trabajadores con baja calificación para trabajos críticos
-5. DISPONIBILIDAD_DUDOSA: Múltiples trabajadores "disponibles" simultáneamente
-
-Severidades:
-- CRITICA: Bloquea la transacción automáticamente
-- ALTA: Requiere revisión manual inmediata
-- MEDIA: Advierte al usuario antes de proceder
-- BAJA: Log para auditoría posterior
-
-Datos a evaluar:
+Datos:
 Solicitud: {solicitud_data}
 Recomendaciones: {recomendaciones_data}
-Contexto adicional: {contexto_adicional}
-
-Formato JSON estricto:
-{{
-  "alertas_detectadas": [
-    {{
-      "tipo_alerta": str,
-      "severidad": str,
-      "detalle": str,
-      "entidad_afectada": str,
-      "id_entidad": int | null,
-      "accion_recomendada": str
-    }}
-  ],
-  "score_riesgo_general": float,
-  "requiere_revision_manual": bool,
-  "explicacion_evaluacion": str
-}}
-
-Reglas:
-- Solo incluir alertas con evidencia concreta.
-- Ser específico en los detalles (no genérico).
-- Score de riesgo: 0.0 = seguro, 1.0 = máximo riesgo.
-- Revisión manual si score > 0.7 o hay alertas críticas/altas.
-"""
+Contexto: {contexto_adicional}"""
 
     user_message = "Evalúa esta solicitud y recomendaciones en busca de riesgos y anomalías."
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=user_message,
-            config={
-                "system_instruction": system_instruction,
-                "response_modalities": ["TEXT"],
-                "temperature": 0.1,  # Muy conservador para seguridad
-            }
-        )
+        text = _chat(system_instruction, user_message)
     except Exception as e:
-        raise ValueError(f"Error al llamar a Gemini (detector alertas): {str(e)}")
+        raise ValueError(f"Error al llamar a Azure OpenAI (detector alertas): {str(e)}")
 
-    if not response.candidates:
-        raise ValueError("Detector alertas: no se recibió respuesta del modelo")
-
-    candidate = response.candidates[0]
-    text_parts = [getattr(p, 'text', '') for p in getattr(candidate, 'content', {}).parts or []]
-    text = " ".join([t for t in text_parts if t]).strip()
-
-    if not text:
-        raise ValueError("Detector alertas: la respuesta no contiene texto JSON")
-
-    # Parsear JSON
-    import json
-    try:
-        parsed = json.loads(text)
-    except Exception:
-        import re
-        match = re.search(r"\{[\s\S]*\}", text)
-        if match:
-            try:
-                parsed = json.loads(match.group(0))
-            except Exception as e:
-                raise ValueError(f"Detector alertas: no se pudo parsear JSON. Texto: {text[:500]}...") from e
-        else:
-            raise ValueError(f"Detector alertas: no se encontró JSON. Texto: {text[:500]}...")
+    parsed = _parse_json(text, "Detector alertas")
 
     try:
         alertas = AlertaOutput(**parsed)
@@ -593,6 +313,10 @@ Reglas:
     except Exception as e:
         raise ValueError(f"Detector alertas: error creando AlertaOutput: {str(e)} | parsed={parsed}")
 
+
+# ══════════════════════════════════════════════
+# ORQUESTADOR — Pipeline A2A completo
+# ══════════════════════════════════════════════
 
 async def procesar_solicitud_completa(
     texto_usuario: str,
@@ -609,15 +333,6 @@ async def procesar_solicitud_completa(
     3. Detectar alertas en todo el proceso (Agente Guardian)
     4. Decidir acción final basándose en alertas y análisis
     5. Retornar resultado completo
-    
-    Args:
-        texto_usuario: Texto original del usuario
-        oficios_disponibles: Catálogo de oficios formateado
-        trabajadores_disponibles: Base de trabajadores formateada
-        id_barrio_usuario: Ubicación del usuario (opcional)
-    
-    Returns:
-        ProcesamientoCompletoOutput: Resultado completo del pipeline A2A
     """
     import time
     
@@ -666,7 +381,6 @@ async def procesar_solicitud_completa(
             r"mi\s+nombre\s+es\s+([a-záéíóúñ\s]+)"
         ]
         
-        import re
         for patron in patrones_nombre:
             match = re.search(patron, texto_lower)
             if match:
@@ -862,4 +576,3 @@ async def procesar_solicitud_completa(
             decision_final="bloqueada_por_alertas",
             mensaje_usuario="Lo siento, hubo un error técnico. Por favor intenta nuevamente."
         )
-

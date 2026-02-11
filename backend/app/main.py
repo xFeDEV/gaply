@@ -266,19 +266,25 @@ async def procesar_solicitud_completa_endpoint(
                         id_barrio_usuario = primer_barrio.id_barrio
                     break
         
-        # Si aún no tenemos ciudad, usar default (primera ciudad disponible)
+        # Si aún no tenemos ciudad, pedir al usuario que la especifique
         if not id_ciudad_usuario:
-            print("⚠️  [DEBUG] No se detectó ciudad, usando default...")
-            primer_barrio = db.query(Barrio).first()
-            if primer_barrio:
-                id_barrio_usuario = primer_barrio.id_barrio
-                id_ciudad_usuario = primer_barrio.id_ciudad
-                print(f"✅ [DEBUG] Ciudad default: ID {id_ciudad_usuario}")
-            else:
-                raise HTTPException(
-                    status_code=400,
-                    detail="No se pudo detectar la ubicación. Menciona tu ciudad en el texto (ej: 'Soy de Bogotá')"
-                )
+            print("⚠️  [DEBUG] No se detectó ciudad en el texto, solicitando al usuario...")
+            # Obtener ciudades disponibles para mostrar sugerencias
+            ciudades_con_trabajadores = (
+                db.query(Ciudad.nombre_ciudad)
+                .join(Barrio, Ciudad.id_ciudad == Barrio.id_ciudad)
+                .join(Trabajador, Barrio.id_barrio == Trabajador.id_barrio)
+                .distinct()
+                .all()
+            )
+            ciudades_nombres = [c.nombre_ciudad for c in ciudades_con_trabajadores]
+            ciudades_str = ", ".join(ciudades_nombres[:5])
+            raise HTTPException(
+                status_code=400,
+                detail=f"Por favor incluye tu ciudad en el mensaje para poder buscar técnicos cerca de ti. "
+                       f"Ejemplo: 'Necesito un plomero en Bogotá'. "
+                       f"Ciudades disponibles: {ciudades_str}."
+            )
         
         # ========== PASO 4: QUERY SQL FILTRADA POR CIUDAD + OFICIO ==========
         # Filtros aplicados:
@@ -1150,19 +1156,24 @@ async def procesar_y_guardar_solicitud_real(
                         id_barrio_usuario = primer_barrio.id_barrio
                     break
         
-        # Si aún no tenemos ciudad, usar default (primera ciudad disponible)
+        # Si aún no tenemos ciudad, pedir al usuario que la especifique
         if not id_ciudad_usuario:
-            print("⚠️  [GUARDAR] No se detectó ciudad, usando default...")
-            primer_barrio = db.query(Barrio).first()
-            if primer_barrio:
-                id_barrio_usuario = primer_barrio.id_barrio
-                id_ciudad_usuario = primer_barrio.id_ciudad
-                print(f"✅ [GUARDAR] Ciudad default: ID {id_ciudad_usuario}")
-            else:
-                raise HTTPException(
-                    status_code=400,
-                    detail="No se pudo detectar la ubicación. Menciona tu ciudad en el texto (ej: 'Soy de Bogotá')"
-                )
+            print("⚠️  [GUARDAR] No se detectó ciudad en el texto, solicitando al usuario...")
+            ciudades_con_trabajadores = (
+                db.query(Ciudad.nombre_ciudad)
+                .join(Barrio, Ciudad.id_ciudad == Barrio.id_ciudad)
+                .join(Trabajador, Barrio.id_barrio == Trabajador.id_barrio)
+                .distinct()
+                .all()
+            )
+            ciudades_nombres = [c.nombre_ciudad for c in ciudades_con_trabajadores]
+            ciudades_str = ", ".join(ciudades_nombres[:5])
+            raise HTTPException(
+                status_code=400,
+                detail=f"Por favor incluye tu ciudad en el mensaje para poder buscar técnicos cerca de ti. "
+                       f"Ejemplo: 'Necesito un plomero en Bogotá'. "
+                       f"Ciudades disponibles: {ciudades_str}."
+            )
         
         solicitud_input.id_barrio_usuario = id_barrio_usuario
         

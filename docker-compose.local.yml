@@ -1,22 +1,77 @@
 services:
-  # Servicio Backend LOCAL con hot-reloading
+  # --- 1. BASE DE DATOS (PostgreSQL 15) ---
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: gaply-postgres-local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-local-data:/var/lib/postgresql/data/pgdata
+      # Scripts de inicialización (se ejecutan en orden alfabético al crear el volumen)
+      - ./db/init:/docker-entrypoint-initdb.d
+      # Datos CSV montados para que el script de carga los encuentre
+      - "./Gaply - Reduciendo la Brecha Laboral DATASET/Datos:/csv-data:ro"
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - gaply-local-net
+    restart: unless-stopped
+
+  # --- 2. BACKEND (FastAPI + hot-reload) ---
   backend:
     build:
-      context: ./backend  # Ruta a la carpeta con tu Dockerfile
+      context: ./backend
       dockerfile: Dockerfile
-    container_name: taskpro-backend-local
+    container_name: gaply-backend-local
     ports:
       - "8000:8000"
     volumes:
-      # Monta tu código local para que el hot-reloading funcione
+      # Hot-reload: monta código local
       - ./backend/app:/app
-      # Montar la llave de Google Cloud (asumiendo que está en ./config)
-      - ./config/primeval-falcon-474622-h1-d5121477addc.json:/app/config/gcloud-key.json:ro
-      # Montar el archivo .env
+      # Montar .env para python-dotenv
       - ./.env:/app/.env:ro
     env_file:
       - .env
     environment:
-      # Las variables principales vienen del .env, estas son solo para override si es necesario
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/gcloud-key.json
+      - DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-db:5432/${POSTGRES_DB}
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - gaply-local-net
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # --- 3. FRONTEND (Next.js) ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gaply-frontend-local
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    networks:
+      - gaply-local-net
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  gaply-local-net:
+    driver: bridge
+    name: gaply-local-net
+
+volumes:
+  postgres-local-data:

@@ -37,29 +37,45 @@ export default function HomePage() {
         })
 
         if (!response.ok) {
-          throw new Error(`Error del servidor: ${response.status}`)
+          // Intentar extraer el mensaje de error del backend
+          let errorMessage = `Error del servidor: ${response.status}`
+          try {
+            const errorData = await response.json()
+            if (errorData.error) {
+              // El error viene envuelto desde nuestra API route
+              const parsed = typeof errorData.error === 'string' ? JSON.parse(errorData.error) : errorData.error
+              if (parsed.detail) {
+                errorMessage = parsed.detail
+              }
+            } else if (errorData.detail) {
+              errorMessage = errorData.detail
+            }
+          } catch {
+            // Si no se puede parsear, usar el mensaje genérico
+          }
+          throw new Error(errorMessage)
         }
 
         const data = await response.json()
-        
+
         // Validar que tenemos datos
         if (!data || !data.analisis) {
           throw new Error("Respuesta inválida del servidor")
         }
 
         console.log("✅ Datos recibidos:", data)
-        
+
         // Guardar los datos en sessionStorage para usarlos en la página de resultados
         sessionStorage.setItem("searchResults", JSON.stringify(data))
-        
+
         // Redirigir a resultados
         router.push(`/resultados?q=${encodeURIComponent(problem)}`)
       } catch (error) {
         console.error("❌ Error al procesar la solicitud:", error)
         setIsSearching(false)
         alert(
-          error instanceof Error 
-            ? `Error: ${error.message}` 
+          error instanceof Error
+            ? error.message
             : "Hubo un error al procesar tu solicitud. Por favor intenta nuevamente."
         )
       }
@@ -132,15 +148,15 @@ export default function HomePage() {
               <label htmlFor="problem" className="block text-left text-sm font-medium mb-3 relative z-10">
                 ¿Qué necesitas reparar o instalar?
               </label>
-              
+
               {/* Mensaje informativo */}
               <div className="mb-3 p-3 bg-primary/5 border border-primary/20 rounded-lg relative z-10">
                 <p className="text-xs text-muted-foreground text-pretty">
-                  ⏱️ <strong>Ten en cuenta:</strong> La búsqueda puede tardar entre 30 segundos y 1 minuto y 30 segundos. 
+                  ⏱️ <strong>Ten en cuenta:</strong> La búsqueda puede tardar entre 30 segundos y 1 minuto y 30 segundos.
                   Por favor, ten paciencia mientras nuestros agentes de IA trabajan para darte la mejor respuesta.
                 </p>
               </div>
-              
+
               <Textarea
                 id="problem"
                 placeholder="Ejemplo: Se me dañó el enchufe del cuarto y no prende la luz. IMPORTANTE: SE DEBE AGREGAR LA CIUDAD DONDE SE NECESITA EL SERVICIO PARA QUE NUESTROS AGENTES PUEDAN HACER UNA BUSQUEDA CORRECTA."
